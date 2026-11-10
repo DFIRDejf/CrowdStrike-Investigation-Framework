@@ -2,7 +2,7 @@
 
 # Execution
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0002`  ·  **7 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0002`  ·  **10 queries**
 
 Find suspicious commands, scripts, and process execution patterns.
 
@@ -20,6 +20,9 @@ Find suspicious commands, scripts, and process execution patterns.
 | [06. Windows Shell and Command Interpreter Activity](#06-windows-shell-and-command-interpreter-activity) | `Candidate` |
 | [07. Selected Offensive Tool Names in Command Lines](#07-selected-offensive-tool-names-in-command-lines) | `Candidate` |
 
+| [08. Shell and Packed Executable Event Inventory](#08-shell-and-packed-executable-event-inventory) | `Requires Validation` |
+| [09. Command History and New Script Telemetry](#09-command-history-and-new-script-telemetry) | `Requires Validation` |
+| [10. Baseline Process and Ancestry Context](#10-baseline-process-and-ancestry-context) | `Requires Validation` |
 ---
 
 ### 01. Script Control Detection Events
@@ -203,6 +206,71 @@ Provides a targeted keyword hunt for commonly abused tool names; keyword matchin
 *Origin: OneNote-derived adaptation\*
 
 </details>
+
+### 08. Shell and Packed Executable Event Inventory
+
+Queries endpoint shell tracing and packed executable events.
+
+**MITRE:** T1059 / T1027  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(ShellCommandLineInfo|ProcessTrace|ProcessExecOnPackedExecutable)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Normal script activity and legitimate packed applications.
+
+**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 09. Command History and New Script Telemetry
+
+Surfaces command history and script-writing events for shell investigations.
+
+**MITRE:** T1059  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(CommandHistory|NewScriptWritten|ScriptControlDetectInfo)$/
+| @rawstring=/(powershell|cmd|\.ps1|\.bat|\.vbs|\.js)/i
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** IT automation and system scripts.
+
+**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 10. Baseline Process and Ancestry Context
+
+Lists process execution fields to pivot on parent, grandparent and command line.
+
+**MITRE:** T1059 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| select([@timestamp, ComputerName, UserName, FileName, ParentBaseFileName, GrandParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, RawProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** High-volume baseline; narrow time and hosts before running.
+
+**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
 
 ---
 

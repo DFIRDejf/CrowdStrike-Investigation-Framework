@@ -2,7 +2,7 @@
 
 # Persistence
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0003`  ·  **3 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0003`  ·  **6 queries**
 
 Investigate accounts, scheduled tasks, autoruns, and registry-based persistence.
 
@@ -16,6 +16,9 @@ Investigate accounts, scheduled tasks, autoruns, and registry-based persistence.
 | [02. Scheduled Task Registration and Autorun Telemetry](#02-scheduled-task-registration-and-autorun-telemetry) | `Candidate` |
 | [03. Run Keys and Startup Artifact Telemetry](#03-run-keys-and-startup-artifact-telemetry) | `Candidate` |
 
+| [04. Account Creation and Modification Events](#04-account-creation-and-modification-events) | `Requires Validation` |
+| [05. Windows Service Creation and Reconfiguration](#05-windows-service-creation-and-reconfiguration) | `Requires Validation` |
+| [06. WMI Provider Registration and Autorun Artifacts](#06-wmi-provider-registration-and-autorun-artifacts) | `Requires Validation` |
 ---
 
 ### 01. Local Account Creation via Net
@@ -85,6 +88,72 @@ Retrieves registry/autorun event families that may capture persistence-related m
 *Origin: OneNote-derived adaptation\*
 
 </details>
+
+### 04. Account Creation and Modification Events
+
+Inspects local and Active Directory account updates.
+
+**MITRE:** T1136 / T1098  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(UserAccountCreated|ActiveDirectoryAccountCreated|LocalWindowsUserUpdate|ActiveDirectoryAuditUserModified)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Identity lifecycle management and authorized account changes.
+
+**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 05. Windows Service Creation and Reconfiguration
+
+Hunts for command patterns used to create or reconfigure Windows services.
+
+**MITRE:** T1543.003  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| CommandLine=/sc\.exe\s+(create|config)|new-service|\binstallutil\b/i
+| select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Normal service deployment and software maintenance.
+
+**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 06. WMI Provider Registration and Autorun Artifacts
+
+Inspects WMI provider and autostart changes.
+
+**MITRE:** T1546.003 / T1547.001  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(WmiProviderRegistrationEtw|AsepFileChangeDetectInfo)$/
+| @rawstring=/(Consumer|Subscription|RunOnce|\\Run\b)/i
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Expected system management and autorun changes.
+
+**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
 
 ---
 
