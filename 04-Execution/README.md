@@ -15,10 +15,10 @@ Find suspicious commands, scripts, and process execution patterns.
 | [01. Script Control Detection Events](#01-script-control-detection-events) | T1059 (contextual) | `Migration recheck` |
 | [02. Remote Command Response Events](#02-remote-command-response-events) | T1059 (contextual) | `Migration recheck` |
 | [03. PowerShell Child Process Within One Minute](#03-powershell-child-process-within-one-minute) | T1059.001 | `Migration recheck` |
-| [04. Suspicious PowerShell Interpreter Arguments](#04-suspicious-powershell-interpreter-arguments) | T1059.001\ | `Candidate` |
-| [05. WMI Remote Process Creation Commands](#05-wmi-remote-process-creation-commands) | T1047\ | `Candidate` |
-| [06. Windows Shell and Command Interpreter Activity](#06-windows-shell-and-command-interpreter-activity) | T1059.003\ | `Candidate` |
-| [07. Selected Offensive Tool Names in Command Lines](#07-selected-offensive-tool-names-in-command-lines) | T1059 / T1204 (contextual)\ | `Candidate` |
+| [04. Suspicious PowerShell Interpreter Arguments](#04-suspicious-powershell-interpreter-arguments) | T1059.001 | `Candidate` |
+| [05. WMI Remote Process Creation Commands](#05-wmi-remote-process-creation-commands) | T1047 | `Candidate` |
+| [06. Windows Shell and Command Interpreter Activity](#06-windows-shell-and-command-interpreter-activity) | T1059.003 | `Candidate` |
+| [07. Selected Offensive Tool Names in Command Lines](#07-selected-offensive-tool-names-in-command-lines) | T1059 / T1204 (contextual) | `Candidate` |
 | [08. Shell and Packed Executable Event Inventory](#08-shell-and-packed-executable-event-inventory) | T1059 / T1027 | `Requires Validation` |
 | [09. Command History and New Script Telemetry](#09-command-history-and-new-script-telemetry) | T1059 | `Requires Validation` |
 | [10. Baseline Process and Ancestry Context](#10-baseline-process-and-ancestry-context) | T1059 (context) | `Requires Validation` |

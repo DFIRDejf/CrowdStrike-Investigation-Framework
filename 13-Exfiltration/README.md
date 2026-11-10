@@ -13,7 +13,7 @@ Investigate sensitive file access and suspicious outbound transfer patterns.
 | Hunt | MITRE | Status |
 |:--|:--|:--|
 | [01. Sensitive File Access Followed by External Connection](#01-sensitive-file-access-followed-by-external-connection) | T1041 (potential) | `Migration recheck` |
-| [02. Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators) | T1048 / T1567 (contextual)\ | `Candidate` |
+| [02. Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators) | T1048 / T1567 (contextual) | `Candidate` |
 | [03. Upload-Related Falcon Event Inventory](#03-upload-related-falcon-event-inventory) | T1041 (context) | `Requires Validation` |
 | [04. FTP Command Event Telemetry](#04-ftp-command-event-telemetry) | T1048 | `Requires Validation` |
 | [05. SRU Network and Application Usage](#05-sru-network-and-application-usage) | T1041 (coverage context) | `Requires Validation` |

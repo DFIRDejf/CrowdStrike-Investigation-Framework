@@ -13,8 +13,8 @@ Reconstruct file-system and execution evidence from Falcon telemetry.
 | Hunt | MITRE | Status |
 |:--|:--|:--|
 | [01. Executable File Written After User Logon](#01-executable-file-written-after-user-logon) | Investigation utility | `Migration recheck` |
-| [02. File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory) | DFIR utility\ | `Candidate` |
-| [03. Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata) | DFIR / T1560 (contextual)\ | `Candidate` |
+| [02. File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory) | DFIR utility | `Candidate` |
+| [03. Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata) | DFIR / T1560 (contextual) | `Candidate` |
 
 ---
 

@@ -66,10 +66,10 @@
 
 | State | Entries | Meaning |
 |:--|--:|:--|
-| `Migration recheck` | 18 | Original source previously tested; publication copy needs revalidation |
-| `Candidate` | 30 | Example awaiting tenant validation |
+| `Migration recheck` | 18 | Previously tested source; publication copy needs revalidation |
+| `Candidate` | 30 | New example awaiting tenant validation |
 | `Community candidate` | 5 | Adapted community example awaiting validation |
-| `Requires Validation` | 58 | OneNote migration awaiting validation |
+| `Requires Validation` | 58 | OneNote or contributed query awaiting validation |
 | **Total** | **111** | Documented query entries; no production-readiness claim |
 
 ## How to use
@@ -85,4 +85,4 @@
 
 [**Contributing**](CONTRIBUTING.md) · [**Documentation**](docs/README.md) · [**Query template**](templates/QUERY_TEMPLATE.md) · [**Official CQL reference**](https://library.humio.com/crowdstrike-query-language/cql.html)
 
-<sub>This independent research library is not an official CrowdStrike or MITRE product. Names and logos belong to their respective owners. Counts represent the November 2026 documentation snapshot.</sub>
+<sub>This independent research library is not an official CrowdStrike or MITRE product. Names and logos belong to their respective owners. Query counts are maintained by the repository catalog generator.</sub>

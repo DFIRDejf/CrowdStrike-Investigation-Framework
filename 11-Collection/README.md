@@ -13,9 +13,9 @@ Find access to sensitive files, staging paths, and data packaging activity.
 | Hunt | MITRE | Status |
 |:--|:--|:--|
 | [01. Archiving and Data Transfer Utilities](#01-archiving-and-data-transfer-utilities) | T1560 / T1005 | `Migration recheck` |
-| [02. Sensitive File and Critical File Access Telemetry](#02-sensitive-file-and-critical-file-access-telemetry) | T1005 (contextual)\ | `Candidate` |
-| [03. Archive File Creation Event Families](#03-archive-file-creation-event-families) | T1560\ | `Candidate` |
-| [04. Potential Data Staging Paths and Compression](#04-potential-data-staging-paths-and-compression) | T1074.001 / T1560\ | `Candidate` |
+| [02. Sensitive File and Critical File Access Telemetry](#02-sensitive-file-and-critical-file-access-telemetry) | T1005 (contextual) | `Candidate` |
+| [03. Archive File Creation Event Families](#03-archive-file-creation-event-families) | T1560 | `Candidate` |
+| [04. Potential Data Staging Paths and Compression](#04-potential-data-staging-paths-and-compression) | T1074.001 / T1560 | `Candidate` |
 | [05. File Collection with Copy Utilities](#05-file-collection-with-copy-utilities) | T1005 / T1039 | `Requires Validation` |
 | [06. Potential Data Staging in Shared Paths](#06-potential-data-staging-in-shared-paths) | T1074.001 / T1560 | `Requires Validation` |
 | [07. File and USN Metadata for Archives](#07-file-and-usn-metadata-for-archives) | T1005 / T1560 | `Requires Validation` |

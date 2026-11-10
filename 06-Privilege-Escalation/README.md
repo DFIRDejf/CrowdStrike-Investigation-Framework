@@ -12,7 +12,7 @@ Review privilege changes and indicators of unauthorized elevation.
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family) | T1098\ | `Candidate` |
+| [01. Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family) | T1098 | `Candidate` |
 | [02. Windows Token Privilege Modification Events](#02-windows-token-privilege-modification-events) | T1134 | `Requires Validation` |
 | [03. Elevation and Token Abuse Command Indicators](#03-elevation-and-token-abuse-command-indicators) | T1548 / T1134 | `Requires Validation` |
 | [04. Local Group and Directory Account Changes](#04-local-group-and-directory-account-changes) | T1098 | `Requires Validation` |

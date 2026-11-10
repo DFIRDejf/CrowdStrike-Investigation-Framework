@@ -12,11 +12,11 @@ Curated community-inspired query patterns with source attribution.
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days) | T1059.001 / T1071.004 (contextual)\ | `Community candidate` |
-| [02. Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid) | C2 pivot / investigation utility\ | `Community candidate` |
-| [03. Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes) | T1082 / T1087 (contextual)\ | `Community candidate` |
-| [04. Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling) | Performance diagnostic\ | `Community candidate` |
-| [05. Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host) | Software inventory / attack-surface context\ | `Community candidate` |
+| [01. New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days) | T1059.001 / T1071.004 (contextual) | `Community candidate` |
+| [02. Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid) | C2 pivot / investigation utility | `Community candidate` |
+| [03. Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes) | T1082 / T1087 (contextual) | `Community candidate` |
+| [04. Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling) | Performance diagnostic | `Community candidate` |
+| [05. Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host) | Software inventory / attack-surface context | `Community candidate` |
 
 ---
 

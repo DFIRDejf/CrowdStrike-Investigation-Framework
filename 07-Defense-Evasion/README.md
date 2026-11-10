@@ -14,8 +14,8 @@ Investigate tampering, security control changes, and evasion-related activity.
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. Security Control Modification Commands](#01-security-control-modification-commands) | T1562.001 / T1070 (contextual)\ | `Candidate` |
-| [02. Sensor and Prevention Diagnostics](#02-sensor-and-prevention-diagnostics) | T1562.001 (contextual)\ | `Candidate` |
+| [01. Security Control Modification Commands](#01-security-control-modification-commands) | T1562.001 / T1070 (contextual) | `Candidate` |
+| [02. Sensor and Prevention Diagnostics](#02-sensor-and-prevention-diagnostics) | T1562.001 (contextual) | `Candidate` |
 | [03. Security Log and Trace File Deletion](#03-security-log-and-trace-file-deletion) | T1070.004 | `Requires Validation` |
 | [04. Firewall and WFP Modification Events](#04-firewall-and-wfp-modification-events) | T1562.004 | `Requires Validation` |
 | [05. Unsigned Modules and Suspicious File Signatures](#05-unsigned-modules-and-suspicious-file-signatures) | T1027 / T1036 | `Requires Validation` |

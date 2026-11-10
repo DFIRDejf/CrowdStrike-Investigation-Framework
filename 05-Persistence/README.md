@@ -13,8 +13,8 @@ Investigate accounts, scheduled tasks, autoruns, and registry-based persistence.
 | Hunt | MITRE | Status |
 |:--|:--|:--|
 | [01. Local Account Creation via Net](#01-local-account-creation-via-net) | T1136 | `Migration recheck` |
-| [02. Scheduled Task Registration and Autorun Telemetry](#02-scheduled-task-registration-and-autorun-telemetry) | T1053.005 / T1547.001\ | `Candidate` |
-| [03. Run Keys and Startup Artifact Telemetry](#03-run-keys-and-startup-artifact-telemetry) | T1547.001\ | `Candidate` |
+| [02. Scheduled Task Registration and Autorun Telemetry](#02-scheduled-task-registration-and-autorun-telemetry) | T1053.005 / T1547.001 | `Candidate` |
+| [03. Run Keys and Startup Artifact Telemetry](#03-run-keys-and-startup-artifact-telemetry) | T1547.001 | `Candidate` |
 | [04. Account Creation and Modification Events](#04-account-creation-and-modification-events) | T1136 / T1098 | `Requires Validation` |
 | [05. Windows Service Creation and Reconfiguration](#05-windows-service-creation-and-reconfiguration) | T1543.003 | `Requires Validation` |
 | [06. WMI Provider Registration and Autorun Artifacts](#06-wmi-provider-registration-and-autorun-artifacts) | T1546.003 / T1547.001 | `Requires Validation` |
