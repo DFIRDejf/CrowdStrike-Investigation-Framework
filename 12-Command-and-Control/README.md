@@ -16,7 +16,6 @@ Correlate process, DNS, and network activity linked to potential C2.
 | [02. Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation) | `Migration recheck` |
 | [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | `Candidate` |
 | [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | `Candidate` |
-
 | [05. DNS Request and Suspicious DNS Detection Events](#05-dns-request-and-suspicious-dns-detection-events) | `Requires Validation` |
 | [06. DNS Requests by Endpoint and Process](#06-dns-requests-by-endpoint-and-process) | `Requires Validation` |
 | [07. SSH Tunnel Creation Events](#07-ssh-tunnel-creation-events) | `Requires Validation` |
