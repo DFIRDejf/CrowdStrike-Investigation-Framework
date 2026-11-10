@@ -2,7 +2,7 @@
 
 # Discovery
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0007`  ·  **2 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0007`  ·  **6 queries**
 
 Identify host, network, and Active Directory enumeration.
 
@@ -15,6 +15,10 @@ Identify host, network, and Active Directory enumeration.
 | [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | `Candidate` |
 | [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | `Candidate` |
 
+| [03. WMI Query Telemetry](#03-wmi-query-telemetry) | `Requires Validation` |
+| [04. Active Directory RPC Enumeration Events](#04-active-directory-rpc-enumeration-events) | `Requires Validation` |
+| [05. Shares and Network Enumeration Commands](#05-shares-and-network-enumeration-commands) | `Requires Validation` |
+| [06. Domain Controller and Trust Discovery Commands](#06-domain-controller-and-trust-discovery-commands) | `Requires Validation` |
 ---
 
 ### 01. Account and Domain Enumeration Commands
@@ -65,6 +69,93 @@ Identifies hosts that connect to many distinct remote ports on a destination; ma
 *Origin: OneNote-derived adaptation\*
 
 </details>
+
+### 03. WMI Query Telemetry
+
+Surfaces WMI queries used to inspect endpoint or system details.
+
+**MITRE:** T1047 / T1082  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(WmiQuery)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Enterprise inventory and device management.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 04. Active Directory RPC Enumeration Events
+
+Collects AD RPC request types that may assist domain discovery.
+
+**MITRE:** T1087 / T1482  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(ActiveDirectoryIncomingDceRpcRequest|ActiveDirectoryIncomingDceRpcEpmRequest)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Normal directory lookups; request method must be validated.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 05. Shares and Network Enumeration Commands
+
+Searches for commands enumerating network resources and SMB shares.
+
+**MITRE:** T1135 / T1046  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| CommandLine=/net\s+view|net\s+use|Get-SmbShare|Get-SmbSession|nmap|Test-NetConnection|portscan|arp\s+-a/i
+| select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Authorized infrastructure troubleshooting.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 06. Domain Controller and Trust Discovery Commands
+
+Finds command-line discovery of DCs and domain trust relationships.
+
+**MITRE:** T1018 / T1482  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| CommandLine=/nltest|dsquery|Get-ADDomainController|Get-ADTrust|netdom\s+trust|setspn\s+-T/i
+| select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Routine Active Directory administration.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
 
 ---
 

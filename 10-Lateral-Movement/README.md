@@ -2,7 +2,7 @@
 
 # Lateral Movement
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0008`  ·  **6 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0008`  ·  **11 queries**
 
 Investigate SMB use, remote administration, and movement between endpoints.
 
@@ -19,6 +19,11 @@ Investigate SMB use, remote administration, and movement between endpoints.
 | [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | `Candidate` |
 | [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | `Candidate` |
 
+| [07. SMB Client and Server Share Activity](#07-smb-client-and-server-share-activity) | `Requires Validation` |
+| [08. SMB Logon Brute Force Events](#08-smb-logon-brute-force-events) | `Requires Validation` |
+| [09. Windows Share Creation and Permission Changes](#09-windows-share-creation-and-permission-changes) | `Requires Validation` |
+| [10. Remote Shell and Session Events](#10-remote-shell-and-session-events) | `Requires Validation` |
+| [11. Inbound SMB, RDP and WinRM Connections](#11-inbound-smb-rdp-and-winrm-connections) | `Requires Validation` |
 ---
 
 ### 01. High-Volume SMB Connections
@@ -167,6 +172,113 @@ Inventories SMB client/server share opening and closing activity before adding n
 *Origin: OneNote-derived adaptation\*
 
 </details>
+
+### 07. SMB Client and Server Share Activity
+
+Collects SMB client/server share opened or closed events.
+
+**MITRE:** T1021.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(SmbClientShareOpenedEtw|SmbServerShareOpenedEtw|SmbClientShareClosedEtw|SmbServerV1AuditEtw)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** File servers, backups and software deployment.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 08. SMB Logon Brute Force Events
+
+Surfaces SMB share authentication brute-force detections.
+
+**MITRE:** T1110 / T1021.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(SmbClientShareLogonBruteForceLowThreshold|SmbClientShareLogonBruteForceSuspected)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Misconfigured services or outdated service-account credentials.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 09. Windows Share Creation and Permission Changes
+
+Investigates new network shares and changed share permissions.
+
+**MITRE:** T1021.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(NetShareInfo|NetShareSecurityModify|NetShareDelete)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Authorized share maintenance.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 10. Remote Shell and Session Events
+
+Collects remote command, interactive session and shell command activity.
+
+**MITRE:** T1021  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(RemoteCommandResponse|IoSessionLoggedOn|ShellCommandLineInfo)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Legitimate remote support and management.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 11. Inbound SMB, RDP and WinRM Connections
+
+Identifies accepts on common Windows remote access service ports.
+
+**MITRE:** T1021  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=NetworkReceiveAcceptIP4
+| LocalPort=/(445|3389|5985|5986|135)/
+| select([@timestamp, ComputerName, LocalAddressIP4, LocalPort, RemoteAddressIP4, RemotePort, ContextBaseFileName, ContextProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Authorized management, RDP and file-serving activity; validate which event fields represent listening ports.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
 
 ---
 

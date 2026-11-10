@@ -2,7 +2,7 @@
 
 # Command and Control
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0011`  ·  **4 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0011`  ·  **8 queries**
 
 Correlate process, DNS, and network activity linked to potential C2.
 
@@ -17,6 +17,10 @@ Correlate process, DNS, and network activity linked to potential C2.
 | [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | `Candidate` |
 | [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | `Candidate` |
 
+| [05. DNS Request and Suspicious DNS Detection Events](#05-dns-request-and-suspicious-dns-detection-events) | `Requires Validation` |
+| [06. DNS Requests by Endpoint and Process](#06-dns-requests-by-endpoint-and-process) | `Requires Validation` |
+| [07. SSH Tunnel Creation Events](#07-ssh-tunnel-creation-events) | `Requires Validation` |
+| [08. Tunneling and Remote Tool Execution](#08-tunneling-and-remote-tool-execution) | `Requires Validation` |
 ---
 
 ### 01. DNS and Network Connections by Process
@@ -118,6 +122,93 @@ Looks for potential tunneling flags and remote control tool names in process com
 *Origin: OneNote-derived adaptation\*
 
 </details>
+
+### 05. DNS Request and Suspicious DNS Detection Events
+
+Surfaces suspicious DNS detections and DNS requests for investigation.
+
+**MITRE:** T1071.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(SuspiciousDnsRequest|DnsRequest)$/
+| @rawstring=/(dns|query|tunnel|\.top|\.xyz)/i
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Legitimate DNS activity and benign use of the listed TLDs.
+
+**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 06. DNS Requests by Endpoint and Process
+
+Shows DNS resolution and available process correlation fields.
+
+**MITRE:** T1071.004 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=DnsRequest
+| select([@timestamp, ComputerName, DomainName, RequestType, QueryStatus, FirstIP4Record, ContextBaseFileName, ContextProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Any normal DNS lookup; pair with process and network observations.
+
+**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 07. SSH Tunnel Creation Events
+
+Lists SSH tunnel creation telemetry for follow-up.
+
+**MITRE:** T1572  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(SSHTunnelCreated)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Approved port forwarding and development tunnels.
+
+**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 08. Tunneling and Remote Tool Execution
+
+Hunts for command lines involving SSH port forwarding and tunneling utilities.
+
+**MITRE:** T1572 / T1219  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| CommandLine=/ssh\s+(-L|-R|-D)|plink|chisel|ngrok|cloudflared|socat|rustdesk|anydesk|curl|wget|certutil\s+.*urlcache/i
+| select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Authorized support, development tunnels and package retrieval.
+
+**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
 
 ---
 

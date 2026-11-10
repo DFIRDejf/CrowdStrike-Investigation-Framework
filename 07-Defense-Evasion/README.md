@@ -2,7 +2,7 @@
 
 # Defense Evasion
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0005 · legacy folder`  ·  **2 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0005 · legacy folder`  ·  **8 queries**
 
 Investigate tampering, security control changes, and evasion-related activity.
 
@@ -17,6 +17,12 @@ Investigate tampering, security control changes, and evasion-related activity.
 | [01. Security Control Modification Commands](#01-security-control-modification-commands) | `Candidate` |
 | [02. Sensor and Prevention Diagnostics](#02-sensor-and-prevention-diagnostics) | `Candidate` |
 
+| [03. Security Log and Trace File Deletion](#03-security-log-and-trace-file-deletion) | `Requires Validation` |
+| [04. Firewall and WFP Modification Events](#04-firewall-and-wfp-modification-events) | `Requires Validation` |
+| [05. Unsigned Modules and Suspicious File Signatures](#05-unsigned-modules-and-suspicious-file-signatures) | `Requires Validation` |
+| [06. Sensor Anti-Tamper and Bypass Telemetry](#06-sensor-antitamper-and-bypass-telemetry) | `Requires Validation` |
+| [07. Suspicious Macro and Invalid Script Events](#07-suspicious-macro-and-invalid-script-events) | `Requires Validation` |
+| [08. Potential Log Clearing Commands](#08-potential-log-clearing-commands) | `Requires Validation` |
 ---
 
 ### 01. Security Control Modification Commands
@@ -65,6 +71,135 @@ Inventories selected protective control state and diagnostic event types for rev
 *Origin: OneNote-derived adaptation\*
 
 </details>
+
+### 03. Security Log and Trace File Deletion
+
+Examines deletion and USN records involving logs and script files.
+
+**MITRE:** T1070.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(FileDeleted|USNRecord)$/
+| @rawstring=/(\.evtx|\.log|\.pf|\.ps1|\.tmp)/i
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Ordinary log rollover and cleanup; deletion alone does not prove an attack.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 04. Firewall and WFP Modification Events
+
+Surfaces firewall rule manipulation and Windows Filtering Platform activity.
+
+**MITRE:** T1562.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(WfpFilterTamperingFilterAdded|FirewallDeleteRuleIP4|FirewallSetRuleIP4)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Review approved administrative operations and expected security tooling.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 05. Unsigned Modules and Suspicious File Signatures
+
+Inspects file signature discrepancies and unsigned module events.
+
+**MITRE:** T1027 / T1036  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(FileSignatureMismatch|PackedExecutableWritten|UnsignedModuleLoad)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Review approved administrative operations and expected security tooling.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 06. Sensor Anti-Tamper and Bypass Telemetry
+
+Reviews sensor bypass, exclusions and anti-tamper status event families.
+
+**MITRE:** T1562.001  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(EAMBypassEvent|SensorAntiTamperState|DriverPreventionStatus|DetectionExcluded|SensorSelfDiagnosticTelemetry)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Diagnostics, policy deployment and sensor upgrades.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 07. Suspicious Macro and Invalid Script Events
+
+Surfaces macros, malformed scripts and packed process detection events.
+
+**MITRE:** T1027  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=/^(MacroDetectInfo|MacroContentInfo|ScriptControlDetectInvalidInfo|ProcessExecOnPackedExecutable)$/
+| select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Review approved administrative operations and expected security tooling.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+### 08. Potential Log Clearing Commands
+
+Searches for process commands that may clear Windows event logs or command history.
+
+**MITRE:** T1070  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+
+<details>
+<summary><strong>If you want to see more details</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| CommandLine=/wevtutil\s+(cl|clear-log)|clear-eventlog|remove-item.*(history|\.evtx)|del\s+.*\.log|powershell.*clear-history/i
+| select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
+| sort(@timestamp, order=asc, limit=10000)
+```
+
+**False positives:** Approved log maintenance; inspect process ancestry and change control.
+
+**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
 
 ---
 
