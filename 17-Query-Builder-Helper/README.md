@@ -1,69 +1,57 @@
-# Query Builder Helper — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **9 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: Operational (not a MITRE tactic)
+# Query Builder Helper
 
-Reusable search scaffolds, correlation pivots, investigation parameters and field-inspection utilities.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Operational`  ·  **9 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [CIDR-Based Remote IP Search](#01-cidr-based-remote-ip-search)
-2. [Command History Scoped Search](#02-command-history-scoped-search)
-3. [Process and Network Connection Correlation](#03-process-and-network-connection-correlation)
-4. [Command History and Process Rollup](#04-command-history-and-process-rollup)
-5. [Parameterized Process Network Pivot](#05-parameterized-process-network-pivot)
-6. [Available Fields by Event Type](#06-available-fields-by-event-type)
-7. [Observed Events by Name](#07-observed-events-by-name)
-8. [Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas)
-9. [Process Correlation Key Reference](#09-process-correlation-key-reference)
+Reusable pivots, field-inspection patterns, and parameterized investigations.
 
 ---
 
-## 01. CIDR-Based Remote IP Search
+## Query library
 
-**Description:** Finds events whose RemoteIP field falls within a selected subnet.
+| Hunt | Status |
+|---|---|
+| [01. CIDR-Based Remote IP Search](#01-cidr-based-remote-ip-search) | `Migration recheck` |
+| [02. Command History Scoped Search](#02-command-history-scoped-search) | `Migration recheck` |
+| [03. Process and Network Connection Correlation](#03-process-and-network-connection-correlation) | `Migration recheck` |
+| [04. Command History and Process Rollup](#04-command-history-and-process-rollup) | `Migration recheck` |
+| [05. Parameterized Process Network Pivot](#05-parameterized-process-network-pivot) | `Migration recheck` |
+| [06. Available Fields by Event Type](#06-available-fields-by-event-type) | `Candidate` |
+| [07. Observed Events by Name](#07-observed-events-by-name) | `Candidate` |
+| [08. Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas) | `Candidate` |
+| [09. Process Correlation Key Reference](#09-process-correlation-key-reference) | `Candidate` |
 
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. CIDR-Based Remote IP Search
+
+Finds events whose RemoteIP field falls within a selected subnet.
+
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=*
 | cidr("RemoteIP", subnet="203.0.113.0/24")
 ```
 
-### False Positive Considerations
+**False positives:** The subnet is an RFC 5737 documentation example; replace it before use. `RemoteIP` may not exist in every event family. Broad wildcard searches are costly.
 
-The subnet is an RFC 5737 documentation example; replace it before use. `RemoteIP` may not exist in every event family. Broad wildcard searches are costly.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. Command History Scoped Search
 
-## 02. Command History Scoped Search
+Retrieves command history for investigation-scoped hosts and identities and sorts by command sequence.
 
-**Description:** Retrieves command history for investigation-scoped hosts and identities and sorts by command sequence.
-
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=CommandHistory
@@ -77,31 +65,20 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(CommandSequence, order=asc, limit=10000)
 ```
 
-### False Positive Considerations
+**False positives:** Sequence order is not necessarily global chronological order across multiple hosts.
 
-Sequence order is not necessarily global chronological order across multiple hosts.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 03. Process and Network Connection Correlation
 
-## 03. Process and Network Connection Correlation
+Associates process execution and network connection events using process identifiers and formats an execution chain.
 
-**Description:** Associates process execution and network connection events using process identifiers and formats an execution chain.
-
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 defineTable(query={#event_simpleName=NetworkConnectIP4 RemoteAddressIP4=*}, include=[ContextTimeStamp, ContextProcessId, RemoteAddressIP4, RemotePort], name="NetConnIP4")
@@ -119,31 +96,20 @@ GrandParentBaseFileName!=* | GrandParentBaseFileName:="Unknown";
 | groupBy([NetConnectTime, ComputerName, UserName, RemoteAddressIP4, RemotePort, ProcStartTime, ExecutionChain, CommandLine])
 ```
 
-### False Positive Considerations
+**False positives:** Match keys are process identifiers; review host scoping to avoid collisions and verify timestamp units.
 
-Match keys are process identifiers; review host scoping to avoid collisions and verify timestamp units.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 04. Command History and Process Rollup
 
-## 04. Command History and Process Rollup
+Combines CommandHistory and ProcessRollup2 events, expands command separators, and displays execution context.
 
-**Description:** Combines CommandHistory and ProcessRollup2 events, expands command separators, and displays execution context.
-
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 setTimeInterval(start="7d")
@@ -159,31 +125,20 @@ setTimeInterval(start="7d")
 | ProcessStartTime:=formatTime(format="%F %T.%L %Z", field=ProcessStartTime)
 ```
 
-### False Positive Considerations
+**False positives:** Duplicate variants were consolidated. A submitted variant omitted the splitString step and would reference an undefined field.
 
-Duplicate variants were consolidated. A submitted variant omitted the splitString step and would reference an undefined field.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 05. Parameterized Process Network Pivot
 
-## 05. Parameterized Process Network Pivot
+Provides process/network correlation with analyst parameters and external reputation links.
 
-**Description:** Provides process/network correlation with analyst parameters and external reputation links.
-
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressIP4], name="Network")
@@ -208,62 +163,42 @@ ExecutionChain:=format(format="%s\n\t└ %s (%s)\n\t\t└%s", field=[ParentBaseF
 | sort(ProcessStartTime, order=asc, limit=max)
 ```
 
-### False Positive Considerations
+**False positives:** The final sort references ProcessStartTime after groupBy without retaining it in grouping fields; validate expected output.
 
-The final sort references ProcessStartTime after groupBy without retaining it in grouping fields; validate expected output.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 06. Available Fields by Event Type
 
-## 06. Available Fields by Event Type
+Lists fields seen in the query result; ideal for fieldset exploration before writing a high-complexity hunt.
 
-**Description:** Lists fields seen in the query result; ideal for fieldset exploration before writing a high-complexity hunt.
-
-**MITRE ATT&CK:** Operational utility\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** Operational utility\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2
 | fieldset()
 ```
 
-### False Positive Considerations
+**False positives:** No false-positive concept: this is a schema-inspection query.
 
-No false-positive concept: this is a schema-inspection query.
+**Analyst pivot:** Replace ProcessRollup2 with your selected event and inspect returned fields.
 
-### Investigation Guidance
-
-Replace ProcessRollup2 with your selected event and inspect returned fields.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 07. Observed Events by Name
 
-## 07. Observed Events by Name
+Counts available event types in a narrow time window to guide query design.
 
-**Description:** Counts available event types in a narrow time window to guide query design.
-
-**MITRE ATT&CK:** Operational utility\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** All accessible event types
+**MITRE:** Operational utility\  ·  **Telemetry:** All accessible event types
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=*
@@ -271,31 +206,22 @@ Replace ProcessRollup2 with your selected event and inspect returned fields.
 | sort(EventCount, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Wide search can be expensive.
 
-Wide search can be expensive.
+**Analyst pivot:** Use the time picker to constrain to a short range and a specific repository where possible.
 
-### Investigation Guidance
-
-Use the time picker to constrain to a short range and a specific repository where possible.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 08. Normalize Host and User Identity Across Schemas
 
-## 08. Normalize Host and User Identity Across Schemas
+Demonstrates field coalescing for datasets that use different identity keys.
 
-**Description:** Demonstrates field coalescing for datasets that use different identity keys.
-
-**MITRE ATT&CK:** Operational utility\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2 + alternate schemas
+**MITRE:** Operational utility\  ·  **Telemetry:** ProcessRollup2 + alternate schemas
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -304,31 +230,22 @@ Use the time picker to constrain to a short range and a specific repository wher
 | select([@timestamp, InvestigationHost, InvestigationUser, FileName, CommandLine, aid])
 ```
 
-### False Positive Considerations
+**False positives:** Coalescing missing fields returns no substitute; verify schema before use.
 
-Coalescing missing fields returns no substitute; verify schema before use.
+**Analyst pivot:** Remove alternate fields not present in your environment if necessary.
 
-### Investigation Guidance
-
-Remove alternate fields not present in your environment if necessary.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 09. Process Correlation Key Reference
 
-## 09. Process Correlation Key Reference
+Provides raw correlation keys for constructing process-to-network, process-to-DNS and process-to-file pivots.
 
-**Description:** Provides raw correlation keys for constructing process-to-network, process-to-DNS and process-to-file pivots.
-
-**MITRE ATT&CK:** Operational utility\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2, NetworkConnectIP4, DnsRequest
+**MITRE:** Operational utility\  ·  **Telemetry:** ProcessRollup2, NetworkConnectIP4, DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(ProcessRollup2|NetworkConnectIP4|DnsRequest)$/
@@ -336,14 +253,16 @@ Remove alternate fields not present in your environment if necessary.
 | sort(@timestamp, order=asc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** No detection verdict: key exploration only.
 
-No detection verdict: key exploration only.
+**Analyst pivot:** Join ContextProcessId to TargetProcessId AND scope by aid to avoid cross-host collisions.
 
-### Investigation Guidance
-
-Join ContextProcessId to TargetProcessId AND scope by aid to avoid cross-host collisions.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

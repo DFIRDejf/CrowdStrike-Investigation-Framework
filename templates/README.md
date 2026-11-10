@@ -1,16 +1,17 @@
-# Query Templates
+[← Framework home](../README.md)
 
-This directory contains standardized Markdown
-templates for documenting CrowdStrike CQL
-threat hunting queries. Start with the [query template](QUERY_TEMPLATE.md).
+# Templates
 
-All new hunting queries should follow a consistent
-structure, including:
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Reference`  ·  **Reference**
 
-- Query name and description
-- MITRE ATT&CK mapping
-- Required telemetry and event types
-- Expandable CQL query
-- False positive considerations
-- Investigation guidance
-- Validation status
+Keep every published CQL hunt consistent and easy to review.
+
+---
+
+## Query documentation
+
+[Open the CQL query template](QUERY_TEMPLATE.md)
+
+Every new entry should include a short purpose, MITRE mapping, required telemetry, a dropdown CQL block, false-positive notes and validation status.
+
+[← Back to framework](../README.md)

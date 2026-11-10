@@ -1,32 +1,31 @@
-# Credential Access — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **3 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0006
+# Credential Access
 
-Investigate suspected credential access, dumping, and authentication abuse.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0006`  ·  **3 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators)
-2. [Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families)
-3. [Credential Access Detection Event Families](#03-credential-access-detection-event-families)
+Hunt for credential theft, dumping attempts, and suspicious authentication behavior.
 
 ---
 
-## 01. Credential Dumping Command-Line Indicators
+## Query library
 
-**Description:** Surfaces processes whose command-line arguments mention common credential dumping tools or LSASS-related operations.
+| Hunt | Status |
+|---|---|
+| [01. Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators) | `Candidate` |
+| [02. Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families) | `Candidate` |
+| [03. Credential Access Detection Event Families](#03-credential-access-detection-event-families) | `Candidate` |
 
-**MITRE ATT&CK:** T1003\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+---
+
+### 01. Credential Dumping Command-Line Indicators
+
+Surfaces processes whose command-line arguments mention common credential dumping tools or LSASS-related operations.
+
+**MITRE:** T1003\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -35,31 +34,22 @@ Investigate suspected credential access, dumping, and authentication abuse.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Authorized troubleshooting, memory dumps and security assessments.
 
-Authorized troubleshooting, memory dumps and security assessments.
+**Analyst pivot:** Cross-check protected process access telemetry and file creation evidence.
 
-### Investigation Guidance
-
-Cross-check protected process access telemetry and file creation evidence.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 02. Authentication Failure and Brute Force Event Families
 
-## 02. Authentication Failure and Brute Force Event Families
+Provides a starting point for validating auth failures and password spraying telemetry in Falcon.
 
-**Description:** Provides a starting point for validating auth failures and password spraying telemetry in Falcon.
-
-**MITRE ATT&CK:** T1110 (contextual)\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** Brute force detection and SSO failure event families
+**MITRE:** T1110 (contextual)\  ·  **Telemetry:** Brute force detection and SSO failure event families
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(RemoteBruteForceDetectInfo|SmbClientShareLogonBruteForceLowThreshold|SmbClientShareLogonBruteForceSuspected|SsoUserLogonFailure)$/
@@ -67,31 +57,22 @@ Cross-check protected process access telemetry and file creation evidence.
 | sort(EventCount, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Password mistypes, misconfigured services, password rotations.
 
-Password mistypes, misconfigured services, password rotations.
+**Analyst pivot:** Review actual failure counts, source hosts, success follow-up and per-event fieldsets.
 
-### Investigation Guidance
-
-Review actual failure counts, source hosts, success follow-up and per-event fieldsets.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 03. Credential Access Detection Event Families
 
-## 03. Credential Access Detection Event Families
+Retrieves dedicated credential access detection telemetry for further analyst filtering.
 
-**Description:** Retrieves dedicated credential access detection telemetry for further analyst filtering.
-
-**MITRE ATT&CK:** T1003\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** Credential dumping-related detection events
+**MITRE:** T1003\  ·  **Telemetry:** Credential dumping-related detection events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(SAMHashDumpFromUnsignedModule|PrivilegedProcessHandleFromUnsignedModule|ReflectiveDllOpenProcess)$/
@@ -99,14 +80,16 @@ Review actual failure counts, source hosts, success follow-up and per-event fiel
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** IR tooling and endpoint scanning may trigger some events.
 
-IR tooling and endpoint scanning may trigger some events.
+**Analyst pivot:** Inspect decision/action and target process fields with fieldset().
 
-### Investigation Guidance
-
-Inspect decision/action and target process fields with fieldset().
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

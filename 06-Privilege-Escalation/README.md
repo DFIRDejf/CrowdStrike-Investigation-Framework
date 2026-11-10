@@ -1,30 +1,29 @@
-# Privilege Escalation — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **1 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0004
+# Privilege Escalation
 
-Investigate potentially unauthorized privilege or group membership changes.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0004`  ·  **1 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family)
+Review privilege changes and indicators of unauthorized elevation.
 
 ---
 
-## 01. Account Added to Privileged Group Event Family
+## Query library
 
-**Description:** Exposes group membership change telemetry for investigation and follow-up filtering.
+| Hunt | Status |
+|---|---|
+| [01. Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family) | `Candidate` |
 
-**MITRE ATT&CK:** T1098\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** UserAccountAddedToGroup and AD group entity events
+---
+
+### 01. Account Added to Privileged Group Event Family
+
+Exposes group membership change telemetry for investigation and follow-up filtering.
+
+**MITRE:** T1098\  ·  **Telemetry:** UserAccountAddedToGroup and AD group entity events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(UserAccountAddedToGroup|ActiveDirectoryAccountDirectContainingGroupEntitiesUpdate|ActiveDirectoryAccountFlattenedContainingGroupEntitiesUpdate)$/
@@ -32,14 +31,16 @@ Investigate potentially unauthorized privilege or group membership changes.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Provisioning automation and authorized admin changes. Validate emitted event/field family.
 
-Provisioning automation and authorized admin changes. Validate emitted event/field family.
+**Analyst pivot:** Inspect actor, target account, target group and approval record.
 
-### Investigation Guidance
-
-Inspect actor, target account, target group and approval record.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

@@ -1,35 +1,34 @@
-# Lateral Movement — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **6 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0008
+# Lateral Movement
 
-Identify suspicious SMB access, remote administration, and potentially unauthorized connections between systems.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0008`  ·  **6 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [High-Volume SMB Connections](#01-high-volume-smb-connections)
-2. [SMB Server Audit Events](#02-smb-server-audit-events)
-3. [SMB Share Open Events](#03-smb-share-open-events)
-4. [Remote Administration Process and Network Context](#04-remote-administration-process-and-network-context)
-5. [PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns)
-6. [SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory)
+Investigate SMB use, remote administration, and movement between endpoints.
 
 ---
 
-## 01. High-Volume SMB Connections
+## Query library
 
-**Description:** Identifies endpoints establishing at least 50 observed connections to the same remote address over TCP/445. This is a volume-based hunting lead, not proof of lateral movement.
+| Hunt | Status |
+|---|---|
+| [01. High-Volume SMB Connections](#01-high-volume-smb-connections) | `Migration recheck` |
+| [02. SMB Server Audit Events](#02-smb-server-audit-events) | `Migration recheck` |
+| [03. SMB Share Open Events](#03-smb-share-open-events) | `Migration recheck` |
+| [04. Remote Administration Process and Network Context](#04-remote-administration-process-and-network-context) | `Migration recheck` |
+| [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | `Candidate` |
+| [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | `Candidate` |
 
-**MITRE ATT&CK:** T1021.002\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. High-Volume SMB Connections
+
+Identifies endpoints establishing at least 50 observed connections to the same remote address over TCP/445. This is a volume-based hunting lead, not proof of lateral movement.
+
+**MITRE:** T1021.002\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName="NetworkConnectIP4"
@@ -39,31 +38,20 @@ RemotePort=445
 | sort(connections, order=desc)
 ```
 
-### False Positive Considerations
+**False positives:** Backups, management agents, and file servers can generate high SMB volumes. Tune the threshold to the search interval.
 
-Backups, management agents, and file servers can generate high SMB volumes. Tune the threshold to the search interval.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. SMB Server Audit Events
 
-## 02. SMB Server Audit Events
+Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
 
-**Description:** Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
-
-**MITRE ATT&CK:** T1021.002\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** T1021.002\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=SmbServerV1AuditEtw
@@ -75,31 +63,20 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 )
 ```
 
-### False Positive Considerations
+**False positives:** Replace illustrative indicators before execution. Raw-string fallback is broad and should be used only if parsed fields are unavailable.
 
-Replace illustrative indicators before execution. Raw-string fallback is broad and should be used only if parsed fields are unavailable.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 03. SMB Share Open Events
 
-## 03. SMB Share Open Events
+Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
 
-**Description:** Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
-
-**MITRE ATT&CK:** T1021.002\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** T1021.002\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=SmbServerShareOpenedEtw
@@ -111,31 +88,20 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 )
 ```
 
-### False Positive Considerations
+**False positives:** Replace illustrative indicators before execution. Raw-string fallback is broad and should be used only if parsed fields are unavailable.
 
-Replace illustrative indicators before execution. Raw-string fallback is broad and should be used only if parsed fields are unavailable.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 04. Remote Administration Process and Network Context
 
-## 04. Remote Administration Process and Network Context
+Links selected remote administration processes to network activity and provides pivot links.
 
-**Description:** Links selected remote administration processes to network activity and provides pivot links.
-
-**MITRE ATT&CK:** T1021 (contextual)\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** T1021 (contextual)\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressIP4], name="Network")
@@ -149,31 +115,20 @@ defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressI
 | groupBy([aid,TargetProcessId, ComputerName, UserName, ExecutionChain, RemoteAddressIP4, "Graph Explorer", "Indicator Graph", "Remote Access Graph", VT], function=[])
 ```
 
-### False Positive Considerations
+**False positives:** External pivot links may require tenant URL adjustments. The UserName argument is quoted as a literal in the submitted query.
 
-External pivot links may require tenant URL adjustments. The UserName argument is quoted as a literal in the submitted query.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 05. PsExec WinRM and Remote Service Command Patterns
 
-## 05. PsExec WinRM and Remote Service Command Patterns
+Searches process command lines for remote execution and remote management patterns.
 
-**Description:** Searches process command lines for remote execution and remote management patterns.
-
-**MITRE ATT&CK:** T1021 / T1569.002\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1021 / T1569.002\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -182,31 +137,22 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Authorized remote maintenance, automation and incident response.
 
-Authorized remote maintenance, automation and incident response.
+**Analyst pivot:** Use authenticated session evidence, source/destination hosts and admin approvals.
 
-### Investigation Guidance
-
-Use authenticated session evidence, source/destination hosts and admin approvals.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 06. SMB Client and Server Event Family Inventory
 
-## 06. SMB Client and Server Event Family Inventory
+Inventories SMB client/server share opening and closing activity before adding narrower filters.
 
-**Description:** Inventories SMB client/server share opening and closing activity before adding narrower filters.
-
-**MITRE ATT&CK:** T1021.002 / T1135\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** SMB ETW events
+**MITRE:** T1021.002 / T1135\  ·  **Telemetry:** SMB ETW events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(SmbClientShareOpenedEtw|SmbServerShareOpenedEtw|SmbClientShareClosedEtw|SmbServerV1AuditEtw)$/
@@ -214,14 +160,16 @@ Use authenticated session evidence, source/destination hosts and admin approvals
 | sort(SMBEvents, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** File servers, normal share access, backup jobs.
 
-File servers, normal share access, backup jobs.
+**Analyst pivot:** Use fieldset() per event; add share/path/user fields only after confirming schema.
 
-### Investigation Guidance
-
-Use fieldset() per event; add share/path/user fields only after confirming schema.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

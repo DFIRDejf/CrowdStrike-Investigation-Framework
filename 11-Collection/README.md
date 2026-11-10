@@ -1,33 +1,32 @@
-# Collection — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **4 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0009
+# Collection
 
-Investigate sensitive-file access, local staging and archive creation behaviors.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0009`  ·  **4 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Archiving and Data Transfer Utilities](#01-archiving-and-data-transfer-utilities)
-2. [Sensitive File and Critical File Access Telemetry](#02-sensitive-file-and-critical-file-access-telemetry)
-3. [Archive File Creation Event Families](#03-archive-file-creation-event-families)
-4. [Potential Data Staging Paths and Compression](#04-potential-data-staging-paths-and-compression)
+Find access to sensitive files, staging paths, and data packaging activity.
 
 ---
 
-## 01. Archiving and Data Transfer Utilities
+## Query library
 
-**Description:** Searches process command lines for archiving, copying and transfer tools that may be used during data staging.
+| Hunt | Status |
+|---|---|
+| [01. Archiving and Data Transfer Utilities](#01-archiving-and-data-transfer-utilities) | `Migration recheck` |
+| [02. Sensitive File and Critical File Access Telemetry](#02-sensitive-file-and-critical-file-access-telemetry) | `Candidate` |
+| [03. Archive File Creation Event Families](#03-archive-file-creation-event-families) | `Candidate` |
+| [04. Potential Data Staging Paths and Compression](#04-potential-data-staging-paths-and-compression) | `Candidate` |
 
-**MITRE ATT&CK:** T1560 / T1005\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. Archiving and Data Transfer Utilities
+
+Searches process command lines for archiving, copying and transfer tools that may be used during data staging.
+
+**MITRE:** T1560 / T1005\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -37,31 +36,20 @@ FileName, CommandLine, TargetProcessId])
 | sort(@timestamp, order=desc)
 ```
 
-### False Positive Considerations
+**False positives:** The regex detects tool names, not actual compression or exfiltration. Legitimate backup and copy activity is common.
 
-The regex detects tool names, not actual compression or exfiltration. Legitimate backup and copy activity is common.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. Sensitive File and Critical File Access Telemetry
 
-## 02. Sensitive File and Critical File Access Telemetry
+Discovers file access events classified as sensitive or critical.
 
-**Description:** Discovers file access events classified as sensitive or critical.
-
-**MITRE ATT&CK:** T1005 (contextual)\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ClassifiedSensitiveFileAccess, CriticalFileAccessed
+**MITRE:** T1005 (contextual)\  ·  **Telemetry:** ClassifiedSensitiveFileAccess, CriticalFileAccessed
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(ClassifiedSensitiveFileAccess|CriticalFileAccessed)$/
@@ -69,31 +57,22 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Backup jobs, search indexing, EDR and business-critical applications.
 
-Backup jobs, search indexing, EDR and business-critical applications.
+**Analyst pivot:** Validate classification, paths and process fields before use in correlation.
 
-### Investigation Guidance
-
-Validate classification, paths and process fields before use in correlation.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 03. Archive File Creation Event Families
 
-## 03. Archive File Creation Event Families
+Reviews archive-format write events as potential staging evidence.
 
-**Description:** Reviews archive-format write events as potential staging evidence.
-
-**MITRE ATT&CK:** T1560\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** Archive-format file write events
+**MITRE:** T1560\  ·  **Telemetry:** Archive-format file write events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(GzipFileWritten|XzFileWritten|RarFileWritten|TarFileWritten|BZip2FileWritten|LZipFileWritten|ArcFileWritten|ArjFileWritten)$/
@@ -101,31 +80,22 @@ Validate classification, paths and process fields before use in correlation.
 | sort(ArchiveEvents, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Development, software packaging and backups.
 
-Development, software packaging and backups.
+**Analyst pivot:** Pivot into the writing process and destination file path.
 
-### Investigation Guidance
-
-Pivot into the writing process and destination file path.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 04. Potential Data Staging Paths and Compression
 
-## 04. Potential Data Staging Paths and Compression
+Finds command-line activity involving common staging folders and compression commands.
 
-**Description:** Finds command-line activity involving common staging folders and compression commands.
-
-**MITRE ATT&CK:** T1074.001 / T1560\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1074.001 / T1560\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -134,14 +104,16 @@ Pivot into the writing process and destination file path.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Legitimate backup, deployment and archiving tasks.
 
-Legitimate backup, deployment and archiving tasks.
+**Analyst pivot:** Require multiple indicators and review file names and paths.
 
-### Investigation Guidance
-
-Require multiple indicators and review file names and paths.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

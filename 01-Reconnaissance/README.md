@@ -1,11 +1,15 @@
-# Reconnaissance - Threat Hunting
+[← Framework home](../README.md)
 
-**MITRE ATT&CK:** TA0043
+# Reconnaissance
 
-## Overview
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0043`  ·  **0 queries**
 
-This category contains CrowdStrike CQL hunting queries designed to identify adversary reconnaissance activities, including information gathering and target profiling, where relevant telemetry is available.
+Investigate pre-compromise information gathering when relevant telemetry is available.
 
-## Hunting Queries
+---
 
-Queries will be added following validation.
+## Query library
+
+_No queries published yet._ Add a tested CQL hunt when the required telemetry becomes available.
+
+[← Back to framework](../README.md)

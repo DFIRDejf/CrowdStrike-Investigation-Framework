@@ -1,11 +1,15 @@
-# Resource Development — Threat Hunting
+[← Framework home](../README.md)
 
-**MITRE ATT&CK:** TA0042
+# Resource Development
 
-## Overview
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0042`  ·  **0 queries**
 
-This category focuses on detecting adversary infrastructure preparation, tool acquisition, and resource development activities when observable through available enterprise telemetry.
+Track adversary preparation and infrastructure signals where enterprise data provides visibility.
 
-## Hunting Queries
+---
 
-Queries will be added following validation.
+## Query library
+
+_No queries published yet._ Add a tested CQL hunt when the required telemetry becomes available.
+
+[← Back to framework](../README.md)

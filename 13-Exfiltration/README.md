@@ -1,31 +1,30 @@
-# Exfiltration — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **2 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0010
+# Exfiltration
 
-Investigate suspicious outbound data movement and transfer utilities, including correlation with sensitive file access.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0010`  ·  **2 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Sensitive File Access Followed by External Connection](#01-sensitive-file-access-followed-by-external-connection)
-2. [Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators)
+Investigate sensitive file access and suspicious outbound transfer patterns.
 
 ---
 
-## 01. Sensitive File Access Followed by External Connection
+## Query library
 
-**Description:** Correlates sensitive file access with network connections sharing aid and ContextProcessId within 30 minutes.
+| Hunt | Status |
+|---|---|
+| [01. Sensitive File Access Followed by External Connection](#01-sensitive-file-access-followed-by-external-connection) | `Migration recheck` |
+| [02. Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators) | `Candidate` |
 
-**MITRE ATT&CK:** T1041 (potential)\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. Sensitive File Access Followed by External Connection
+
+Correlates sensitive file access with network connections sharing aid and ContextProcessId within 30 minutes.
+
+**MITRE:** T1041 (potential)\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 correlate(
@@ -43,31 +42,20 @@ globalConstraints=[aid, ContextProcessId],sequence=true,within=30m,maxPerRoot=20
 | sort(Network.@timestamp, order=asc, limit=10000)
 ```
 
-### False Positive Considerations
+**False positives:** Organizational CIDRs were removed; restore approved internal/excluded ranges in your private deployment. Temporal correlation is not proof of file transfer.
 
-Organizational CIDRs were removed; restore approved internal/excluded ranges in your private deployment. Temporal correlation is not proof of file transfer.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. Command-Line Upload and Transfer Indicators
 
-## 02. Command-Line Upload and Transfer Indicators
+Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 
-**Description:** Surfaces usage of command-line transfer utilities and upload-oriented arguments.
-
-**MITRE ATT&CK:** T1048 / T1567 (contextual)\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1048 / T1567 (contextual)\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -76,14 +64,16 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Enterprise data transfers, DevOps pipelines and legitimate file synchronization.
 
-Enterprise data transfers, DevOps pipelines and legitimate file synchronization.
+**Analyst pivot:** Correlate process access to sensitive files and approved external destinations.
 
-### Investigation Guidance
-
-Correlate process access to sensitive files and approved external destinations.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

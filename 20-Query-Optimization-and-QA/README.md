@@ -1,35 +1,32 @@
-# Query Optimization and Quality Assurance
+[← Framework home](../README.md)
 
-> **Goal:** minimize false positives and execution cost without losing relevant telemetry.
+# Query Optimization and QA
 
-## Performance Order (from the provided OneNote notes)
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Reference`  ·  **Reference**
 
-1. Set a **strict time range** (via UI or `setTimeInterval`).
-2. Start with indexed/tag filters (`#event_simpleName`, platform, repository).
-3. Apply exact field filters and known scoped hosts/users.
-4. Apply carefully justified exclusions, only after preserving true positives.
-5. Use regex or unparsed-event searches when exact parsed fields cannot express the signal.
-6. Apply transformations, evaluation and lookups.
-7. Aggregate (`groupBy`, `count`, `collect`), then format and sort.
-8. Keep explicit output limits and compare performance against a baseline.
+Build efficient queries and validate signal quality before deployment.
 
-## Quality Gates
+---
+
+## Query design order
+
+`Time window` → `Event / tag filters` → `Exact field filters` → `Regex` → `Transforms` → `Aggregation` → `Sort`
+
+## Release checks
 
 | Check | Requirement |
 |---|---|
-| Syntax | Runs in Falcon CQL without errors |
-| Fields | Verified with `fieldset()` / representative events |
-| Correlation | Scope by `aid` and process key; document time semantics |
-| Accuracy | Document representative true-positive and false-positive cases |
-| False positive controls | Justify every exclusion; do not blanket-exclude admin tools |
-| Performance | Defined time horizon; bounded aggregation/collection |
-| Security | No internal user IDs, customer data, tokens, internal IPs or evidence paths in public copy |
-| Maintenance | Owner, date, last validation, technique, and source/credits |
+| Syntax & fields | Test against real event fieldsets. |
+| Correlation | Scope by `aid` and matching process identity. |
+| False positives | Compare legitimate and suspicious behavior before excluding. |
+| Performance | Use a bounded time range and sensible aggregation limits. |
+| Privacy | Remove internal identifiers and sensitive evidence before publication. |
+| Release | Record status, ownership, technique mapping and validation date. |
 
-## Performance Profiler
+## Query profiling
 
 <details>
-<summary><strong>If you want to see more details — explain:asTable()</strong></summary>
+<summary><strong>If you want to see more details</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -38,26 +35,12 @@
 | explain:asTable()
 ```
 
-Source: [Cool Query Friday — March 20, 2026](https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/). Use for interactive profiling only.
+Use `explain:asTable()` for interactive tuning, not as a production detection stage.
+
+*Source: [Cool Query Friday — query profiling](https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/).*
 
 </details>
 
-## FP Tuning Guidance
+**Analyst rule:** A sensitive-file event followed by an external connection is a lead, not proof of exfiltration.
 
-- Segment by fleet roles: domain controllers, backup servers, workstations, admin endpoints.
-- Use activity baselines and signer/parent-path context.
-- Keep allowlists controlled, documented and time-bounded.
-- Preserve raw pre-tuning result counts during validation.
-- Track test cases and regressions after each edit.
-- Do not infer exfiltration only from a connection and a preceding sensitive-file event; inspect bytes/protocol/process context.
-
-## Quality Checklist
-
-- [ ] Scope and purpose are clear
-- [ ] Dataset and fields are confirmed
-- [ ] No ambiguous regex matches
-- [ ] No undocumented hardcoded filters
-- [ ] Process correlation uses `aid` where applicable
-- [ ] Time window is constrained
-- [ ] Tested positives/negatives are documented
-- [ ] Sanitized publication copy has been revalidated
+[← Back to framework](../README.md)
