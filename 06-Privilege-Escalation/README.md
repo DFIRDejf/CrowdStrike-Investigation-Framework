@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Privilege Escalation
 
@@ -10,20 +10,20 @@ Review privilege changes and indicators of unauthorized elevation.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family) | T1098\ | `Candidate` |
+| [02. Windows Token Privilege Modification Events](#02-windows-token-privilege-modification-events) | T1134 | `Requires Validation` |
+| [03. Elevation and Token Abuse Command Indicators](#03-elevation-and-token-abuse-command-indicators) | T1548 / T1134 | `Requires Validation` |
+| [04. Local Group and Directory Account Changes](#04-local-group-and-directory-account-changes) | T1098 | `Requires Validation` |
 
-| [02. Windows Token Privilege Modification Events](#02-windows-token-privilege-modification-events) | `Requires Validation` |
-| [03. Elevation and Token Abuse Command Indicators](#03-elevation-and-token-abuse-command-indicators) | `Requires Validation` |
-| [04. Local Group and Directory Account Changes](#04-local-group-and-directory-account-changes) | `Requires Validation` |
 ---
 
 ### 01. Account Added to Privileged Group Event Family
 
 Exposes group membership change telemetry for investigation and follow-up filtering.
 
-**MITRE:** T1098\  ·  **Telemetry:** UserAccountAddedToGroup and AD group entity events
+**MITRE:** T1098  ·  **Telemetry:** UserAccountAddedToGroup and AD group entity events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -38,7 +38,7 @@ Exposes group membership change telemetry for investigation and follow-up filter
 
 **Analyst pivot:** Inspect actor, target account, target group and approval record.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -111,4 +111,4 @@ Surfaces group creation and directory account modification event families.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

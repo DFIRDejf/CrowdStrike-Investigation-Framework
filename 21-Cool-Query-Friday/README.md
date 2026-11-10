@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Cool Query Friday
 
@@ -10,13 +10,13 @@ Curated community-inspired query patterns with source attribution.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days) | `Community candidate` |
-| [02. Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid) | `Community candidate` |
-| [03. Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes) | `Community candidate` |
-| [04. Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling) | `Community candidate` |
-| [05. Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host) | `Community candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days) | T1059.001 / T1071.004 (contextual)\ | `Community candidate` |
+| [02. Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid) | C2 pivot / investigation utility\ | `Community candidate` |
+| [03. Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes) | T1082 / T1087 (contextual)\ | `Community candidate` |
+| [04. Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling) | Performance diagnostic\ | `Community candidate` |
+| [05. Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host) | Software inventory / attack-surface context\ | `Community candidate` |
 
 ---
 
@@ -24,7 +24,7 @@ Curated community-inspired query patterns with source attribution.
 
 Compares current PowerShell DNS resolutions against a historical baseline using a small lookup table.
 
-**MITRE:** T1059.001 / T1071.004 (contextual)\  ·  **Telemetry:** DnsRequest
+**MITRE:** T1059.001 / T1071.004 (contextual)  ·  **Telemetry:** DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -47,7 +47,7 @@ setTimeInterval(start="1d")
 
 **Analyst pivot:** Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF.
 
-*Origin: CQF 2024-09-27 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1fqokic/)\*
+*Origin: CQF 2024-09-27 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1fqokic/)*
 
 </details>
 
@@ -55,7 +55,7 @@ setTimeInterval(start="1d")
 
 Uses a two-pass filter to retain process and DNS records sharing aid and Falcon process identity.
 
-**MITRE:** C2 pivot / investigation utility\  ·  **Telemetry:** ProcessRollup2, DnsRequest
+**MITRE:** C2 pivot / investigation utility  ·  **Telemetry:** ProcessRollup2, DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -75,7 +75,7 @@ Uses a two-pass filter to retain process and DNS records sharing aid and Falcon 
 
 **Analyst pivot:** Correlate process ID with aid and inspect raw events. Inspired by 2023-09-20 CQF.
 
-*Origin: CQF 2023-09-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/16soii4/)\*
+*Origin: CQF 2023-09-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/16soii4/)*
 
 </details>
 
@@ -83,7 +83,7 @@ Uses a two-pass filter to retain process and DNS records sharing aid and Falcon 
 
 Correlates discovery process executions on the same Falcon agent within a five-minute interval.
 
-**MITRE:** T1082 / T1087 (contextual)\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1082 / T1087 (contextual)  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -103,7 +103,7 @@ correlate(
 
 **Analyst pivot:** Change `sequence` to true when the event order itself matters; monitor correlate costs.
 
-*Origin: CQF 2026-03-11 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1rquf4q/)\*
+*Origin: CQF 2026-03-11 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1rquf4q/)*
 
 </details>
 
@@ -111,7 +111,7 @@ correlate(
 
 Profiles a constrained search in order to find expensive operations and prefilter inefficiencies.
 
-**MITRE:** Performance diagnostic\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** Performance diagnostic  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -128,7 +128,7 @@ Profiles a constrained search in order to find expensive operations and prefilte
 
 **Analyst pivot:** Run on a fixed short time range and compare Work/performance statistics.
 
-*Origin: CQF 2026-03-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/)\*
+*Origin: CQF 2026-03-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/)*
 
 </details>
 
@@ -136,7 +136,7 @@ Profiles a constrained search in order to find expensive operations and prefilte
 
 Provides a basic browser extension activity count where the InstalledBrowserExtension event is available.
 
-**MITRE:** Software inventory / attack-surface context\  ·  **Telemetry:** InstalledBrowserExtension (license/sensor dependent)
+**MITRE:** Software inventory / attack-surface context  ·  **Telemetry:** InstalledBrowserExtension (license/sensor dependent)
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -151,7 +151,7 @@ Provides a basic browser extension activity count where the InstalledBrowserExte
 
 **Analyst pivot:** Use fieldset() to identify extension IDs, names and browsers before building a real inventory.
 
-*Origin: CQF 2024-06-21 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1dl3bo5/)\*
+*Origin: CQF 2024-06-21 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1dl3bo5/)*
 
 </details>
 
@@ -159,4 +159,4 @@ Provides a basic browser extension activity count where the InstalledBrowserExte
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

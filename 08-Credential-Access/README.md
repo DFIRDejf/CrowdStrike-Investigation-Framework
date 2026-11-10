@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Credential Access
 
@@ -10,25 +10,25 @@ Hunt for credential theft, dumping attempts, and suspicious authentication behav
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators) | `Candidate` |
-| [02. Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families) | `Candidate` |
-| [03. Credential Access Detection Event Families](#03-credential-access-detection-event-families) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators) | T1003\ | `Candidate` |
+| [02. Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families) | T1110 (contextual)\ | `Candidate` |
+| [03. Credential Access Detection Event Families](#03-credential-access-detection-event-families) | T1003\ | `Candidate` |
+| [04. LSASS, SAM and NTDS Dumping Commands](#04-lsass-sam-and-ntds-dumping-commands) | T1003.001 / T1003.002 | `Requires Validation` |
+| [05. SAM Dump and Privileged Handle Detection Events](#05-sam-dump-and-privileged-handle-detection-events) | T1003.002 | `Requires Validation` |
+| [06. Kerberoasting and AS-REP Tooling Footprints](#06-kerberoasting-and-as-rep-tooling-footprints) | T1558.003 / T1558.004 | `Requires Validation` |
+| [07. DCSync and Directory Replication Indicators](#07-dcsync-and-directory-replication-indicators) | T1003.006 | `Requires Validation` |
+| [08. KRBTGT-Related Directory Events](#08-krbtgt-related-directory-events) | T1558 (context) | `Requires Validation` |
+| [09. Credential Stores and Sensitive Files](#09-credential-stores-and-sensitive-files) | T1552 / T1555 | `Requires Validation` |
 
-| [04. LSASS, SAM and NTDS Dumping Commands](#04-lsass-sam-and-ntds-dumping-commands) | `Requires Validation` |
-| [05. SAM Dump and Privileged Handle Detection Events](#05-sam-dump-and-privileged-handle-detection-events) | `Requires Validation` |
-| [06. Kerberoasting and AS-REP Tooling Footprints](#06-kerberoasting-and-asrep-tooling-footprints) | `Requires Validation` |
-| [07. DCSync and Directory Replication Indicators](#07-dcsync-and-directory-replication-indicators) | `Requires Validation` |
-| [08. KRBTGT-Related Directory Events](#08-krbtgtrelated-directory-events) | `Requires Validation` |
-| [09. Credential Stores and Sensitive Files](#09-credential-stores-and-sensitive-files) | `Requires Validation` |
 ---
 
 ### 01. Credential Dumping Command-Line Indicators
 
 Surfaces processes whose command-line arguments mention common credential dumping tools or LSASS-related operations.
 
-**MITRE:** T1003\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1003  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -44,7 +44,7 @@ Surfaces processes whose command-line arguments mention common credential dumpin
 
 **Analyst pivot:** Cross-check protected process access telemetry and file creation evidence.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -52,7 +52,7 @@ Surfaces processes whose command-line arguments mention common credential dumpin
 
 Provides a starting point for validating auth failures and password spraying telemetry in Falcon.
 
-**MITRE:** T1110 (contextual)\  ·  **Telemetry:** Brute force detection and SSO failure event families
+**MITRE:** T1110 (contextual)  ·  **Telemetry:** Brute force detection and SSO failure event families
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -67,7 +67,7 @@ Provides a starting point for validating auth failures and password spraying tel
 
 **Analyst pivot:** Review actual failure counts, source hosts, success follow-up and per-event fieldsets.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -75,7 +75,7 @@ Provides a starting point for validating auth failures and password spraying tel
 
 Retrieves dedicated credential access detection telemetry for further analyst filtering.
 
-**MITRE:** T1003\  ·  **Telemetry:** Credential dumping-related detection events
+**MITRE:** T1003  ·  **Telemetry:** Credential dumping-related detection events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -90,7 +90,7 @@ Retrieves dedicated credential access detection telemetry for further analyst fi
 
 **Analyst pivot:** Inspect decision/action and target process fields with fieldset().
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -230,4 +230,4 @@ Examines file and browser credential artifact accesses.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

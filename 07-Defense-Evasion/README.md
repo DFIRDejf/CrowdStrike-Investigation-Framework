@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Defense Evasion
 
@@ -12,24 +12,24 @@ Investigate tampering, security control changes, and evasion-related activity.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Security Control Modification Commands](#01-security-control-modification-commands) | `Candidate` |
-| [02. Sensor and Prevention Diagnostics](#02-sensor-and-prevention-diagnostics) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Security Control Modification Commands](#01-security-control-modification-commands) | T1562.001 / T1070 (contextual)\ | `Candidate` |
+| [02. Sensor and Prevention Diagnostics](#02-sensor-and-prevention-diagnostics) | T1562.001 (contextual)\ | `Candidate` |
+| [03. Security Log and Trace File Deletion](#03-security-log-and-trace-file-deletion) | T1070.004 | `Requires Validation` |
+| [04. Firewall and WFP Modification Events](#04-firewall-and-wfp-modification-events) | T1562.004 | `Requires Validation` |
+| [05. Unsigned Modules and Suspicious File Signatures](#05-unsigned-modules-and-suspicious-file-signatures) | T1027 / T1036 | `Requires Validation` |
+| [06. Sensor Anti-Tamper and Bypass Telemetry](#06-sensor-anti-tamper-and-bypass-telemetry) | T1562.001 | `Requires Validation` |
+| [07. Suspicious Macro and Invalid Script Events](#07-suspicious-macro-and-invalid-script-events) | T1027 | `Requires Validation` |
+| [08. Potential Log Clearing Commands](#08-potential-log-clearing-commands) | T1070 | `Requires Validation` |
 
-| [03. Security Log and Trace File Deletion](#03-security-log-and-trace-file-deletion) | `Requires Validation` |
-| [04. Firewall and WFP Modification Events](#04-firewall-and-wfp-modification-events) | `Requires Validation` |
-| [05. Unsigned Modules and Suspicious File Signatures](#05-unsigned-modules-and-suspicious-file-signatures) | `Requires Validation` |
-| [06. Sensor Anti-Tamper and Bypass Telemetry](#06-sensor-antitamper-and-bypass-telemetry) | `Requires Validation` |
-| [07. Suspicious Macro and Invalid Script Events](#07-suspicious-macro-and-invalid-script-events) | `Requires Validation` |
-| [08. Potential Log Clearing Commands](#08-potential-log-clearing-commands) | `Requires Validation` |
 ---
 
 ### 01. Security Control Modification Commands
 
 Looks for command-line attempts to alter Defender settings, relevant services or event logging.
 
-**MITRE:** T1562.001 / T1070 (contextual)\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1562.001 / T1070 (contextual)  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -45,7 +45,7 @@ Looks for command-line attempts to alter Defender settings, relevant services or
 
 **Analyst pivot:** Correlate command execution with sensor tamper/prevention events; no inference of successful bypass.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -53,7 +53,7 @@ Looks for command-line attempts to alter Defender settings, relevant services or
 
 Inventories selected protective control state and diagnostic event types for review.
 
-**MITRE:** T1562.001 (contextual)\  ·  **Telemetry:** SensorAntiTamperState and related events
+**MITRE:** T1562.001 (contextual)  ·  **Telemetry:** SensorAntiTamperState and related events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -68,7 +68,7 @@ Inventories selected protective control state and diagnostic event types for rev
 
 **Analyst pivot:** Use fieldset() for schema inspection before alerting on outcomes.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -205,4 +205,4 @@ Searches for process commands that may clear Windows event logs or command histo
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

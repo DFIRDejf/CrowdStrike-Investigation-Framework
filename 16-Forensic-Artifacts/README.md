@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Forensic Artifacts
 
@@ -10,11 +10,11 @@ Reconstruct file-system and execution evidence from Falcon telemetry.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Executable File Written After User Logon](#01-executable-file-written-after-user-logon) | `Migration recheck` |
-| [02. File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory) | `Candidate` |
-| [03. Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Executable File Written After User Logon](#01-executable-file-written-after-user-logon) | Investigation utility | `Migration recheck` |
+| [02. File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory) | DFIR utility\ | `Candidate` |
+| [03. Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata) | DFIR / T1560 (contextual)\ | `Candidate` |
 
 ---
 
@@ -22,7 +22,7 @@ Reconstruct file-system and execution evidence from Falcon telemetry.
 
 Joins executable file writes with user logon events to investigate executable creation after authentication.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -50,7 +50,7 @@ Joins executable file writes with user logon events to investigate executable cr
 
 Inventories file system artifact events to establish coverage before content-based hunting.
 
-**MITRE:** DFIR utility\  ·  **Telemetry:** FileInfo, USNRecord, PrefetchFile
+**MITRE:** DFIR utility  ·  **Telemetry:** FileInfo, USNRecord, PrefetchFile
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -65,7 +65,7 @@ Inventories file system artifact events to establish coverage before content-bas
 
 **Analyst pivot:** Use per-event fieldset validation and compare event time to ingest time.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -73,7 +73,7 @@ Inventories file system artifact events to establish coverage before content-bas
 
 Searches for common archive/file-exfil extensions in file-system evidence.
 
-**MITRE:** DFIR / T1560 (contextual)\  ·  **Telemetry:** FileInfo, USNRecord
+**MITRE:** DFIR / T1560 (contextual)  ·  **Telemetry:** FileInfo, USNRecord
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -89,7 +89,7 @@ Searches for common archive/file-exfil extensions in file-system evidence.
 
 **Analyst pivot:** Compare metadata, file path, process and related archive-write telemetry.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -97,4 +97,4 @@ Searches for common archive/file-exfil extensions in file-system evidence.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

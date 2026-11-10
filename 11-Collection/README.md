@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Collection
 
@@ -10,25 +10,25 @@ Find access to sensitive files, staging paths, and data packaging activity.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Archiving and Data Transfer Utilities](#01-archiving-and-data-transfer-utilities) | `Migration recheck` |
-| [02. Sensitive File and Critical File Access Telemetry](#02-sensitive-file-and-critical-file-access-telemetry) | `Candidate` |
-| [03. Archive File Creation Event Families](#03-archive-file-creation-event-families) | `Candidate` |
-| [04. Potential Data Staging Paths and Compression](#04-potential-data-staging-paths-and-compression) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Archiving and Data Transfer Utilities](#01-archiving-and-data-transfer-utilities) | T1560 / T1005 | `Migration recheck` |
+| [02. Sensitive File and Critical File Access Telemetry](#02-sensitive-file-and-critical-file-access-telemetry) | T1005 (contextual)\ | `Candidate` |
+| [03. Archive File Creation Event Families](#03-archive-file-creation-event-families) | T1560\ | `Candidate` |
+| [04. Potential Data Staging Paths and Compression](#04-potential-data-staging-paths-and-compression) | T1074.001 / T1560\ | `Candidate` |
+| [05. File Collection with Copy Utilities](#05-file-collection-with-copy-utilities) | T1005 / T1039 | `Requires Validation` |
+| [06. Potential Data Staging in Shared Paths](#06-potential-data-staging-in-shared-paths) | T1074.001 / T1560 | `Requires Validation` |
+| [07. File and USN Metadata for Archives](#07-file-and-usn-metadata-for-archives) | T1005 / T1560 | `Requires Validation` |
+| [08. Archive Output and High-Entropy Write Events](#08-archive-output-and-high-entropy-write-events) | T1560 | `Requires Validation` |
+| [09. Specific Archive Format Writes](#09-specific-archive-format-writes) | T1560 | `Requires Validation` |
 
-| [05. File Collection with Copy Utilities](#05-file-collection-with-copy-utilities) | `Requires Validation` |
-| [06. Potential Data Staging in Shared Paths](#06-potential-data-staging-in-shared-paths) | `Requires Validation` |
-| [07. File and USN Metadata for Archives](#07-file-and-usn-metadata-for-archives) | `Requires Validation` |
-| [08. Archive Output and High-Entropy Write Events](#08-archive-output-and-highentropy-write-events) | `Requires Validation` |
-| [09. Specific Archive Format Writes](#09-specific-archive-format-writes) | `Requires Validation` |
 ---
 
 ### 01. Archiving and Data Transfer Utilities
 
 Searches process command lines for archiving, copying and transfer tools that may be used during data staging.
 
-**MITRE:** T1560 / T1005\
+**MITRE:** T1560 / T1005
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -51,7 +51,7 @@ FileName, CommandLine, TargetProcessId])
 
 Discovers file access events classified as sensitive or critical.
 
-**MITRE:** T1005 (contextual)\  ·  **Telemetry:** ClassifiedSensitiveFileAccess, CriticalFileAccessed
+**MITRE:** T1005 (contextual)  ·  **Telemetry:** ClassifiedSensitiveFileAccess, CriticalFileAccessed
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -66,7 +66,7 @@ Discovers file access events classified as sensitive or critical.
 
 **Analyst pivot:** Validate classification, paths and process fields before use in correlation.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -74,7 +74,7 @@ Discovers file access events classified as sensitive or critical.
 
 Reviews archive-format write events as potential staging evidence.
 
-**MITRE:** T1560\  ·  **Telemetry:** Archive-format file write events
+**MITRE:** T1560  ·  **Telemetry:** Archive-format file write events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -89,7 +89,7 @@ Reviews archive-format write events as potential staging evidence.
 
 **Analyst pivot:** Pivot into the writing process and destination file path.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -97,7 +97,7 @@ Reviews archive-format write events as potential staging evidence.
 
 Finds command-line activity involving common staging folders and compression commands.
 
-**MITRE:** T1074.001 / T1560\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1074.001 / T1560  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -113,7 +113,7 @@ Finds command-line activity involving common staging folders and compression com
 
 **Analyst pivot:** Require multiple indicators and review file names and paths.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -231,4 +231,4 @@ Reviews recognized archive file write events by compression type.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

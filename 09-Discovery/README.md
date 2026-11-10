@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Discovery
 
@@ -10,22 +10,22 @@ Identify host, network, and Active Directory enumeration.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | `Candidate` |
-| [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | T1087 / T1069 / T1018\ | `Candidate` |
+| [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | T1046\ | `Candidate` |
+| [03. WMI Query Telemetry](#03-wmi-query-telemetry) | T1047 / T1082 | `Requires Validation` |
+| [04. Active Directory RPC Enumeration Events](#04-active-directory-rpc-enumeration-events) | T1087 / T1482 | `Requires Validation` |
+| [05. Shares and Network Enumeration Commands](#05-shares-and-network-enumeration-commands) | T1135 / T1046 | `Requires Validation` |
+| [06. Domain Controller and Trust Discovery Commands](#06-domain-controller-and-trust-discovery-commands) | T1018 / T1482 | `Requires Validation` |
 
-| [03. WMI Query Telemetry](#03-wmi-query-telemetry) | `Requires Validation` |
-| [04. Active Directory RPC Enumeration Events](#04-active-directory-rpc-enumeration-events) | `Requires Validation` |
-| [05. Shares and Network Enumeration Commands](#05-shares-and-network-enumeration-commands) | `Requires Validation` |
-| [06. Domain Controller and Trust Discovery Commands](#06-domain-controller-and-trust-discovery-commands) | `Requires Validation` |
 ---
 
 ### 01. Account and Domain Enumeration Commands
 
 Finds common Windows identity and domain enumeration commands.
 
-**MITRE:** T1087 / T1069 / T1018\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1087 / T1069 / T1018  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -41,7 +41,7 @@ Finds common Windows identity and domain enumeration commands.
 
 **Analyst pivot:** Correlate a burst of commands under one process chain and identity.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -49,7 +49,7 @@ Finds common Windows identity and domain enumeration commands.
 
 Identifies hosts that connect to many distinct remote ports on a destination; may indicate scanning or administration.
 
-**MITRE:** T1046\  ·  **Telemetry:** NetworkConnectIP4
+**MITRE:** T1046  ·  **Telemetry:** NetworkConnectIP4
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -66,7 +66,7 @@ Identifies hosts that connect to many distinct remote ports on a destination; ma
 
 **Analyst pivot:** Tune port threshold against approved scanners and time window.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -161,4 +161,4 @@ Finds command-line discovery of DCs and domain trust relationships.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

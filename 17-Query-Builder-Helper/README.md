@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Query Builder Helper
 
@@ -10,17 +10,17 @@ Reusable pivots, field-inspection patterns, and parameterized investigations.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. CIDR-Based Remote IP Search](#01-cidr-based-remote-ip-search) | `Migration recheck` |
-| [02. Command History Scoped Search](#02-command-history-scoped-search) | `Migration recheck` |
-| [03. Process and Network Connection Correlation](#03-process-and-network-connection-correlation) | `Migration recheck` |
-| [04. Command History and Process Rollup](#04-command-history-and-process-rollup) | `Migration recheck` |
-| [05. Parameterized Process Network Pivot](#05-parameterized-process-network-pivot) | `Migration recheck` |
-| [06. Available Fields by Event Type](#06-available-fields-by-event-type) | `Candidate` |
-| [07. Observed Events by Name](#07-observed-events-by-name) | `Candidate` |
-| [08. Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas) | `Candidate` |
-| [09. Process Correlation Key Reference](#09-process-correlation-key-reference) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. CIDR-Based Remote IP Search](#01-cidr-based-remote-ip-search) | Investigation utility | `Migration recheck` |
+| [02. Command History Scoped Search](#02-command-history-scoped-search) | Investigation utility | `Migration recheck` |
+| [03. Process and Network Connection Correlation](#03-process-and-network-connection-correlation) | Investigation utility | `Migration recheck` |
+| [04. Command History and Process Rollup](#04-command-history-and-process-rollup) | Investigation utility | `Migration recheck` |
+| [05. Parameterized Process Network Pivot](#05-parameterized-process-network-pivot) | Investigation utility | `Migration recheck` |
+| [06. Available Fields by Event Type](#06-available-fields-by-event-type) | Operational utility\ | `Candidate` |
+| [07. Observed Events by Name](#07-observed-events-by-name) | Operational utility\ | `Candidate` |
+| [08. Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas) | Operational utility\ | `Candidate` |
+| [09. Process Correlation Key Reference](#09-process-correlation-key-reference) | Operational utility\ | `Candidate` |
 
 ---
 
@@ -28,7 +28,7 @@ Reusable pivots, field-inspection patterns, and parameterized investigations.
 
 Finds events whose RemoteIP field falls within a selected subnet.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -48,7 +48,7 @@ Finds events whose RemoteIP field falls within a selected subnet.
 
 Retrieves command history for investigation-scoped hosts and identities and sorts by command sequence.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -75,7 +75,7 @@ Retrieves command history for investigation-scoped hosts and identities and sort
 
 Associates process execution and network connection events using process identifiers and formats an execution chain.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -106,7 +106,7 @@ GrandParentBaseFileName!=* | GrandParentBaseFileName:="Unknown";
 
 Combines CommandHistory and ProcessRollup2 events, expands command separators, and displays execution context.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -135,7 +135,7 @@ setTimeInterval(start="7d")
 
 Provides process/network correlation with analyst parameters and external reputation links.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -173,7 +173,7 @@ ExecutionChain:=format(format="%s\n\t└ %s (%s)\n\t\t└%s", field=[ParentBaseF
 
 Lists fields seen in the query result; ideal for fieldset exploration before writing a high-complexity hunt.
 
-**MITRE:** Operational utility\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** Operational utility  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -187,7 +187,7 @@ Lists fields seen in the query result; ideal for fieldset exploration before wri
 
 **Analyst pivot:** Replace ProcessRollup2 with your selected event and inspect returned fields.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -195,7 +195,7 @@ Lists fields seen in the query result; ideal for fieldset exploration before wri
 
 Counts available event types in a narrow time window to guide query design.
 
-**MITRE:** Operational utility\  ·  **Telemetry:** All accessible event types
+**MITRE:** Operational utility  ·  **Telemetry:** All accessible event types
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -210,7 +210,7 @@ Counts available event types in a narrow time window to guide query design.
 
 **Analyst pivot:** Use the time picker to constrain to a short range and a specific repository where possible.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -218,7 +218,7 @@ Counts available event types in a narrow time window to guide query design.
 
 Demonstrates field coalescing for datasets that use different identity keys.
 
-**MITRE:** Operational utility\  ·  **Telemetry:** ProcessRollup2 + alternate schemas
+**MITRE:** Operational utility  ·  **Telemetry:** ProcessRollup2 + alternate schemas
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -234,7 +234,7 @@ Demonstrates field coalescing for datasets that use different identity keys.
 
 **Analyst pivot:** Remove alternate fields not present in your environment if necessary.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -242,7 +242,7 @@ Demonstrates field coalescing for datasets that use different identity keys.
 
 Provides raw correlation keys for constructing process-to-network, process-to-DNS and process-to-file pivots.
 
-**MITRE:** Operational utility\  ·  **Telemetry:** ProcessRollup2, NetworkConnectIP4, DnsRequest
+**MITRE:** Operational utility  ·  **Telemetry:** ProcessRollup2, NetworkConnectIP4, DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -257,7 +257,7 @@ Provides raw correlation keys for constructing process-to-network, process-to-DN
 
 **Analyst pivot:** Join ContextProcessId to TargetProcessId AND scope by aid to avoid cross-host collisions.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -265,4 +265,4 @@ Provides raw correlation keys for constructing process-to-network, process-to-DN
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

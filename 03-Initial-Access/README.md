@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Initial Access
 
@@ -10,21 +10,21 @@ Spot entry-point activity and potentially risky downloads.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Potentially Risky Browser Downloads](#01-potentially-risky-browser-downloads) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Potentially Risky Browser Downloads](#01-potentially-risky-browser-downloads) | T1189 / T1204 (contextual)\ | `Candidate` |
+| [02. Failed SSO Authentication Event Inventory](#02-failed-sso-authentication-event-inventory) | T1110 | `Requires Validation` |
+| [03. VPN and Identity Sign-In Event Inventory](#03-vpn-and-identity-sign-in-event-inventory) | T1133 / T1078 | `Requires Validation` |
+| [04. Domain Interactive Logon Events](#04-domain-interactive-logon-events) | T1078 | `Requires Validation` |
+| [05. Remote Access Client Execution](#05-remote-access-client-execution) | T1133 (context) | `Requires Validation` |
 
-| [02. Failed SSO Authentication Event Inventory](#02-failed-sso-authentication-event-inventory) | `Requires Validation` |
-| [03. VPN and Identity Sign-In Event Inventory](#03-vpn-and-identity-signin-event-inventory) | `Requires Validation` |
-| [04. Domain Interactive Logon Events](#04-domain-interactive-logon-events) | `Requires Validation` |
-| [05. Remote Access Client Execution](#05-remote-access-client-execution) | `Requires Validation` |
 ---
 
 ### 01. Potentially Risky Browser Downloads
 
 Surfaces browser download events involving executable, script or archive extensions. This is a lead generator rather than malware confirmation.
 
-**MITRE:** T1189 / T1204 (contextual)\  ·  **Telemetry:** BrowserDownloadStarted, BrowserDownloadEnded
+**MITRE:** T1189 / T1204 (contextual)  ·  **Telemetry:** BrowserDownloadStarted, BrowserDownloadEnded
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -40,7 +40,7 @@ Surfaces browser download events involving executable, script or archive extensi
 
 **Analyst pivot:** Correlate download telemetry with ProcessRollup2, file writes and user context.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -134,4 +134,4 @@ Looks for use of remote access and VPN clients.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

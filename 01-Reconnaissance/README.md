@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Reconnaissance
 
@@ -10,14 +10,13 @@ Investigate pre-compromise information gathering when relevant telemetry is avai
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Reconnaissance Footprints in Browser History](#01-reconnaissance-footprints-in-browser-history) | `Requires Validation` |
-| [02. Potential Inbound Scan Touchpoints](#02-potential-inbound-scan-touchpoints) | `Requires Validation` |
-| [03. Host and Domain Reconnaissance Commands](#03-host-and-domain-reconnaissance-commands) | `Requires Validation` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Reconnaissance Footprints in Browser History](#01-reconnaissance-footprints-in-browser-history) | T1592 (context) | `Requires Validation` |
+| [02. Potential Inbound Scan Touchpoints](#02-potential-inbound-scan-touchpoints) | T1595 (context) | `Requires Validation` |
+| [03. Host and Domain Reconnaissance Commands](#03-host-and-domain-reconnaissance-commands) | T1593 / T1046 (context) | `Requires Validation` |
 
 ---
-
 
 ### 01. Reconnaissance Footprints in Browser History
 
@@ -85,4 +84,4 @@ Locates endpoint execution of network and domain research utilities.
 
 </details>
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Persistence
 
@@ -10,22 +10,22 @@ Investigate accounts, scheduled tasks, autoruns, and registry-based persistence.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Local Account Creation via Net](#01-local-account-creation-via-net) | `Migration recheck` |
-| [02. Scheduled Task Registration and Autorun Telemetry](#02-scheduled-task-registration-and-autorun-telemetry) | `Candidate` |
-| [03. Run Keys and Startup Artifact Telemetry](#03-run-keys-and-startup-artifact-telemetry) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Local Account Creation via Net](#01-local-account-creation-via-net) | T1136 | `Migration recheck` |
+| [02. Scheduled Task Registration and Autorun Telemetry](#02-scheduled-task-registration-and-autorun-telemetry) | T1053.005 / T1547.001\ | `Candidate` |
+| [03. Run Keys and Startup Artifact Telemetry](#03-run-keys-and-startup-artifact-telemetry) | T1547.001\ | `Candidate` |
+| [04. Account Creation and Modification Events](#04-account-creation-and-modification-events) | T1136 / T1098 | `Requires Validation` |
+| [05. Windows Service Creation and Reconfiguration](#05-windows-service-creation-and-reconfiguration) | T1543.003 | `Requires Validation` |
+| [06. WMI Provider Registration and Autorun Artifacts](#06-wmi-provider-registration-and-autorun-artifacts) | T1546.003 / T1547.001 | `Requires Validation` |
 
-| [04. Account Creation and Modification Events](#04-account-creation-and-modification-events) | `Requires Validation` |
-| [05. Windows Service Creation and Reconfiguration](#05-windows-service-creation-and-reconfiguration) | `Requires Validation` |
-| [06. WMI Provider Registration and Autorun Artifacts](#06-wmi-provider-registration-and-autorun-artifacts) | `Requires Validation` |
 ---
 
 ### 01. Local Account Creation via Net
 
 Detects net.exe or net1.exe commands that create local or domain accounts using the /add switch.
 
-**MITRE:** T1136\
+**MITRE:** T1136
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -47,7 +47,7 @@ Detects net.exe or net1.exe commands that create local or domain accounts using 
 
 Reviews task and autorun event families to identify persistence candidates.
 
-**MITRE:** T1053.005 / T1547.001\  ·  **Telemetry:** ScheduledTaskInfo, AutoRunProcessInfo
+**MITRE:** T1053.005 / T1547.001  ·  **Telemetry:** ScheduledTaskInfo, AutoRunProcessInfo
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -62,7 +62,7 @@ Reviews task and autorun event families to identify persistence candidates.
 
 **Analyst pivot:** Inspect raw event fields before building a production filter.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -70,7 +70,7 @@ Reviews task and autorun event families to identify persistence candidates.
 
 Retrieves registry/autorun event families that may capture persistence-related modifications.
 
-**MITRE:** T1547.001\  ·  **Telemetry:** RegGenericInfo, RegistryOperationDetectInfo, AsepFileChangeDetectInfo
+**MITRE:** T1547.001  ·  **Telemetry:** RegGenericInfo, RegistryOperationDetectInfo, AsepFileChangeDetectInfo
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -85,7 +85,7 @@ Retrieves registry/autorun event families that may capture persistence-related m
 
 **Analyst pivot:** Validate path, hive, value and writing process from environment-specific fieldsets.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -159,4 +159,4 @@ Inspects WMI provider and autostart changes.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
