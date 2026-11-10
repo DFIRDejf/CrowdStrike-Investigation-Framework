@@ -1,36 +1,35 @@
-# Execution — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **7 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0002
+# Execution
 
-Identify suspicious process launches, script execution, and remote execution indicators.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0002`  ·  **7 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Script Control Detection Events](#01-script-control-detection-events)
-2. [Remote Command Response Events](#02-remote-command-response-events)
-3. [PowerShell Child Process Within One Minute](#03-powershell-child-process-within-one-minute)
-4. [Suspicious PowerShell Interpreter Arguments](#04-suspicious-powershell-interpreter-arguments)
-5. [WMI Remote Process Creation Commands](#05-wmi-remote-process-creation-commands)
-6. [Windows Shell and Command Interpreter Activity](#06-windows-shell-and-command-interpreter-activity)
-7. [Selected Offensive Tool Names in Command Lines](#07-selected-offensive-tool-names-in-command-lines)
+Find suspicious commands, scripts, and process execution patterns.
 
 ---
 
-## 01. Script Control Detection Events
+## Query library
 
-**Description:** Retrieves investigation-scoped scripting or remote command telemetry.
+| Hunt | Status |
+|---|---|
+| [01. Script Control Detection Events](#01-script-control-detection-events) | `Migration recheck` |
+| [02. Remote Command Response Events](#02-remote-command-response-events) | `Migration recheck` |
+| [03. PowerShell Child Process Within One Minute](#03-powershell-child-process-within-one-minute) | `Migration recheck` |
+| [04. Suspicious PowerShell Interpreter Arguments](#04-suspicious-powershell-interpreter-arguments) | `Candidate` |
+| [05. WMI Remote Process Creation Commands](#05-wmi-remote-process-creation-commands) | `Candidate` |
+| [06. Windows Shell and Command Interpreter Activity](#06-windows-shell-and-command-interpreter-activity) | `Candidate` |
+| [07. Selected Offensive Tool Names in Command Lines](#07-selected-offensive-tool-names-in-command-lines) | `Candidate` |
 
-**MITRE ATT&CK:** T1059 (contextual)\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. Script Control Detection Events
+
+Retrieves investigation-scoped scripting or remote command telemetry.
+
+**MITRE:** T1059 (contextual)\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ScriptControlDetectInfo
@@ -42,31 +41,20 @@ Identify suspicious process launches, script execution, and remote execution ind
 )
 ```
 
-### False Positive Considerations
+**False positives:** Generic event retrieval; review event semantics before assigning a definitive ATT&CK technique.
 
-Generic event retrieval; review event semantics before assigning a definitive ATT&CK technique.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. Remote Command Response Events
 
-## 02. Remote Command Response Events
+Retrieves investigation-scoped scripting or remote command telemetry.
 
-**Description:** Retrieves investigation-scoped scripting or remote command telemetry.
-
-**MITRE ATT&CK:** T1059 (contextual)\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** T1059 (contextual)\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=RemoteCommandResponse
@@ -78,31 +66,20 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 )
 ```
 
-### False Positive Considerations
+**False positives:** Generic event retrieval; review event semantics before assigning a definitive ATT&CK technique.
 
-Generic event retrieval; review event semantics before assigning a definitive ATT&CK technique.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 03. PowerShell Child Process Within One Minute
 
-## 03. PowerShell Child Process Within One Minute
+Correlates PowerShell execution with subsequent child process creation within a one-minute window.
 
-**Description:** Correlates PowerShell execution with subsequent child process creation within a one-minute window.
-
-**MITRE ATT&CK:** T1059.001\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** T1059.001\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 correlate(
@@ -123,31 +100,20 @@ globalConstraints=[ComputerName]
 | groupBy([FirstQ.ComputerName, FirstColumn], function=collect(SecondQ.FileName, SecondQ.CommandLine))
 ```
 
-### False Positive Considerations
+**False positives:** Correlation uses ComputerName, not a strict parent-child process ID relationship; confirm lineage before interpreting.
 
-Correlation uses ComputerName, not a strict parent-child process ID relationship; confirm lineage before interpreting.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 04. Suspicious PowerShell Interpreter Arguments
 
-## 04. Suspicious PowerShell Interpreter Arguments
+Finds PowerShell executions involving encoded commands and common remote content execution strings.
 
-**Description:** Finds PowerShell executions involving encoded commands and common remote content execution strings.
-
-**MITRE ATT&CK:** T1059.001\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1059.001\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -157,31 +123,22 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Legitimate management frameworks, automation agents and administrators.
 
-Legitimate management frameworks, automation agents and administrators.
+**Analyst pivot:** Examine parent processes and subsequent network or file activity.
 
-### Investigation Guidance
-
-Examine parent processes and subsequent network or file activity.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 05. WMI Remote Process Creation Commands
 
-## 05. WMI Remote Process Creation Commands
+Searches command-line arguments often associated with WMI or CIM remote process execution.
 
-**Description:** Searches command-line arguments often associated with WMI or CIM remote process execution.
-
-**MITRE ATT&CK:** T1047\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1047\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -190,31 +147,22 @@ Examine parent processes and subsequent network or file activity.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Remote configuration and inventory tooling.
 
-Remote configuration and inventory tooling.
+**Analyst pivot:** Inspect remote targets, authenticated users and related WMI events.
 
-### Investigation Guidance
-
-Inspect remote targets, authenticated users and related WMI events.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 06. Windows Shell and Command Interpreter Activity
 
-## 06. Windows Shell and Command Interpreter Activity
+Examines command-shell execution with potentially interesting shell switches.
 
-**Description:** Examines command-shell execution with potentially interesting shell switches.
-
-**MITRE ATT&CK:** T1059.003\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1059.003\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -224,31 +172,22 @@ Inspect remote targets, authenticated users and related WMI events.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Normal installer scripts, scheduled jobs, login scripts.
 
-Normal installer scripts, scheduled jobs, login scripts.
+**Analyst pivot:** Use contextual baselining; command interpreter use alone is not suspicious.
 
-### Investigation Guidance
-
-Use contextual baselining; command interpreter use alone is not suspicious.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 07. Selected Offensive Tool Names in Command Lines
 
-## 07. Selected Offensive Tool Names in Command Lines
+Provides a targeted keyword hunt for commonly abused tool names; keyword matching does not establish malicious intent.
 
-**Description:** Provides a targeted keyword hunt for commonly abused tool names; keyword matching does not establish malicious intent.
-
-**MITRE ATT&CK:** T1059 / T1204 (contextual)\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1059 / T1204 (contextual)\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -257,14 +196,16 @@ Use contextual baselining; command interpreter use alone is not suspicious.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Security testing and approved red-team operations; names may appear in file paths or benign text.
 
-Security testing and approved red-team operations; names may appear in file paths or benign text.
+**Analyst pivot:** Add path and signer filters, review approved tools and validate the actual binary.
 
-### Investigation Guidance
-
-Add path and signer filters, review approved tools and validate the actual binary.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

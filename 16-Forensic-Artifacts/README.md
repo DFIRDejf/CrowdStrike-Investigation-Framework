@@ -1,32 +1,31 @@
-# Forensic Artifacts — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **3 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: Operational (not a MITRE tactic)
+# Forensic Artifacts
 
-Investigate disk, file-system and other forensic artifacts captured by Falcon and integrated forensics sources.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Operational`  ·  **3 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Executable File Written After User Logon](#01-executable-file-written-after-user-logon)
-2. [File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory)
-3. [Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata)
+Reconstruct file-system and execution evidence from Falcon telemetry.
 
 ---
 
-## 01. Executable File Written After User Logon
+## Query library
 
-**Description:** Joins executable file writes with user logon events to investigate executable creation after authentication.
+| Hunt | Status |
+|---|---|
+| [01. Executable File Written After User Logon](#01-executable-file-written-after-user-logon) | `Migration recheck` |
+| [02. File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory) | `Candidate` |
+| [03. Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata) | `Candidate` |
 
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. Executable File Written After User Logon
+
+Joins executable file writes with user logon events to investigate executable creation after authentication.
+
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=PeFileWritten FileName=/.exe/i
@@ -41,31 +40,20 @@ Investigate disk, file-system and other forensic artifacts captured by Falcon an
 | sort(WriteTime, order=asc, limit=max)
 ```
 
-### False Positive Considerations
+**False positives:** Join by aid can produce many-to-many matches; Activity_duration is referenced but not created in this query.
 
-Join by aid can produce many-to-many matches; Activity_duration is referenced but not created in this query.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. File-System Artifact Event Inventory
 
-## 02. File-System Artifact Event Inventory
+Inventories file system artifact events to establish coverage before content-based hunting.
 
-**Description:** Inventories file system artifact events to establish coverage before content-based hunting.
-
-**MITRE ATT&CK:** DFIR utility\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** FileInfo, USNRecord, PrefetchFile
+**MITRE:** DFIR utility\  ·  **Telemetry:** FileInfo, USNRecord, PrefetchFile
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(FileInfo|USNRecord|PrefetchFile)$/
@@ -73,31 +61,22 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(Events, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Presence depends on sensor/forensics collection; timing may reflect artifact import.
 
-Presence depends on sensor/forensics collection; timing may reflect artifact import.
+**Analyst pivot:** Use per-event fieldset validation and compare event time to ingest time.
 
-### Investigation Guidance
-
-Use per-event fieldset validation and compare event time to ingest time.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 03. Potential Archive Artifacts in File Metadata
 
-## 03. Potential Archive Artifacts in File Metadata
+Searches for common archive/file-exfil extensions in file-system evidence.
 
-**Description:** Searches for common archive/file-exfil extensions in file-system evidence.
-
-**MITRE ATT&CK:** DFIR / T1560 (contextual)\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** FileInfo, USNRecord
+**MITRE:** DFIR / T1560 (contextual)\  ·  **Telemetry:** FileInfo, USNRecord
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(FileInfo|USNRecord)$/
@@ -106,14 +85,16 @@ Use per-event fieldset validation and compare event time to ingest time.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Common business artifacts and backup packages. FileName must be verified for both event families.
 
-Common business artifacts and backup packages. FileName must be verified for both event families.
+**Analyst pivot:** Compare metadata, file path, process and related archive-write telemetry.
 
-### Investigation Guidance
-
-Compare metadata, file path, process and related archive-write telemetry.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

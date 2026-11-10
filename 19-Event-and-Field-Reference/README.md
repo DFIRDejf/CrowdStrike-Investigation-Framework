@@ -1,8 +1,16 @@
+[← Framework home](../README.md)
+
 # Event and Field Reference
 
-> **Reference status:** event names are drawn from the provided source material. Availability and fields require confirmation in the target CrowdStrike tenant.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Reference`  ·  **Reference**
 
-## Event Families
+Find the event families and field relationships needed for effective hunts.
+
+---
+
+> Field availability and direction must be verified in the target Falcon tenant.
+
+## Event families
 
 | Family | Examples | Useful investigative questions |
 |---|---|---|
@@ -17,7 +25,7 @@
 | Registry | `RegGenericInfo`, `RegistryOperationDetectInfo` | Which registry changes occurred? |
 | Forensic | `FileInfo`, `USNRecord`, `PrefetchFile`, `PeFileWritten` | What file-system and execution artifacts exist? |
 
-## Observed High-Value Field Mappings
+## Field relationships
 
 | Purpose | Process-side field | Secondary-event field | Notes |
 |---|---|---|---|
@@ -29,10 +37,12 @@
 | Network port | — | `RemotePort` | Meaning changes by event family |
 | Process command | `CommandLine` | — | Not all telemetry includes full command lines |
 
-## Query a Fieldset Before Writing Hunt Logic
+## Field inspection patterns
+
+### Fieldset
 
 <details>
-<summary><strong>If you want to see more details — fieldset</strong></summary>
+<summary><strong>If you want to see more details</strong></summary>
 
 ```cql
 #event_simpleName=NetworkConnectIP4
@@ -43,8 +53,10 @@ Repeat for each source family. Do not guess fields based on names from other pro
 
 </details>
 
+### Normalized inbound/outbound IPs
+
 <details>
-<summary><strong>If you want to see more details — normalized inbound/outbound IPs</strong></summary>
+<summary><strong>If you want to see more details</strong></summary>
 
 ```cql
 #event_simpleName=/^(NetworkConnectIP4|NetworkReceiveAcceptIP4)$/
@@ -65,10 +77,6 @@ Repeat for each source family. Do not guess fields based on names from other pro
 
 </details>
 
-## Field Validation Sequence
+**Before publishing:** inspect `fieldset()`, verify event semantics, and check null rates across representative hosts.
 
-1. Filter by event name and tight time range.
-2. Inspect `fieldset()` and individual raw events.
-3. Record reliable field names and their semantic direction.
-4. Validate values and null rates on representative hosts.
-5. Only then publish correlation/detection logic.
+[← Back to framework](../README.md)

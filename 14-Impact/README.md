@@ -1,30 +1,29 @@
-# Impact — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **1 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0040
+# Impact
 
-Identify potentially disruptive activities including attempts to inhibit recovery.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0040`  ·  **1 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands)
+Spot disruptive activity and attempts to inhibit system recovery.
 
 ---
 
-## 01. Backup and Recovery Inhibition Commands
+## Query library
 
-**Description:** Searches for common commands used to remove backups or interfere with recovery.
+| Hunt | Status |
+|---|---|
+| [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | `Candidate` |
 
-**MITRE ATT&CK:** T1490\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+---
+
+### 01. Backup and Recovery Inhibition Commands
+
+Searches for common commands used to remove backups or interfere with recovery.
+
+**MITRE:** T1490\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -33,14 +32,16 @@ Identify potentially disruptive activities including attempts to inhibit recover
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Authorized backup maintenance and disaster recovery testing.
 
-Authorized backup maintenance and disaster recovery testing.
+**Analyst pivot:** Verify intent, resulting backup state and associated destructive actions.
 
-### Investigation Guidance
-
-Verify intent, resulting backup state and associated destructive actions.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

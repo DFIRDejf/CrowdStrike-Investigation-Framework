@@ -1,31 +1,30 @@
-# Discovery — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **2 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0007
+# Discovery
 
-Detect suspicious system, account, Active Directory and network enumeration.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0007`  ·  **2 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands)
-2. [High Port Diversity by Destination](#02-high-port-diversity-by-destination)
+Identify host, network, and Active Directory enumeration.
 
 ---
 
-## 01. Account and Domain Enumeration Commands
+## Query library
 
-**Description:** Finds common Windows identity and domain enumeration commands.
+| Hunt | Status |
+|---|---|
+| [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | `Candidate` |
+| [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | `Candidate` |
 
-**MITRE ATT&CK:** T1087 / T1069 / T1018\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+---
+
+### 01. Account and Domain Enumeration Commands
+
+Finds common Windows identity and domain enumeration commands.
+
+**MITRE:** T1087 / T1069 / T1018\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -34,31 +33,22 @@ Detect suspicious system, account, Active Directory and network enumeration.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Helpdesk, inventory, domain administrators and diagnostic scripts.
 
-Helpdesk, inventory, domain administrators and diagnostic scripts.
+**Analyst pivot:** Correlate a burst of commands under one process chain and identity.
 
-### Investigation Guidance
-
-Correlate a burst of commands under one process chain and identity.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 02. High Port Diversity by Destination
 
-## 02. High Port Diversity by Destination
+Identifies hosts that connect to many distinct remote ports on a destination; may indicate scanning or administration.
 
-**Description:** Identifies hosts that connect to many distinct remote ports on a destination; may indicate scanning or administration.
-
-**MITRE ATT&CK:** T1046\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** NetworkConnectIP4
+**MITRE:** T1046\  ·  **Telemetry:** NetworkConnectIP4
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=NetworkConnectIP4 event_platform=Win
@@ -68,14 +58,16 @@ Correlate a burst of commands under one process chain and identity.
 | sort(DistinctPorts, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Vulnerability scanning, service discovery and monitoring.
 
-Vulnerability scanning, service discovery and monitoring.
+**Analyst pivot:** Tune port threshold against approved scanners and time window.
 
-### Investigation Guidance
-
-Tune port threshold against approved scanners and time window.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

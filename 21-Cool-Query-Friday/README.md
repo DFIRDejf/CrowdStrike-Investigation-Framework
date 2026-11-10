@@ -1,34 +1,33 @@
-# Cool Query Friday — Curated Adaptations — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **5 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: Community research (not a MITRE tactic)
+# Cool Query Friday
 
-Original, adapted CQL examples derived from ideas discussed by the CrowdStrike community, with source attribution and explicit validation gates.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Community`  ·  **5 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days)
-2. [Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid)
-3. [Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes)
-4. [Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling)
-5. [Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host)
+Curated community-inspired query patterns with source attribution.
 
 ---
 
-## 01. New PowerShell DNS Domains Versus Previous Six Days
+## Query library
 
-**Description:** Compares current PowerShell DNS resolutions against a historical baseline using a small lookup table.
+| Hunt | Status |
+|---|---|
+| [01. New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days) | `Community candidate` |
+| [02. Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid) | `Community candidate` |
+| [03. Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes) | `Community candidate` |
+| [04. Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling) | `Community candidate` |
+| [05. Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host) | `Community candidate` |
 
-**MITRE ATT&CK:** T1059.001 / T1071.004 (contextual)\
-**Origin:** CQF 2024-09-27 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1fqokic/)\
-**Validation:** Community-derived candidate — untested in user environment\
-**Required telemetry:** DnsRequest
+---
+
+### 01. New PowerShell DNS Domains Versus Previous Six Days
+
+Compares current PowerShell DNS resolutions against a historical baseline using a small lookup table.
+
+**MITRE:** T1059.001 / T1071.004 (contextual)\  ·  **Telemetry:** DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 setTimeInterval(start="1d")
@@ -44,31 +43,22 @@ setTimeInterval(start="1d")
 | groupBy([ComputerName, DomainName], function=[count(as=Observations)], limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** New domains may be legitimate. Use allowlists and domain age/reputation.
 
-New domains may be legitimate. Use allowlists and domain age/reputation.
+**Analyst pivot:** Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF.
 
-### Investigation Guidance
-
-Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF.
+*Origin: CQF 2024-09-27 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1fqokic/)\*
 
 </details>
 
----
+### 02. Process and DNS Events Paired by Falcon PID
 
-## 02. Process and DNS Events Paired by Falcon PID
+Uses a two-pass filter to retain process and DNS records sharing aid and Falcon process identity.
 
-**Description:** Uses a two-pass filter to retain process and DNS records sharing aid and Falcon process identity.
-
-**MITRE ATT&CK:** C2 pivot / investigation utility\
-**Origin:** CQF 2023-09-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/16soii4/)\
-**Validation:** Community-derived candidate — untested in user environment\
-**Required telemetry:** ProcessRollup2, DnsRequest
+**MITRE:** C2 pivot / investigation utility\  ·  **Telemetry:** ProcessRollup2, DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=/^(ProcessRollup2|DnsRequest)$/
@@ -81,31 +71,22 @@ Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF
 | groupBy([aid, FalconPID], function=[collect([ComputerName, FileName, DomainName, CommandLine])], limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Two-pass search can be expensive. selfJoinFilter is probabilistic: confirm candidate matches.
 
-Two-pass search can be expensive. selfJoinFilter is probabilistic: confirm candidate matches.
+**Analyst pivot:** Correlate process ID with aid and inspect raw events. Inspired by 2023-09-20 CQF.
 
-### Investigation Guidance
-
-Correlate process ID with aid and inspect raw events. Inspired by 2023-09-20 CQF.
+*Origin: CQF 2023-09-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/16soii4/)\*
 
 </details>
 
----
+### 03. Discovery Command Sequence within Five Minutes
 
-## 03. Discovery Command Sequence within Five Minutes
+Correlates discovery process executions on the same Falcon agent within a five-minute interval.
 
-**Description:** Correlates discovery process executions on the same Falcon agent within a five-minute interval.
-
-**MITRE ATT&CK:** T1082 / T1087 (contextual)\
-**Origin:** CQF 2026-03-11 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1rquf4q/)\
-**Validation:** Community-derived candidate — untested in user environment\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1082 / T1087 (contextual)\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 correlate(
@@ -118,31 +99,22 @@ correlate(
 )
 ```
 
-### False Positive Considerations
+**False positives:** Admin scripts and security checks often use these commands.
 
-Admin scripts and security checks often use these commands.
+**Analyst pivot:** Change `sequence` to true when the event order itself matters; monitor correlate costs.
 
-### Investigation Guidance
-
-Change `sequence` to true when the event order itself matters; monitor correlate costs.
+*Origin: CQF 2026-03-11 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1rquf4q/)\*
 
 </details>
 
----
+### 04. Encoded PowerShell Query Profiling
 
-## 04. Encoded PowerShell Query Profiling
+Profiles a constrained search in order to find expensive operations and prefilter inefficiencies.
 
-**Description:** Profiles a constrained search in order to find expensive operations and prefilter inefficiencies.
-
-**MITRE ATT&CK:** Performance diagnostic\
-**Origin:** CQF 2026-03-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/)\
-**Validation:** Community-derived candidate — untested in user environment\
-**Required telemetry:** ProcessRollup2
+**MITRE:** Performance diagnostic\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -152,31 +124,22 @@ Change `sequence` to true when the event order itself matters; monitor correlate
 | explain:asTable()
 ```
 
-### False Positive Considerations
+**False positives:** Not a detection rule; profiling is for ad-hoc analysis only.
 
-Not a detection rule; profiling is for ad-hoc analysis only.
+**Analyst pivot:** Run on a fixed short time range and compare Work/performance statistics.
 
-### Investigation Guidance
-
-Run on a fixed short time range and compare Work/performance statistics.
+*Origin: CQF 2026-03-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/)\*
 
 </details>
 
----
+### 05. Browser Extension Inventory by Host
 
-## 05. Browser Extension Inventory by Host
+Provides a basic browser extension activity count where the InstalledBrowserExtension event is available.
 
-**Description:** Provides a basic browser extension activity count where the InstalledBrowserExtension event is available.
-
-**MITRE ATT&CK:** Software inventory / attack-surface context\
-**Origin:** CQF 2024-06-21 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1dl3bo5/)\
-**Validation:** Community-derived candidate — untested in user environment\
-**Required telemetry:** InstalledBrowserExtension (license/sensor dependent)
+**MITRE:** Software inventory / attack-surface context\  ·  **Telemetry:** InstalledBrowserExtension (license/sensor dependent)
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=InstalledBrowserExtension
@@ -184,14 +147,16 @@ Run on a fixed short time range and compare Work/performance statistics.
 | sort(ExtensionEvents, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Event coverage varies by sensor version and license; inventory counts are not extension counts.
 
-Event coverage varies by sensor version and license; inventory counts are not extension counts.
+**Analyst pivot:** Use fieldset() to identify extension IDs, names and browsers before building a real inventory.
 
-### Investigation Guidance
-
-Use fieldset() to identify extension IDs, names and browsers before building a real inventory.
+*Origin: CQF 2024-06-21 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1dl3bo5/)\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)

@@ -1,9 +1,19 @@
-# Framework Documentation
+[← Framework home](../README.md)
 
-- [Source provenance and attribution](SOURCE-AND-PROVENANCE.md)
-- [MITRE ATT&CK 2026 taxonomy compatibility](MITRE-ATTACK-2026-MAPPING.md)
-- [Deployment and merge instructions](DEPLOYMENT.md)
-- [Hunting library and module navigation](../README.md#-hunting-library)
-- [Query quality and validation](../20-Query-Optimization-and-QA/README.md)
-- [CQL function quick reference](../18-CQL-Functions/README.md)
-- [Event and field catalog](../19-Event-and-Field-Reference/README.md)
+# Documentation
+
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `Reference`  ·  **Reference**
+
+Implementation guidance, source tracking, and framework conventions.
+
+---
+
+| Resource | Purpose |
+|---|---|
+| [Deployment guide](DEPLOYMENT.md) | GitHub integration and merge workflow. |
+| [Source and attribution](SOURCE-AND-PROVENANCE.md) | Query provenance and community credit. |
+| [MITRE taxonomy mapping](MITRE-ATTACK-2026-MAPPING.md) | Compatibility notes for MITRE categories. |
+| [CQL functions](../18-CQL-Functions/README.md) | Reusable function patterns. |
+| [Query quality](../20-Query-Optimization-and-QA/README.md) | Optimization and validation criteria. |
+
+[← Back to framework](../README.md)

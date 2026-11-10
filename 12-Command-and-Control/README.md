@@ -1,33 +1,32 @@
-# Command and Control — CrowdStrike CQL
+[← Framework home](../README.md)
 
-> **4 CQL entries** | CrowdStrike Falcon / NG-SIEM | MITRE: TA0011
+# Command and Control
 
-Investigate DNS, external network activity, and remote access or tunneling behaviors.
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0011`  ·  **4 queries**
 
-> **Validation notice:** Entries marked *User-reported validated source* were provided as working queries, but publication copies were sanitized and must be re-tested. Entries marked *Candidate* and *Community-derived* have **not** been tested in this environment.
-
-## Query Index
-
-1. [DNS and Network Connections by Process](#01-dns-and-network-connections-by-process)
-2. [Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation)
-3. [DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints)
-4. [Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands)
+Correlate process, DNS, and network activity linked to potential C2.
 
 ---
 
-## 01. DNS and Network Connections by Process
+## Query library
 
-**Description:** Matches DNS requests to network connection events by ContextProcessId and exposes interactive search parameters.
+| Hunt | Status |
+|---|---|
+| [01. DNS and Network Connections by Process](#01-dns-and-network-connections-by-process) | `Migration recheck` |
+| [02. Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation) | `Migration recheck` |
+| [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | `Candidate` |
+| [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | `Candidate` |
 
-**MITRE ATT&CK:** T1071.001 (contextual)\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+---
+
+### 01. DNS and Network Connections by Process
+
+Matches DNS requests to network connection events by ContextProcessId and exposes interactive search parameters.
+
+**MITRE:** T1071.001 (contextual)\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pattern=?DomainName, ignoreCase=true)}, include=[ContextProcessId,DomainName], name=_DNSRequests)
@@ -37,31 +36,20 @@ defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pat
 | groupBy([aid], function=collect([ComputerName, LocalAddressIP4, DomainName, RemoteAddressIP4, RemotePort]))
 ```
 
-### False Positive Considerations
+**False positives:** Supply the search parameters. The lookup keys on process ID alone. Include the agent ID in the match before using results across hosts. A shared process does not prove that a DNS request led to a connection.
 
-Supply the search parameters. The lookup keys on process ID alone. Include the agent ID in the match before using results across hosts. A shared process does not prove that a DNS request led to a connection.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 02. Process Execution and DNS Correlation
 
-## 02. Process Execution and DNS Correlation
+Links DNS requests to process executions and creates a process-explorer hyperlink.
 
-**Description:** Links DNS requests to process executions and creates a process-explorer hyperlink.
-
-**MITRE ATT&CK:** Investigation utility\
-**Origin:** Previously supplied CQL — sanitized migration copy\
-**Validation:** User-reported validated source; revalidate sanitized copy\
-**Required telemetry:** See event filters in query
+**MITRE:** Investigation utility\
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 setTimeInterval(start="7d")
@@ -77,31 +65,20 @@ setTimeInterval(start="7d")
 | format("[Graph Explorer](https://falcon.crowdstrike.com/graphs/process-explorer/graph?id=pid:%s:%s)", field=[aid, TargetProcessId], as="Graph Explorer")
 ```
 
-### False Positive Considerations
+**False positives:** Validate tenant-specific Graph Explorer URLs. The lookup keys on process ID alone. Include the agent ID in the match before using results across hosts.
 
-Validate tenant-specific Graph Explorer URLs. The lookup keys on process ID alone. Include the agent ID in the match before using results across hosts.
-
-### Investigation Guidance
-
-Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
----
+### 03. DNS Queries from Investigated Endpoints
 
-## 03. DNS Queries from Investigated Endpoints
+Provides a compact DNS telemetry starting point for domain, process and destination investigation.
 
-**Description:** Provides a compact DNS telemetry starting point for domain, process and destination investigation.
-
-**MITRE ATT&CK:** T1071.004 (contextual)\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** DnsRequest
+**MITRE:** T1071.004 (contextual)\  ·  **Telemetry:** DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=DnsRequest event_platform=Win
@@ -110,31 +87,22 @@ Scope by host, user and narrow time window; pivot to process tree and nearby evi
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Browsers and operating system services produce high DNS volume.
 
-Browsers and operating system services produce high DNS volume.
+**Analyst pivot:** Filter targeted hosts and unusual processes before expanding scope.
 
-### Investigation Guidance
-
-Filter targeted hosts and unusual processes before expanding scope.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
----
+### 04. Remote Access and Tunneling Utility Commands
 
-## 04. Remote Access and Tunneling Utility Commands
+Looks for potential tunneling flags and remote control tool names in process command lines.
 
-**Description:** Looks for potential tunneling flags and remote control tool names in process command lines.
-
-**MITRE ATT&CK:** T1572 / T1219 / T1105\
-**Origin:** OneNote-derived adaptation\
-**Validation:** Candidate — requires validation in Falcon\
-**Required telemetry:** ProcessRollup2
+**MITRE:** T1572 / T1219 / T1105\  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -143,14 +111,16 @@ Filter targeted hosts and unusual processes before expanding scope.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-### False Positive Considerations
+**False positives:** Approved remote administration, developer tunnels and support software.
 
-Approved remote administration, developer tunnels and support software.
+**Analyst pivot:** Validate business approval and correlate outbound network events.
 
-### Investigation Guidance
-
-Validate business approval and correlate outbound network events.
+*Origin: OneNote-derived adaptation\*
 
 </details>
 
 ---
+
+`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+
+[← Back to framework](../README.md)
