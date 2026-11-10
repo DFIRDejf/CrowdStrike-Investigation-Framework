@@ -1,9 +1,8 @@
-
 # Query Templates
 
 This directory contains standardized Markdown
 templates for documenting CrowdStrike CQL
-threat hunting queries.
+threat hunting queries. Start with the [query template](QUERY_TEMPLATE.md).
 
 All new hunting queries should follow a consistent
 structure, including:
