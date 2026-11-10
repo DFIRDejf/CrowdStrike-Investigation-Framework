@@ -13,7 +13,6 @@ Spot disruptive activity and attempts to inhibit system recovery.
 | Hunt | Status |
 |---|---|
 | [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | `Candidate` |
-
 | [02. Ransomware File Rename and Entropy Events](#02-ransomware-file-rename-and-entropy-events) | `Requires Validation` |
 | [03. Host Prevention and Containment Event Inventory](#03-host-prevention-and-containment-event-inventory) | `Requires Validation` |
 | [04. Service and Account Disruption Events](#04-service-and-account-disruption-events) | `Requires Validation` |
