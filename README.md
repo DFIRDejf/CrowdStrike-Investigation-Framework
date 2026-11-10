@@ -50,7 +50,7 @@ The framework aims to turn repeatable investigation logic into **documented, rev
 
 Choose a category to view its description, available scenarios, and expandable query details.
 
-> **ATT&CK mapping note:** This repository retains a legacy **Defense Evasion** category for continuity. MITRE ATT&CK Enterprise v20 introduces **Stealth** and **Defense Impairment** as separate tactics. Mapping and folder structure should be reviewed before claiming complete alignment with the current matrix.
+> **ATT&CK mapping note:** This repository retains a legacy **Defense Evasion** category for continuity. MITRE ATT&CK Enterprise v20 introduces **Stealth** and **Defense Impairment** as separate tactics. See the [ATT&CK mapping notes](docs/MITRE-ATTACK-2026-MAPPING.md) for details.
 
 | # | Hunting Category | Focus | Open |
 |:--:|:--|:--|:--:|
@@ -71,12 +71,17 @@ Choose a category to view its description, available scenarios, and expandable q
 
 ### 🔬 Operational Investigation Modules
 
-These are **operational categories**, not MITRE ATT&CK tactics.
+These modules cover forensic investigation, CQL reference material, and detection engineering.
 
 | Module | Purpose | Open |
 |:--|:--|:--:|
-| Investigation Timelines | Reconstruct host, process, user, and network activity | [Explore](15-Investigation-Timelines/README.md) |
 | Forensic Artifacts | Investigate endpoint artifacts and forensic evidence | [Explore](16-Forensic-Artifacts/README.md) |
+| Query Builder Helper | Build scoped searches and reusable investigation pivots | [Explore](17-Query-Builder-Helper/README.md) |
+| CQL Functions | Look up CQL functions, examples, and constraints | [Explore](18-CQL-Functions/README.md) |
+| Event & Field Reference | Check telemetry coverage and field mappings | [Explore](19-Event-and-Field-Reference/README.md) |
+| Query Optimization & QA | Profile queries, tune false positives, and validate results | [Explore](20-Query-Optimization-and-QA/README.md) |
+| Cool Query Friday | Explore community-inspired CQL examples | [Explore](21-Cool-Query-Friday/README.md) |
+| Detection Engineering | Evaluate hunts for promotion to detections | [Explore](22-Detection-Engineering/README.md) |
 
 ## 🚀 Getting Started
 
@@ -125,7 +130,7 @@ Each published hunting scenario should contain:
 | Parameters | Time range, hosts, users, IPs, and optional exclusions |
 | False positives | Expected benign explanations and tuning considerations |
 | Investigation guidance | Recommended validation and correlation steps |
-| Validation status | `Draft`, `Requires Validation`, or `Tested` |
+| Validation status | Use a [query validation state](#query-validation-states) |
 | Maintenance | Owner and last review date, where available |
 
 ### Query Validation States
@@ -133,7 +138,8 @@ Each published hunting scenario should contain:
 | Status | Meaning |
 |:--|:--|
 | `Draft` | Proposed hunting logic; not yet validated. |
-| `Requires Validation` | Syntax, telemetry, performance, or false-positive behavior needs review. |
+| `Requires Validation` | Syntax, telemetry, performance, or false-positive behavior needs review. Candidate and community-derived entries are in this state. |
+| `User-reported validated source` | The source query was reported as working. Revalidate the sanitized repository copy. |
 | `Tested` | Executed successfully against a documented environment and time window; not a guarantee of universal compatibility. |
 
 ## ⚙️ CQL Engineering Principles
@@ -208,8 +214,14 @@ CrowdStrike-Threat-Hunting-Framework/
 ├── 12-Command-and-Control/README.md
 ├── 13-Exfiltration/README.md
 ├── 14-Impact/README.md
-├── 15-Investigation-Timelines/README.md
 ├── 16-Forensic-Artifacts/README.md
+├── 17-Query-Builder-Helper/README.md
+├── 18-CQL-Functions/README.md
+├── 19-Event-and-Field-Reference/README.md
+├── 20-Query-Optimization-and-QA/README.md
+├── 21-Cool-Query-Friday/README.md
+├── 22-Detection-Engineering/README.md
+├── CHANGELOG-v2.md
 ├── docs/README.md
 ├── templates/README.md
 └── CONTRIBUTING.md
@@ -217,7 +229,7 @@ CrowdStrike-Threat-Hunting-Framework/
 
 ## 🤝 Contribution and Review
 
-For new or modified hunting scenarios:
+Use the [query template](templates/QUERY_TEMPLATE.md) and follow the [contribution guide](CONTRIBUTING.md).
 
 1. Select the most relevant category and check for existing overlapping queries.
 2. Use the standardized query documentation format.
@@ -231,6 +243,8 @@ For new or modified hunting scenarios:
 
 ## 📚 References
 
+- [Framework documentation](docs/README.md)
+- [Framework v2 changelog](CHANGELOG-v2.md)
 - [CrowdStrike Query Language — Official Documentation](https://library.humio.com/crowdstrike-query-language/cql.html)
 - [MITRE ATT&CK® Enterprise Matrix](https://attack.mitre.org/matrices/enterprise/)
 - [MITRE ATT&CK® Legal & Branding](https://attack.mitre.org/resources/legal-and-branding/)
