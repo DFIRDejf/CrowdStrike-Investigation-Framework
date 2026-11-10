@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Command and Control
 
@@ -10,23 +10,24 @@ Correlate process, DNS, and network activity linked to potential C2.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. DNS and Network Connections by Process](#01-dns-and-network-connections-by-process) | `Migration recheck` |
-| [02. Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation) | `Migration recheck` |
-| [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | `Candidate` |
-| [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | `Candidate` |
-| [05. DNS Request and Suspicious DNS Detection Events](#05-dns-request-and-suspicious-dns-detection-events) | `Requires Validation` |
-| [06. DNS Requests by Endpoint and Process](#06-dns-requests-by-endpoint-and-process) | `Requires Validation` |
-| [07. SSH Tunnel Creation Events](#07-ssh-tunnel-creation-events) | `Requires Validation` |
-| [08. Tunneling and Remote Tool Execution](#08-tunneling-and-remote-tool-execution) | `Requires Validation` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. DNS and Network Connections by Process](#01-dns-and-network-connections-by-process) | T1071.001 (contextual) | `Migration recheck` |
+| [02. Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation) | Investigation utility | `Migration recheck` |
+| [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | T1071.004 (contextual)\ | `Candidate` |
+| [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | T1572 / T1219 / T1105\ | `Candidate` |
+| [05. DNS Request and Suspicious DNS Detection Events](#05-dns-request-and-suspicious-dns-detection-events) | T1071.004 | `Requires Validation` |
+| [06. DNS Requests by Endpoint and Process](#06-dns-requests-by-endpoint-and-process) | T1071.004 (context) | `Requires Validation` |
+| [07. SSH Tunnel Creation Events](#07-ssh-tunnel-creation-events) | T1572 | `Requires Validation` |
+| [08. Tunneling and Remote Tool Execution](#08-tunneling-and-remote-tool-execution) | T1572 / T1219 | `Requires Validation` |
+
 ---
 
 ### 01. DNS and Network Connections by Process
 
 Matches DNS requests to network connection events by ContextProcessId and exposes interactive search parameters.
 
-**MITRE:** T1071.001 (contextual)\
+**MITRE:** T1071.001 (contextual)
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -49,7 +50,7 @@ defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pat
 
 Links DNS requests to process executions and creates a process-explorer hyperlink.
 
-**MITRE:** Investigation utility\
+**MITRE:** Investigation utility
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -78,7 +79,7 @@ setTimeInterval(start="7d")
 
 Provides a compact DNS telemetry starting point for domain, process and destination investigation.
 
-**MITRE:** T1071.004 (contextual)\  ·  **Telemetry:** DnsRequest
+**MITRE:** T1071.004 (contextual)  ·  **Telemetry:** DnsRequest
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -94,7 +95,7 @@ Provides a compact DNS telemetry starting point for domain, process and destinat
 
 **Analyst pivot:** Filter targeted hosts and unusual processes before expanding scope.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -102,7 +103,7 @@ Provides a compact DNS telemetry starting point for domain, process and destinat
 
 Looks for potential tunneling flags and remote control tool names in process command lines.
 
-**MITRE:** T1572 / T1219 / T1105\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1572 / T1219 / T1105  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -118,7 +119,7 @@ Looks for potential tunneling flags and remote control tool names in process com
 
 **Analyst pivot:** Validate business approval and correlate outbound network events.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -213,4 +214,4 @@ Hunts for command lines involving SSH port forwarding and tunneling utilities.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

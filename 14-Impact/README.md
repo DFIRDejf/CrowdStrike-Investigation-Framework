@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Impact
 
@@ -10,20 +10,21 @@ Spot disruptive activity and attempts to inhibit system recovery.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | `Candidate` |
-| [02. Ransomware File Rename and Entropy Events](#02-ransomware-file-rename-and-entropy-events) | `Requires Validation` |
-| [03. Host Prevention and Containment Event Inventory](#03-host-prevention-and-containment-event-inventory) | `Requires Validation` |
-| [04. Service and Account Disruption Events](#04-service-and-account-disruption-events) | `Requires Validation` |
-| [05. Recovery Inhibition Command Indicators](#05-recovery-inhibition-command-indicators) | `Requires Validation` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | T1490\ | `Candidate` |
+| [02. Ransomware File Rename and Entropy Events](#02-ransomware-file-rename-and-entropy-events) | T1486 | `Requires Validation` |
+| [03. Host Prevention and Containment Event Inventory](#03-host-prevention-and-containment-event-inventory) | T1489 (context) | `Requires Validation` |
+| [04. Service and Account Disruption Events](#04-service-and-account-disruption-events) | T1489 / T1531 | `Requires Validation` |
+| [05. Recovery Inhibition Command Indicators](#05-recovery-inhibition-command-indicators) | T1490 | `Requires Validation` |
+
 ---
 
 ### 01. Backup and Recovery Inhibition Commands
 
 Searches for common commands used to remove backups or interfere with recovery.
 
-**MITRE:** T1490\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1490  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -39,7 +40,7 @@ Searches for common commands used to remove backups or interfere with recovery.
 
 **Analyst pivot:** Verify intent, resulting backup state and associated destructive actions.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -133,4 +134,4 @@ Searches for commands targeting shadow copies and Windows recovery settings.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

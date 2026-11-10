@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Exfiltration
 
@@ -10,23 +10,23 @@ Investigate sensitive file access and suspicious outbound transfer patterns.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Sensitive File Access Followed by External Connection](#01-sensitive-file-access-followed-by-external-connection) | `Migration recheck` |
-| [02. Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Sensitive File Access Followed by External Connection](#01-sensitive-file-access-followed-by-external-connection) | T1041 (potential) | `Migration recheck` |
+| [02. Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators) | T1048 / T1567 (contextual)\ | `Candidate` |
+| [03. Upload-Related Falcon Event Inventory](#03-upload-related-falcon-event-inventory) | T1041 (context) | `Requires Validation` |
+| [04. FTP Command Event Telemetry](#04-ftp-command-event-telemetry) | T1048 | `Requires Validation` |
+| [05. SRU Network and Application Usage](#05-sru-network-and-application-usage) | T1041 (coverage context) | `Requires Validation` |
+| [06. Outbound Network Destination Event Counts](#06-outbound-network-destination-event-counts) | T1041 (lead) | `Requires Validation` |
+| [07. Transfer and Cloud Upload Command Indicators](#07-transfer-and-cloud-upload-command-indicators) | T1041 / T1567 | `Requires Validation` |
 
-| [03. Upload-Related Falcon Event Inventory](#03-uploadrelated-falcon-event-inventory) | `Requires Validation` |
-| [04. FTP Command Event Telemetry](#04-ftp-command-event-telemetry) | `Requires Validation` |
-| [05. SRU Network and Application Usage](#05-sru-network-and-application-usage) | `Requires Validation` |
-| [06. Outbound Network Destination Event Counts](#06-outbound-network-destination-event-counts) | `Requires Validation` |
-| [07. Transfer and Cloud Upload Command Indicators](#07-transfer-and-cloud-upload-command-indicators) | `Requires Validation` |
 ---
 
 ### 01. Sensitive File Access Followed by External Connection
 
 Correlates sensitive file access with network connections sharing aid and ContextProcessId within 30 minutes.
 
-**MITRE:** T1041 (potential)\
+**MITRE:** T1041 (potential)
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -57,7 +57,7 @@ globalConstraints=[aid, ContextProcessId],sequence=true,within=30m,maxPerRoot=20
 
 Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 
-**MITRE:** T1048 / T1567 (contextual)\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1048 / T1567 (contextual)  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -73,7 +73,7 @@ Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 
 **Analyst pivot:** Correlate process access to sensitive files and approved external destinations.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -190,4 +190,4 @@ Searches for common upload, synchronization and file-transfer commands.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

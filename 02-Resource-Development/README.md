@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Resource Development
 
@@ -10,14 +10,13 @@ Track adversary preparation and infrastructure signals where enterprise data pro
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. Browser Downloads of Executables and Archives](#01-browser-downloads-of-executables-and-archives) | `Requires Validation` |
-| [02. Penetration Testing Utility Execution](#02-penetration-testing-utility-execution) | `Requires Validation` |
-| [03. Suspicious Browser Download URL Extensions](#03-suspicious-browser-download-url-extensions) | `Requires Validation` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. Browser Downloads of Executables and Archives](#01-browser-downloads-of-executables-and-archives) | T1588 (context) | `Requires Validation` |
+| [02. Penetration Testing Utility Execution](#02-penetration-testing-utility-execution) | T1588 (context) | `Requires Validation` |
+| [03. Suspicious Browser Download URL Extensions](#03-suspicious-browser-download-url-extensions) | T1588 (context) | `Requires Validation` |
 
 ---
-
 
 ### 01. Browser Downloads of Executables and Archives
 
@@ -85,4 +84,4 @@ Reviews download URL extensions frequently associated with deployable tools.
 
 </details>
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

@@ -1,4 +1,4 @@
-[← Framework home](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Lateral Movement
 
@@ -10,27 +10,27 @@ Investigate SMB use, remote administration, and movement between endpoints.
 
 ## Query library
 
-| Hunt | Status |
-|---|---|
-| [01. High-Volume SMB Connections](#01-high-volume-smb-connections) | `Migration recheck` |
-| [02. SMB Server Audit Events](#02-smb-server-audit-events) | `Migration recheck` |
-| [03. SMB Share Open Events](#03-smb-share-open-events) | `Migration recheck` |
-| [04. Remote Administration Process and Network Context](#04-remote-administration-process-and-network-context) | `Migration recheck` |
-| [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | `Candidate` |
-| [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | `Candidate` |
+| Hunt | MITRE | Status |
+|:--|:--|:--|
+| [01. High-Volume SMB Connections](#01-high-volume-smb-connections) | T1021.002 | `Migration recheck` |
+| [02. SMB Server Audit Events](#02-smb-server-audit-events) | T1021.002 | `Migration recheck` |
+| [03. SMB Share Open Events](#03-smb-share-open-events) | T1021.002 | `Migration recheck` |
+| [04. Remote Administration Process and Network Context](#04-remote-administration-process-and-network-context) | T1021 (contextual) | `Migration recheck` |
+| [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | T1021 / T1569.002\ | `Candidate` |
+| [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | T1021.002 / T1135\ | `Candidate` |
+| [07. SMB Client and Server Share Activity](#07-smb-client-and-server-share-activity) | T1021.002 | `Requires Validation` |
+| [08. SMB Logon Brute Force Events](#08-smb-logon-brute-force-events) | T1110 / T1021.002 | `Requires Validation` |
+| [09. Windows Share Creation and Permission Changes](#09-windows-share-creation-and-permission-changes) | T1021.002 | `Requires Validation` |
+| [10. Remote Shell and Session Events](#10-remote-shell-and-session-events) | T1021 | `Requires Validation` |
+| [11. Inbound SMB, RDP and WinRM Connections](#11-inbound-smb-rdp-and-winrm-connections) | T1021 | `Requires Validation` |
 
-| [07. SMB Client and Server Share Activity](#07-smb-client-and-server-share-activity) | `Requires Validation` |
-| [08. SMB Logon Brute Force Events](#08-smb-logon-brute-force-events) | `Requires Validation` |
-| [09. Windows Share Creation and Permission Changes](#09-windows-share-creation-and-permission-changes) | `Requires Validation` |
-| [10. Remote Shell and Session Events](#10-remote-shell-and-session-events) | `Requires Validation` |
-| [11. Inbound SMB, RDP and WinRM Connections](#11-inbound-smb-rdp-and-winrm-connections) | `Requires Validation` |
 ---
 
 ### 01. High-Volume SMB Connections
 
 Identifies endpoints establishing at least 50 observed connections to the same remote address over TCP/445. This is a volume-based hunting lead, not proof of lateral movement.
 
-**MITRE:** T1021.002\
+**MITRE:** T1021.002
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -53,7 +53,7 @@ RemotePort=445
 
 Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
 
-**MITRE:** T1021.002\
+**MITRE:** T1021.002
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -78,7 +78,7 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 
 Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
 
-**MITRE:** T1021.002\
+**MITRE:** T1021.002
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -103,7 +103,7 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 
 Links selected remote administration processes to network activity and provides pivot links.
 
-**MITRE:** T1021 (contextual)\
+**MITRE:** T1021 (contextual)
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -130,7 +130,7 @@ defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressI
 
 Searches process command lines for remote execution and remote management patterns.
 
-**MITRE:** T1021 / T1569.002\  ·  **Telemetry:** ProcessRollup2
+**MITRE:** T1021 / T1569.002  ·  **Telemetry:** ProcessRollup2
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -146,7 +146,7 @@ Searches process command lines for remote execution and remote management patter
 
 **Analyst pivot:** Use authenticated session evidence, source/destination hosts and admin approvals.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -154,7 +154,7 @@ Searches process command lines for remote execution and remote management patter
 
 Inventories SMB client/server share opening and closing activity before adding narrower filters.
 
-**MITRE:** T1021.002 / T1135\  ·  **Telemetry:** SMB ETW events
+**MITRE:** T1021.002 / T1135  ·  **Telemetry:** SMB ETW events
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -169,7 +169,7 @@ Inventories SMB client/server share opening and closing activity before adding n
 
 **Analyst pivot:** Use fieldset() per event; add share/path/user fields only after confirming schema.
 
-*Origin: OneNote-derived adaptation\*
+*Origin: OneNote-derived adaptation*
 
 </details>
 
@@ -284,4 +284,4 @@ Identifies accepts on common Windows remote access service ports.
 
 `Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
 
-[← Back to framework](../README.md)
+[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
