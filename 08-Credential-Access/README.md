@@ -12,9 +12,9 @@ Hunt for credential theft, dumping attempts, and suspicious authentication behav
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators) | T1003\ | `Candidate` |
-| [02. Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families) | T1110 (contextual)\ | `Candidate` |
-| [03. Credential Access Detection Event Families](#03-credential-access-detection-event-families) | T1003\ | `Candidate` |
+| [01. Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators) | T1003 | `Candidate` |
+| [02. Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families) | T1110 (contextual) | `Candidate` |
+| [03. Credential Access Detection Event Families](#03-credential-access-detection-event-families) | T1003 | `Candidate` |
 | [04. LSASS, SAM and NTDS Dumping Commands](#04-lsass-sam-and-ntds-dumping-commands) | T1003.001 / T1003.002 | `Requires Validation` |
 | [05. SAM Dump and Privileged Handle Detection Events](#05-sam-dump-and-privileged-handle-detection-events) | T1003.002 | `Requires Validation` |
 | [06. Kerberoasting and AS-REP Tooling Footprints](#06-kerberoasting-and-as-rep-tooling-footprints) | T1558.003 / T1558.004 | `Requires Validation` |

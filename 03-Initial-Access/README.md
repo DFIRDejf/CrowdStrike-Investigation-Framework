@@ -12,7 +12,7 @@ Spot entry-point activity and potentially risky downloads.
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. Potentially Risky Browser Downloads](#01-potentially-risky-browser-downloads) | T1189 / T1204 (contextual)\ | `Candidate` |
+| [01. Potentially Risky Browser Downloads](#01-potentially-risky-browser-downloads) | T1189 / T1204 (contextual) | `Candidate` |
 | [02. Failed SSO Authentication Event Inventory](#02-failed-sso-authentication-event-inventory) | T1110 | `Requires Validation` |
 | [03. VPN and Identity Sign-In Event Inventory](#03-vpn-and-identity-sign-in-event-inventory) | T1133 / T1078 | `Requires Validation` |
 | [04. Domain Interactive Logon Events](#04-domain-interactive-logon-events) | T1078 | `Requires Validation` |

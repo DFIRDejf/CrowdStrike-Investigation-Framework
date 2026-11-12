@@ -12,7 +12,7 @@ Spot disruptive activity and attempts to inhibit system recovery.
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | T1490\ | `Candidate` |
+| [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | T1490 | `Candidate` |
 | [02. Ransomware File Rename and Entropy Events](#02-ransomware-file-rename-and-entropy-events) | T1486 | `Requires Validation` |
 | [03. Host Prevention and Containment Event Inventory](#03-host-prevention-and-containment-event-inventory) | T1489 (context) | `Requires Validation` |
 | [04. Service and Account Disruption Events](#04-service-and-account-disruption-events) | T1489 / T1531 | `Requires Validation` |

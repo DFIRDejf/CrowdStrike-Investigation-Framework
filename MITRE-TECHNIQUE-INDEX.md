@@ -2,9 +2,9 @@
 
 [← Framework home](README.md) · [All queries](QUERY-CATALOG.md)
 
-**62 distinct technique identifiers** are referenced by current query descriptions. Mappings are descriptive and require review; a query linked to a technique is not proof of comprehensive coverage or a validated detection.
+**62 distinct technique identifiers** referenced by query descriptions. An association does not imply validated detection coverage.
 
-Use **Ctrl+F** to find a technique (e.g. `T1021.002`).
+Use **Ctrl+F** to look up a technique ID, e.g. `T1021.002`.
 
 | Technique | Query links | Count |
 |:--|:--|--:|
@@ -71,6 +71,6 @@ Use **Ctrl+F** to find a technique (e.g. `T1021.002`).
 | `T1593` | [Host and Domain Reconnaissance Commands](01-Reconnaissance/README.md#03-host-and-domain-reconnaissance-commands) | 1 |
 | `T1595` | [Potential Inbound Scan Touchpoints](01-Reconnaissance/README.md#02-potential-inbound-scan-touchpoints) | 1 |
 
-> **Not a coverage metric:** These counts describe metadata mappings, including contextual examples and unvalidated candidates. They do not measure production detection coverage.
+> **Not a coverage metric:** These are metadata mappings and include unvalidated candidates.
 
 [← All queries](QUERY-CATALOG.md)

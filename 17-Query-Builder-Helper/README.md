@@ -17,10 +17,10 @@ Reusable pivots, field-inspection patterns, and parameterized investigations.
 | [03. Process and Network Connection Correlation](#03-process-and-network-connection-correlation) | Investigation utility | `Migration recheck` |
 | [04. Command History and Process Rollup](#04-command-history-and-process-rollup) | Investigation utility | `Migration recheck` |
 | [05. Parameterized Process Network Pivot](#05-parameterized-process-network-pivot) | Investigation utility | `Migration recheck` |
-| [06. Available Fields by Event Type](#06-available-fields-by-event-type) | Operational utility\ | `Candidate` |
-| [07. Observed Events by Name](#07-observed-events-by-name) | Operational utility\ | `Candidate` |
-| [08. Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas) | Operational utility\ | `Candidate` |
-| [09. Process Correlation Key Reference](#09-process-correlation-key-reference) | Operational utility\ | `Candidate` |
+| [06. Available Fields by Event Type](#06-available-fields-by-event-type) | Operational utility | `Candidate` |
+| [07. Observed Events by Name](#07-observed-events-by-name) | Operational utility | `Candidate` |
+| [08. Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas) | Operational utility | `Candidate` |
+| [09. Process Correlation Key Reference](#09-process-correlation-key-reference) | Operational utility | `Candidate` |
 
 ---
 

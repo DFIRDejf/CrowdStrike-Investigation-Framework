@@ -14,8 +14,8 @@ Correlate process, DNS, and network activity linked to potential C2.
 |:--|:--|:--|
 | [01. DNS and Network Connections by Process](#01-dns-and-network-connections-by-process) | T1071.001 (contextual) | `Migration recheck` |
 | [02. Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation) | Investigation utility | `Migration recheck` |
-| [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | T1071.004 (contextual)\ | `Candidate` |
-| [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | T1572 / T1219 / T1105\ | `Candidate` |
+| [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | T1071.004 (contextual) | `Candidate` |
+| [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | T1572 / T1219 / T1105 | `Candidate` |
 | [05. DNS Request and Suspicious DNS Detection Events](#05-dns-request-and-suspicious-dns-detection-events) | T1071.004 | `Requires Validation` |
 | [06. DNS Requests by Endpoint and Process](#06-dns-requests-by-endpoint-and-process) | T1071.004 (context) | `Requires Validation` |
 | [07. SSH Tunnel Creation Events](#07-ssh-tunnel-creation-events) | T1572 | `Requires Validation` |

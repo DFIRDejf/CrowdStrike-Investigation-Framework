@@ -12,8 +12,8 @@ Identify host, network, and Active Directory enumeration.
 
 | Hunt | MITRE | Status |
 |:--|:--|:--|
-| [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | T1087 / T1069 / T1018\ | `Candidate` |
-| [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | T1046\ | `Candidate` |
+| [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | T1087 / T1069 / T1018 | `Candidate` |
+| [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | T1046 | `Candidate` |
 | [03. WMI Query Telemetry](#03-wmi-query-telemetry) | T1047 / T1082 | `Requires Validation` |
 | [04. Active Directory RPC Enumeration Events](#04-active-directory-rpc-enumeration-events) | T1087 / T1482 | `Requires Validation` |
 | [05. Shares and Network Enumeration Commands](#05-shares-and-network-enumeration-commands) | T1135 / T1046 | `Requires Validation` |

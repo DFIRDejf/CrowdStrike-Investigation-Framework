@@ -4,9 +4,9 @@
 
 **111 documented CQL queries** · **14 ATT&CK tactics** · **3 operational query modules**
 
-Use **Ctrl+F** to find a query by name, technique, event name, or category. Links jump directly to the full CQL block and analyst notes.
+Use **Ctrl+F** to find a query by name, technique, event name, or category. Links open the exact query and analyst notes.
 
-> **Validation:** Statuses indicate documentation and review history, not guaranteed syntax correctness or detection quality.
+> **Validation:** Statuses describe review history, not guaranteed query correctness or detection coverage.
 
 ## All queries
 
@@ -86,15 +86,15 @@ Use **Ctrl+F** to find a query by name, technique, event name, or category. Link
 | [File and USN Metadata for Archives](11-Collection/README.md#07-file-and-usn-metadata-for-archives) | [Collection](11-Collection/README.md) | T1005 / T1560 | See query | `Requires Validation` |
 | [Archive Output and High-Entropy Write Events](11-Collection/README.md#08-archive-output-and-high-entropy-write-events) | [Collection](11-Collection/README.md) | T1560 | See query | `Requires Validation` |
 | [Specific Archive Format Writes](11-Collection/README.md#09-specific-archive-format-writes) | [Collection](11-Collection/README.md) | T1560 | See query | `Requires Validation` |
-| [DNS and Network Connections by Process](12-Command-and-Control/README.md#01-dns-and-network-connections-by-process) | [Command and Control](12-Command-and-Control/README.md) | T1071.001 (contextual) | Multiple events | `Migration recheck` |
-| [Process Execution and DNS Correlation](12-Command-and-Control/README.md#02-process-execution-and-dns-correlation) | [Command and Control](12-Command-and-Control/README.md) | Investigation utility | Multiple events | `Migration recheck` |
+| [DNS and Network Connections by Process](12-Command-and-Control/README.md#01-dns-and-network-connections-by-process) | [Command and Control](12-Command-and-Control/README.md) | T1071.001 (contextual) | See query | `Migration recheck` |
+| [Process Execution and DNS Correlation](12-Command-and-Control/README.md#02-process-execution-and-dns-correlation) | [Command and Control](12-Command-and-Control/README.md) | Investigation utility | See query | `Migration recheck` |
 | [DNS Queries from Investigated Endpoints](12-Command-and-Control/README.md#03-dns-queries-from-investigated-endpoints) | [Command and Control](12-Command-and-Control/README.md) | T1071.004 (contextual) | DnsRequest | `Candidate` |
 | [Remote Access and Tunneling Utility Commands](12-Command-and-Control/README.md#04-remote-access-and-tunneling-utility-commands) | [Command and Control](12-Command-and-Control/README.md) | T1572 / T1219 / T1105 | ProcessRollup2 | `Candidate` |
 | [DNS Request and Suspicious DNS Detection Events](12-Command-and-Control/README.md#05-dns-request-and-suspicious-dns-detection-events) | [Command and Control](12-Command-and-Control/README.md) | T1071.004 | See query | `Requires Validation` |
 | [DNS Requests by Endpoint and Process](12-Command-and-Control/README.md#06-dns-requests-by-endpoint-and-process) | [Command and Control](12-Command-and-Control/README.md) | T1071.004 (context) | DnsRequest | `Requires Validation` |
 | [SSH Tunnel Creation Events](12-Command-and-Control/README.md#07-ssh-tunnel-creation-events) | [Command and Control](12-Command-and-Control/README.md) | T1572 | See query | `Requires Validation` |
 | [Tunneling and Remote Tool Execution](12-Command-and-Control/README.md#08-tunneling-and-remote-tool-execution) | [Command and Control](12-Command-and-Control/README.md) | T1572 / T1219 | ProcessRollup2 | `Requires Validation` |
-| [Sensitive File Access Followed by External Connection](13-Exfiltration/README.md#01-sensitive-file-access-followed-by-external-connection) | [Exfiltration](13-Exfiltration/README.md) | T1041 (potential) | Multiple events | `Migration recheck` |
+| [Sensitive File Access Followed by External Connection](13-Exfiltration/README.md#01-sensitive-file-access-followed-by-external-connection) | [Exfiltration](13-Exfiltration/README.md) | T1041 (potential) | See query | `Migration recheck` |
 | [Command-Line Upload and Transfer Indicators](13-Exfiltration/README.md#02-command-line-upload-and-transfer-indicators) | [Exfiltration](13-Exfiltration/README.md) | T1048 / T1567 (contextual) | ProcessRollup2 | `Candidate` |
 | [Upload-Related Falcon Event Inventory](13-Exfiltration/README.md#03-upload-related-falcon-event-inventory) | [Exfiltration](13-Exfiltration/README.md) | T1041 (context) | See query | `Requires Validation` |
 | [FTP Command Event Telemetry](13-Exfiltration/README.md#04-ftp-command-event-telemetry) | [Exfiltration](13-Exfiltration/README.md) | T1048 | See query | `Requires Validation` |
@@ -106,13 +106,13 @@ Use **Ctrl+F** to find a query by name, technique, event name, or category. Link
 | [Host Prevention and Containment Event Inventory](14-Impact/README.md#03-host-prevention-and-containment-event-inventory) | [Impact](14-Impact/README.md) | T1489 (context) | See query | `Requires Validation` |
 | [Service and Account Disruption Events](14-Impact/README.md#04-service-and-account-disruption-events) | [Impact](14-Impact/README.md) | T1489 / T1531 | See query | `Requires Validation` |
 | [Recovery Inhibition Command Indicators](14-Impact/README.md#05-recovery-inhibition-command-indicators) | [Impact](14-Impact/README.md) | T1490 | ProcessRollup2 | `Requires Validation` |
-| [Executable File Written After User Logon](16-Forensic-Artifacts/README.md#01-executable-file-written-after-user-logon) | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | Investigation utility | Multiple events | `Migration recheck` |
+| [Executable File Written After User Logon](16-Forensic-Artifacts/README.md#01-executable-file-written-after-user-logon) | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | Investigation utility | See query | `Migration recheck` |
 | [File-System Artifact Event Inventory](16-Forensic-Artifacts/README.md#02-file-system-artifact-event-inventory) | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | DFIR utility | FileInfo, USNRecord, PrefetchFile | `Candidate` |
 | [Potential Archive Artifacts in File Metadata](16-Forensic-Artifacts/README.md#03-potential-archive-artifacts-in-file-metadata) | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | DFIR / T1560 (contextual) | FileInfo, USNRecord | `Candidate` |
 | [CIDR-Based Remote IP Search](17-Query-Builder-Helper/README.md#01-cidr-based-remote-ip-search) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | See query | `Migration recheck` |
 | [Command History Scoped Search](17-Query-Builder-Helper/README.md#02-command-history-scoped-search) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | CommandHistory | `Migration recheck` |
-| [Process and Network Connection Correlation](17-Query-Builder-Helper/README.md#03-process-and-network-connection-correlation) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | Multiple events | `Migration recheck` |
-| [Command History and Process Rollup](17-Query-Builder-Helper/README.md#04-command-history-and-process-rollup) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | Multiple events | `Migration recheck` |
+| [Process and Network Connection Correlation](17-Query-Builder-Helper/README.md#03-process-and-network-connection-correlation) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | See query | `Migration recheck` |
+| [Command History and Process Rollup](17-Query-Builder-Helper/README.md#04-command-history-and-process-rollup) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | See query | `Migration recheck` |
 | [Parameterized Process Network Pivot](17-Query-Builder-Helper/README.md#05-parameterized-process-network-pivot) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | See query | `Migration recheck` |
 | [Available Fields by Event Type](17-Query-Builder-Helper/README.md#06-available-fields-by-event-type) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Operational utility | ProcessRollup2 | `Candidate` |
 | [Observed Events by Name](17-Query-Builder-Helper/README.md#07-observed-events-by-name) | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Operational utility | All accessible event types | `Candidate` |
@@ -126,6 +126,6 @@ Use **Ctrl+F** to find a query by name, technique, event name, or category. Link
 
 ---
 
-**Validation states:** `Migration recheck` · `Candidate` · `Community candidate` · `Requires Validation`. See [Detection Engineering](22-Detection-Engineering/README.md) for promotion criteria.
+**Validation states:** `Migration recheck` · `Candidate` · `Community candidate` · `Requires Validation` · `Tested` · `Production reviewed`. See [Detection Engineering](22-Detection-Engineering/README.md) for review criteria.
 
 [← Framework home](README.md)

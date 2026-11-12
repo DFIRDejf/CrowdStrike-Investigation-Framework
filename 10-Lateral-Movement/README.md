@@ -16,8 +16,8 @@ Investigate SMB use, remote administration, and movement between endpoints.
 | [02. SMB Server Audit Events](#02-smb-server-audit-events) | T1021.002 | `Migration recheck` |
 | [03. SMB Share Open Events](#03-smb-share-open-events) | T1021.002 | `Migration recheck` |
 | [04. Remote Administration Process and Network Context](#04-remote-administration-process-and-network-context) | T1021 (contextual) | `Migration recheck` |
-| [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | T1021 / T1569.002\ | `Candidate` |
-| [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | T1021.002 / T1135\ | `Candidate` |
+| [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | T1021 / T1569.002 | `Candidate` |
+| [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | T1021.002 / T1135 | `Candidate` |
 | [07. SMB Client and Server Share Activity](#07-smb-client-and-server-share-activity) | T1021.002 | `Requires Validation` |
 | [08. SMB Logon Brute Force Events](#08-smb-logon-brute-force-events) | T1110 / T1021.002 | `Requires Validation` |
 | [09. Windows Share Creation and Permission Changes](#09-windows-share-creation-and-permission-changes) | T1021.002 | `Requires Validation` |
