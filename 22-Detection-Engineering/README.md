@@ -21,9 +21,7 @@ Move from a hunting hypothesis to a reviewed production detection.
 
 | Status | Meaning |
 |---|---|
-| `Migration recheck` | Previously tested source; publication variant needs retest. |
-| `Candidate` | New example; not yet tested in the target environment. |
-| `Community candidate` | Adapted community concept; not tenant-validated. |
+| `Requires Validation` | Not yet verified for the exact published query in Falcon. |
 | `Tested` | Exact query version has been executed and checked. |
 | `Production reviewed` | Peer-reviewed; false positives and performance documented. |
 

@@ -26,7 +26,7 @@ Build efficient queries and validate signal quality before deployment.
 ## Query profiling
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win

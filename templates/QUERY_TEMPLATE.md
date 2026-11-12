@@ -1,23 +1,27 @@
-# Query Title — CrowdStrike CQL
+# Hunt Name — CrowdStrike CQL
 
-**Category:** Example category  \n**Description:** Explain the observable behavior and analytical question.  \n**MITRE ATT&CK:** TXXXX (only when justified)  \n**Origin:** Original / OneNote / Community research + URL  \n**Validation:** Candidate — requires validation in Falcon  \n**Telemetry:** #event_simpleName and confirmed fields  \n**Owner:** TEAM / ROLE  \n**Last tested:** YYYY-MM-DD or Not tested
+**Query ID:** Assigned by `scripts/catalog.py --write` — do not manually reuse an existing ID  
+**Category:** Choose one ATT&CK tactic or operational module  
+**MITRE:** TXXXX (only with evidence) · **Status:** `Requires Validation`
+
+One-sentence hunting hypothesis and a description of what the query can or cannot establish.
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
-
-### Hunting Query (CQL)
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
-#event_simpleName=ProcessRollup2 event_platform=Win
+#event_simpleName=ProcessRollup2
 | select([@timestamp, ComputerName, FileName, CommandLine])
 ```
 
-### False Positive Considerations
-
-Describe expected legitimate scenarios and validated exclusions.
-
-### Investigation Guidance
-
-Describe evidence, triage pivots and limitations.
+**False positives:** List plausible benign causes.  
+**Investigation guidance:** Describe supporting evidence, context and pivots.
 
 </details>
+
+## Review notes (for PR discussion)
+
+- Required telemetry and any verified Falcon fieldsets
+- Expected environment-specific parameters and time window
+- False-positive considerations; avoid unsupported exclusions
+- Validation owner, evidence and date before changing status to `Tested`

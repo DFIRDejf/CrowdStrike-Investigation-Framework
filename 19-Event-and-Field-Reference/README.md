@@ -42,7 +42,7 @@ Find the event families and field relationships needed for effective hunts.
 ### Fieldset
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=NetworkConnectIP4
@@ -56,7 +56,7 @@ Repeat for each source family. Do not guess fields based on names from other pro
 ### Normalized inbound/outbound IPs
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(NetworkConnectIP4|NetworkReceiveAcceptIP4)$/

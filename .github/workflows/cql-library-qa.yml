@@ -56,13 +56,13 @@ jobs:
       - name: Commit generated Markdown when needed
         shell: bash
         run: |
-          if git diff --quiet; then
+          git add README.md QUERY-CATALOG.md MITRE-TECHNIQUE-INDEX.md TELEMETRY-INDEX.md docs/QUERY-DUPLICATES.md
+          git add -- '[0-9][0-9]-*/README.md'
+          if git diff --cached --quiet; then
             echo 'All CQL indexes are up to date.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md QUERY-CATALOG.md MITRE-TECHNIQUE-INDEX.md
-          git add -- '[0-9][0-9]-*/README.md'
           git commit -m 'docs: automatically sync CQL query indexes'
           git push origin "HEAD:${GITHUB_REF_NAME}"
