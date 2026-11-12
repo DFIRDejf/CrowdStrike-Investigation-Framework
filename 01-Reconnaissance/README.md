@@ -12,9 +12,9 @@ Investigate pre-compromise information gathering when relevant telemetry is avai
 
 | Hunt | ID | MITRE | Status |
 |:--|:--|:--|:--|
-| [01. Reconnaissance Footprints in Browser History](#cs-ta0043-001) | `CS-TA0043-001` | T1592 (context) | `Production ready` |
-| [02. Potential Inbound Scan Touchpoints](#cs-ta0043-002) | `CS-TA0043-002` | T1595 (context) | `Requires Validation` |
-| [03. Host and Domain Reconnaissance Commands](#cs-ta0043-003) | `CS-TA0043-003` | T1593 / T1046 (context) | `Requires Validation` |
+| [01. Reconnaissance Footprints in Browser History](#cs-ta0043-001) | `CS-TA0043-001` | T1592 (context) | `Ready for production testing phase` |
+| [02. Potential Inbound Scan Touchpoints](#cs-ta0043-002) | `CS-TA0043-002` | T1595 (context) | `Ready for production testing phase` |
+| [03. Host and Domain Reconnaissance Commands](#cs-ta0043-003) | `CS-TA0043-003` | T1593 / T1046 (context) | `Ready for production testing phase` |
 
 ---
 
