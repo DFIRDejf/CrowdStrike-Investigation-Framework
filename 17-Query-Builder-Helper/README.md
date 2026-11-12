@@ -10,28 +10,32 @@ Reusable pivots, field-inspection patterns, and parameterized investigations.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. CIDR-Based Remote IP Search](#01-cidr-based-remote-ip-search) | Investigation utility | `Migration recheck` |
-| [02. Command History Scoped Search](#02-command-history-scoped-search) | Investigation utility | `Migration recheck` |
-| [03. Process and Network Connection Correlation](#03-process-and-network-connection-correlation) | Investigation utility | `Migration recheck` |
-| [04. Command History and Process Rollup](#04-command-history-and-process-rollup) | Investigation utility | `Migration recheck` |
-| [05. Parameterized Process Network Pivot](#05-parameterized-process-network-pivot) | Investigation utility | `Migration recheck` |
-| [06. Available Fields by Event Type](#06-available-fields-by-event-type) | Operational utility | `Candidate` |
-| [07. Observed Events by Name](#07-observed-events-by-name) | Operational utility | `Candidate` |
-| [08. Normalize Host and User Identity Across Schemas](#08-normalize-host-and-user-identity-across-schemas) | Operational utility | `Candidate` |
-| [09. Process Correlation Key Reference](#09-process-correlation-key-reference) | Operational utility | `Candidate` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. CIDR-Based Remote IP Search](#cs-qb-001) | `CS-QB-001` | Investigation utility | `Requires Validation` |
+| [02. Command History Scoped Search](#cs-qb-002) | `CS-QB-002` | Investigation utility | `Requires Validation` |
+| [03. Process and Network Connection Correlation](#cs-qb-003) | `CS-QB-003` | Investigation utility | `Requires Validation` |
+| [04. Command History and Process Rollup](#cs-qb-004) | `CS-QB-004` | Investigation utility | `Requires Validation` |
+| [05. Parameterized Process Network Pivot](#cs-qb-005) | `CS-QB-005` | Investigation utility | `Requires Validation` |
+| [06. Available Fields by Event Type](#cs-qb-006) | `CS-QB-006` | Operational utility | `Requires Validation` |
+| [07. Observed Events by Name](#cs-qb-007) | `CS-QB-007` | Operational utility | `Requires Validation` |
+| [08. Normalize Host and User Identity Across Schemas](#cs-qb-008) | `CS-QB-008` | Operational utility | `Requires Validation` |
+| [09. Process Correlation Key Reference](#cs-qb-009) | `CS-QB-009` | Operational utility | `Requires Validation` |
 
 ---
+
+<a name="cs-qb-001"></a>
 
 ### 01. CIDR-Based Remote IP Search
 
 Finds events whose RemoteIP field falls within a selected subnet.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-QB-001` · **Platform:** `Not scoped` · **Tags:** `See query`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=*
@@ -44,14 +48,18 @@ Finds events whose RemoteIP field falls within a selected subnet.
 
 </details>
 
+<a name="cs-qb-002"></a>
+
 ### 02. Command History Scoped Search
 
 Retrieves command history for investigation-scoped hosts and identities and sorts by command sequence.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-QB-002` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=CommandHistory
@@ -71,14 +79,18 @@ Retrieves command history for investigation-scoped hosts and identities and sort
 
 </details>
 
+<a name="cs-qb-003"></a>
+
 ### 03. Process and Network Connection Correlation
 
 Associates process execution and network connection events using process identifiers and formats an execution chain.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-QB-003` · **Platform:** `Not scoped` · **Tags:** `Network`, `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 defineTable(query={#event_simpleName=NetworkConnectIP4 RemoteAddressIP4=*}, include=[ContextTimeStamp, ContextProcessId, RemoteAddressIP4, RemotePort], name="NetConnIP4")
@@ -102,14 +114,18 @@ GrandParentBaseFileName!=* | GrandParentBaseFileName:="Unknown";
 
 </details>
 
+<a name="cs-qb-004"></a>
+
 ### 04. Command History and Process Rollup
 
 Combines CommandHistory and ProcessRollup2 events, expands command separators, and displays execution context.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-QB-004` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 setTimeInterval(start="7d")
@@ -131,14 +147,18 @@ setTimeInterval(start="7d")
 
 </details>
 
+<a name="cs-qb-005"></a>
+
 ### 05. Parameterized Process Network Pivot
 
 Provides process/network correlation with analyst parameters and external reputation links.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-QB-005` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressIP4], name="Network")
@@ -169,14 +189,18 @@ ExecutionChain:=format(format="%s\n\t└ %s (%s)\n\t\t└%s", field=[ParentBaseF
 
 </details>
 
+<a name="cs-qb-006"></a>
+
 ### 06. Available Fields by Event Type
 
 Lists fields seen in the query result; ideal for fieldset exploration before writing a high-complexity hunt.
 
-**MITRE:** Operational utility  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-QB-006` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -187,18 +211,20 @@ Lists fields seen in the query result; ideal for fieldset exploration before wri
 
 **Analyst pivot:** Replace ProcessRollup2 with your selected event and inspect returned fields.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-qb-007"></a>
 
 ### 07. Observed Events by Name
 
 Counts available event types in a narrow time window to guide query design.
 
-**MITRE:** Operational utility  ·  **Telemetry:** All accessible event types
+**Query ID:** `CS-QB-007` · **Platform:** `Not scoped` · **Tags:** `See query`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=*
@@ -210,18 +236,20 @@ Counts available event types in a narrow time window to guide query design.
 
 **Analyst pivot:** Use the time picker to constrain to a short range and a specific repository where possible.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-qb-008"></a>
 
 ### 08. Normalize Host and User Identity Across Schemas
 
 Demonstrates field coalescing for datasets that use different identity keys.
 
-**MITRE:** Operational utility  ·  **Telemetry:** ProcessRollup2 + alternate schemas
+**Query ID:** `CS-QB-008` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -234,18 +262,20 @@ Demonstrates field coalescing for datasets that use different identity keys.
 
 **Analyst pivot:** Remove alternate fields not present in your environment if necessary.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-qb-009"></a>
 
 ### 09. Process Correlation Key Reference
 
 Provides raw correlation keys for constructing process-to-network, process-to-DNS and process-to-file pivots.
 
-**MITRE:** Operational utility  ·  **Telemetry:** ProcessRollup2, NetworkConnectIP4, DnsRequest
+**Query ID:** `CS-QB-009` · **Platform:** `Not scoped` · **Tags:** `DNS`, `Network`, `Process`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ProcessRollup2|NetworkConnectIP4|DnsRequest)$/
@@ -257,12 +287,10 @@ Provides raw correlation keys for constructing process-to-network, process-to-DN
 
 **Analyst pivot:** Join ContextProcessId to TargetProcessId AND scope by aid to avoid cross-host collisions.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

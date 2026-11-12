@@ -1,8 +1,9 @@
-"""Offline QA regression tests for the CQL catalog generator."""
+"""Offline regression tests for v4.4 GitHub CQL documentation tooling."""
 import tempfile
 import unittest
 from pathlib import Path
-from scripts.catalog import CatalogError, build, FENCE
+
+from scripts.catalog import CatalogError, FENCE, build, event_names, duplicate_pairs, parse_category
 
 HOME = """# Test framework
 
@@ -27,16 +28,18 @@ HOME = """# Test framework
 
 ## How to use
 
-Run the query.
+Expand If you want to see more details.
 """
 
-BASE_QUERY = """[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
+QUERY = """[← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
 
 # Reconnaissance
 
 **CrowdStrike Falcon / NG-SIEM** · **CQL** · `TA0043` · **1 queries**
 
-Reconnaissance query testing.
+Reconnaissance investigations.
+
+---
 
 ## Query library
 
@@ -48,9 +51,9 @@ Reconnaissance query testing.
 
 ### 01. Search with Nmap
 
-Check nmap execution.
+Detect nmap command execution.
 
-**MITRE:** T1046
+**MITRE:** T1046 · **Source:** `CS Queries.one` · **Status:** `Candidate`
 
 <details>
 <summary><strong>If you want to see more details</strong></summary>
@@ -60,7 +63,9 @@ Check nmap execution.
 | CommandLine=/nmap/i
 ```
 
-**False positives:** Authorized scanning.
+**False positives:** Authorized scans.
+
+*Origin: OneNote-derived adaptation*
 
 </details>
 """
@@ -76,7 +81,7 @@ Inspect DNS queries.
 <summary><strong>If you want to see more details</strong></summary>
 
 ```cql
-#event_simpleName=DnsRequest
+#event_simpleName=/^(DnsRequest|BrowserHistoryVisit)$/
 | select([@timestamp, DomainName])
 ```
 
@@ -119,59 +124,91 @@ class CatalogTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         (self.root / "README.md").write_text(HOME, encoding="utf-8")
         (self.root / "01-Reconnaissance").mkdir()
-        (self.root / "01-Reconnaissance" / "README.md").write_text(BASE_QUERY, encoding="utf-8")
+        self.path = self.root / "01-Reconnaissance" / "README.md"
+        self.path.write_text(QUERY, encoding="utf-8")
         (self.root / "17-Query-Builder-Helper").mkdir()
         (self.root / "17-Query-Builder-Helper" / "README.md").write_text(HELPER, encoding="utf-8")
-        (self.root / "22-Detection-Engineering").mkdir()
-        (self.root / "22-Detection-Engineering" / "README.md").write_text("# Detection Engineering\n", encoding="utf-8")
 
-    def test_catalog_and_technique_links_generated(self):
-        outputs = build(self.root)
-        catalog = outputs[self.root / "QUERY-CATALOG.md"]
-        self.assertIn("| [Search with Nmap]", catalog)
-        self.assertIn("01-Reconnaissance/README.md#01-search-with-nmap", catalog)
-        self.assertIn("`T1046`", outputs[self.root / "MITRE-TECHNIQUE-INDEX.md"])
-
-    def test_added_hunt_rebuilds_index_and_counts_without_editing_cql(self):
-        path = self.root / "01-Reconnaissance" / "README.md"
-        original = path.read_text(encoding="utf-8") + SECOND
-        path.write_text(original, encoding="utf-8")
-        generated = build(self.root)
-        self.assertIn("| [02. DNS Lookups](#02-dns-lookups)", generated[path])
-        self.assertIn("**3 documented CQL queries**", generated[self.root / "QUERY-CATALOG.md"])
-        self.assertIn("Browse all 3 queries", generated[self.root / "README.md"])
-        self.assertEqual(FENCE.findall(original), FENCE.findall(generated[path]))
-        for file, content in generated.items():
+    def write_generated(self):
+        documents = build(self.root)
+        for file, content in documents.items():
+            file.parent.mkdir(parents=True, exist_ok=True)
             file.write_text(content, encoding="utf-8")
-        self.assertTrue(all(p.read_text(encoding="utf-8") == val for p, val in build(self.root).items()))
+        return documents
 
-    def test_duplicate_query_names_rejected(self):
-        p = self.root / "01-Reconnaissance" / "README.md"
-        p.write_text(BASE_QUERY + SECOND.replace("DNS Lookups", "Search with Nmap"), encoding="utf-8")
+    def test_generates_stable_ids_links_and_normalizes_statuses(self):
+        docs = self.write_generated()
+        page = docs[self.path]
+        catalog = docs[self.root / "QUERY-CATALOG.md"]
+        self.assertIn('name="cs-ta0043-001"', page)
+        self.assertIn("**Query ID:** `CS-TA0043-001`", page)
+        self.assertIn("**Status:** `Requires Validation`", page)
+        self.assertIn("01-Reconnaissance/README.md#cs-ta0043-001", catalog)
+        self.assertIn("Show CrowdStrike query", page)
+        self.assertNotIn("Source:", page)
+        self.assertNotIn("Origin:", page)
+        self.assertIn("`Requires Validation`", docs[self.root / "README.md"])
+
+    def test_cql_preserved_and_generator_idempotent(self):
+        original = self.path.read_text(encoding="utf-8")
+        self.write_generated()
+        self.assertEqual(FENCE.findall(original), FENCE.findall(self.path.read_text(encoding="utf-8")))
+        self.assertTrue(all(p.read_text(encoding="utf-8") == content for p, content in build(self.root).items()))
+
+    def test_stable_id_survives_renamed_query(self):
+        self.write_generated()
+        text = self.path.read_text(encoding="utf-8").replace(
+            "### 01. Search with Nmap", "### 01. Renamed Nmap Hunt")
+        self.path.write_text(text, encoding="utf-8")
+        docs = self.write_generated()
+        self.assertIn("Renamed Nmap Hunt", docs[self.root / "QUERY-CATALOG.md"])
+        self.assertIn("README.md#cs-ta0043-001", docs[self.root / "QUERY-CATALOG.md"])
+
+    def test_adds_query_and_telemetry_index(self):
+        self.path.write_text(QUERY + SECOND, encoding="utf-8")
+        docs = self.write_generated()
+        self.assertIn("**3 queries**", docs[self.root / "QUERY-CATALOG.md"])
+        self.assertIn("Browse all 3 queries", docs[self.root / "README.md"])
+        self.assertIn("DnsRequest", docs[self.root / "TELEMETRY-INDEX.md"])
+        self.assertIn("BrowserHistoryVisit", docs[self.root / "TELEMETRY-INDEX.md"])
+        self.assertIn("`T1590`", docs[self.root / "MITRE-TECHNIQUE-INDEX.md"])
+
+    def test_duplicate_query_titles_are_rejected(self):
+        self.path.write_text(QUERY + SECOND.replace("DNS Lookups", "Search with Nmap"), encoding="utf-8")
         with self.assertRaisesRegex(CatalogError, "duplicated query title"):
             build(self.root)
 
-    def test_missing_cql_block_rejected(self):
-        p = self.root / "01-Reconnaissance" / "README.md"
-        p.write_text(BASE_QUERY.replace("```cql", "```text"), encoding="utf-8")
-        with self.assertRaisesRegex(CatalogError, "one fenced cql"):
+    def test_missing_cql_is_rejected(self):
+        self.path.write_text(QUERY.replace("```cql", "```text"), encoding="utf-8")
+        with self.assertRaisesRegex(CatalogError, "one CQL code fence"):
             build(self.root)
 
-    def test_invalid_status_rejected(self):
-        p = self.root / "01-Reconnaissance" / "README.md"
-        p.write_text(BASE_QUERY.replace("`Candidate`", "`Approved`"), encoding="utf-8")
-        with self.assertRaisesRegex(CatalogError, "unsupported validation status"):
+    def test_invalid_status_is_rejected(self):
+        self.path.write_text(QUERY.replace("`Candidate`", "`Approved`"), encoding="utf-8")
+        with self.assertRaisesRegex(CatalogError, "unknown validation status"):
             build(self.root)
 
-    def test_deprecated_directory_rejected(self):
+    def test_deprecated_folder_is_rejected(self):
         (self.root / "15-Investigation-Timelines").mkdir()
         with self.assertRaisesRegex(CatalogError, "deprecated"):
             build(self.root)
 
-    def test_preserves_exact_cql(self):
-        p = self.root / "01-Reconnaissance" / "README.md"
-        source = p.read_text(encoding="utf-8")
-        self.assertEqual(FENCE.findall(source), FENCE.findall(build(self.root)[p]))
+    def test_duplicate_cql_report_is_advisory(self):
+        duplicate = self.root / "02-Resource-Development"
+        duplicate.mkdir()
+        (duplicate / "README.md").write_text(
+            QUERY.replace("Search with Nmap", "Other Nmap Title")
+                 .replace("Reconnaissance", "Resource Development"),
+            encoding="utf-8")
+        docs = self.write_generated()
+        report = docs[self.root / "docs/QUERY-DUPLICATES.md"]
+        self.assertIn("CS-TA0043-001", report)
+        self.assertIn("CS-TA0042-001", report)
+        self.assertIn("exact pairs", report)
+
+    def test_extracts_explicit_regex_events(self):
+        self.assertEqual(("BrowserHistoryVisit", "DnsRequest"),
+                         event_names("#event_simpleName=/^(DnsRequest|BrowserHistoryVisit)$/"))
 
 
 if __name__ == "__main__":

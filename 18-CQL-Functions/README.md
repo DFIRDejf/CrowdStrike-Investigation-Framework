@@ -36,7 +36,7 @@ Quick guidance for selecting and combining CrowdStrike CQL functions.
 ### GroupBy and collect
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -51,7 +51,7 @@ Use explicit output limits; large collections increase resource consumption.
 ### DefineTable and match with composite key
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 setTimeInterval(start="1d")
@@ -72,7 +72,7 @@ setTimeInterval(start="1d")
 ### SetTimeInterval and profiling
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 setTimeInterval(start="1d")

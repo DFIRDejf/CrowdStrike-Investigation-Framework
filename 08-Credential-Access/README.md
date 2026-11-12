@@ -10,28 +10,32 @@ Hunt for credential theft, dumping attempts, and suspicious authentication behav
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Credential Dumping Command-Line Indicators](#01-credential-dumping-command-line-indicators) | T1003 | `Candidate` |
-| [02. Authentication Failure and Brute Force Event Families](#02-authentication-failure-and-brute-force-event-families) | T1110 (contextual) | `Candidate` |
-| [03. Credential Access Detection Event Families](#03-credential-access-detection-event-families) | T1003 | `Candidate` |
-| [04. LSASS, SAM and NTDS Dumping Commands](#04-lsass-sam-and-ntds-dumping-commands) | T1003.001 / T1003.002 | `Requires Validation` |
-| [05. SAM Dump and Privileged Handle Detection Events](#05-sam-dump-and-privileged-handle-detection-events) | T1003.002 | `Requires Validation` |
-| [06. Kerberoasting and AS-REP Tooling Footprints](#06-kerberoasting-and-as-rep-tooling-footprints) | T1558.003 / T1558.004 | `Requires Validation` |
-| [07. DCSync and Directory Replication Indicators](#07-dcsync-and-directory-replication-indicators) | T1003.006 | `Requires Validation` |
-| [08. KRBTGT-Related Directory Events](#08-krbtgt-related-directory-events) | T1558 (context) | `Requires Validation` |
-| [09. Credential Stores and Sensitive Files](#09-credential-stores-and-sensitive-files) | T1552 / T1555 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Credential Dumping Command-Line Indicators](#cs-ta0006-001) | `CS-TA0006-001` | T1003 | `Requires Validation` |
+| [02. Authentication Failure and Brute Force Event Families](#cs-ta0006-002) | `CS-TA0006-002` | T1110 (contextual) | `Requires Validation` |
+| [03. Credential Access Detection Event Families](#cs-ta0006-003) | `CS-TA0006-003` | T1003 | `Requires Validation` |
+| [04. LSASS, SAM and NTDS Dumping Commands](#cs-ta0006-004) | `CS-TA0006-004` | T1003.001 / T1003.002 | `Requires Validation` |
+| [05. SAM Dump and Privileged Handle Detection Events](#cs-ta0006-005) | `CS-TA0006-005` | T1003.002 | `Requires Validation` |
+| [06. Kerberoasting and AS-REP Tooling Footprints](#cs-ta0006-006) | `CS-TA0006-006` | T1558.003 / T1558.004 | `Requires Validation` |
+| [07. DCSync and Directory Replication Indicators](#cs-ta0006-007) | `CS-TA0006-007` | T1003.006 | `Requires Validation` |
+| [08. KRBTGT-Related Directory Events](#cs-ta0006-008) | `CS-TA0006-008` | T1558 (context) | `Requires Validation` |
+| [09. Credential Stores and Sensitive Files](#cs-ta0006-009) | `CS-TA0006-009` | T1552 / T1555 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0006-001"></a>
 
 ### 01. Credential Dumping Command-Line Indicators
 
 Surfaces processes whose command-line arguments mention common credential dumping tools or LSASS-related operations.
 
-**MITRE:** T1003  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0006-001` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1003 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -44,18 +48,20 @@ Surfaces processes whose command-line arguments mention common credential dumpin
 
 **Analyst pivot:** Cross-check protected process access telemetry and file creation evidence.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0006-002"></a>
 
 ### 02. Authentication Failure and Brute Force Event Families
 
 Provides a starting point for validating auth failures and password spraying telemetry in Falcon.
 
-**MITRE:** T1110 (contextual)  ·  **Telemetry:** Brute force detection and SSO failure event families
+**Query ID:** `CS-TA0006-002` · **Platform:** `Not scoped` · **Tags:** `Identity`, `SMB`
+
+**MITRE:** T1110 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(RemoteBruteForceDetectInfo|SmbClientShareLogonBruteForceLowThreshold|SmbClientShareLogonBruteForceSuspected|SsoUserLogonFailure)$/
@@ -67,18 +73,20 @@ Provides a starting point for validating auth failures and password spraying tel
 
 **Analyst pivot:** Review actual failure counts, source hosts, success follow-up and per-event fieldsets.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0006-003"></a>
 
 ### 03. Credential Access Detection Event Families
 
 Retrieves dedicated credential access detection telemetry for further analyst filtering.
 
-**MITRE:** T1003  ·  **Telemetry:** Credential dumping-related detection events
+**Query ID:** `CS-TA0006-003` · **Platform:** `Not scoped` · **Tags:** `Network`, `Process`
+
+**MITRE:** T1003 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SAMHashDumpFromUnsignedModule|PrivilegedProcessHandleFromUnsignedModule|ReflectiveDllOpenProcess)$/
@@ -90,18 +98,20 @@ Retrieves dedicated credential access detection telemetry for further analyst fi
 
 **Analyst pivot:** Inspect decision/action and target process fields with fieldset().
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0006-004"></a>
 
 ### 04. LSASS, SAM and NTDS Dumping Commands
 
 Identifies process command lines referencing credential dumping and hive extraction.
 
-**MITRE:** T1003.001 / T1003.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0006-004` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1003.001 / T1003.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -116,14 +126,18 @@ Identifies process command lines referencing credential dumping and hive extract
 
 </details>
 
+<a name="cs-ta0006-005"></a>
+
 ### 05. SAM Dump and Privileged Handle Detection Events
 
 Collects endpoint events associated with sensitive process access and SAM dump indicators.
 
-**MITRE:** T1003.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0006-005` · **Platform:** `Not scoped` · **Tags:** `Network`, `Process`
+
+**MITRE:** T1003.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SAMHashDumpFromUnsignedModule|PrivilegedProcessHandleFromUnsignedModule|ReflectiveDllOpenProcess)$/
@@ -137,14 +151,18 @@ Collects endpoint events associated with sensitive process access and SAM dump i
 
 </details>
 
+<a name="cs-ta0006-006"></a>
+
 ### 06. Kerberoasting and AS-REP Tooling Footprints
 
 Reviews command and script telemetry for Kerberos credential attack utilities.
 
-**MITRE:** T1558.003 / T1558.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0006-006` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1558.003 / T1558.004 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(CommandHistory|NewScriptWritten|ScriptControlDetectInfo)$/
@@ -159,14 +177,18 @@ Reviews command and script telemetry for Kerberos credential attack utilities.
 
 </details>
 
+<a name="cs-ta0006-007"></a>
+
 ### 07. DCSync and Directory Replication Indicators
 
 Surfaces process history and AD RPC records with potential replication abuse indicators.
 
-**MITRE:** T1003.006  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0006-007` · **Platform:** `Not scoped` · **Tags:** `Identity`, `Process`
+
+**MITRE:** T1003.006 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(CommandHistory|NewScriptWritten|ActiveDirectoryIncomingDceRpcRequest)$/
@@ -181,14 +203,18 @@ Surfaces process history and AD RPC records with potential replication abuse ind
 
 </details>
 
+<a name="cs-ta0006-008"></a>
+
 ### 08. KRBTGT-Related Directory Events
 
 Investigates directory changes and RPC events referencing KRBTGT.
 
-**MITRE:** T1558 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0006-008` · **Platform:** `Not scoped` · **Tags:** `Identity`
+
+**MITRE:** T1558 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ActiveDirectoryAuditPasswordModificationAttempt|ActiveDirectoryAuditUserModified|ActiveDirectoryAccountPasswordUpdate|ActiveDirectoryIncomingDceRpcRequest|IdpTelemetryData)$/
@@ -203,14 +229,18 @@ Investigates directory changes and RPC events referencing KRBTGT.
 
 </details>
 
+<a name="cs-ta0006-009"></a>
+
 ### 09. Credential Stores and Sensitive Files
 
 Examines file and browser credential artifact accesses.
 
-**MITRE:** T1552 / T1555  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0006-009` · **Platform:** `Not scoped` · **Tags:** `Browser`, `File`
+
+**MITRE:** T1552 / T1555 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(BrowserCookieInfo|ClassifiedSensitiveFileAccess|CriticalFileAccessed)$/
@@ -228,6 +258,6 @@ Examines file and browser credential artifact accesses.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

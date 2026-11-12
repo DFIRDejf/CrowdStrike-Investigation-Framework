@@ -10,30 +10,34 @@ Investigate SMB use, remote administration, and movement between endpoints.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. High-Volume SMB Connections](#01-high-volume-smb-connections) | T1021.002 | `Migration recheck` |
-| [02. SMB Server Audit Events](#02-smb-server-audit-events) | T1021.002 | `Migration recheck` |
-| [03. SMB Share Open Events](#03-smb-share-open-events) | T1021.002 | `Migration recheck` |
-| [04. Remote Administration Process and Network Context](#04-remote-administration-process-and-network-context) | T1021 (contextual) | `Migration recheck` |
-| [05. PsExec WinRM and Remote Service Command Patterns](#05-psexec-winrm-and-remote-service-command-patterns) | T1021 / T1569.002 | `Candidate` |
-| [06. SMB Client and Server Event Family Inventory](#06-smb-client-and-server-event-family-inventory) | T1021.002 / T1135 | `Candidate` |
-| [07. SMB Client and Server Share Activity](#07-smb-client-and-server-share-activity) | T1021.002 | `Requires Validation` |
-| [08. SMB Logon Brute Force Events](#08-smb-logon-brute-force-events) | T1110 / T1021.002 | `Requires Validation` |
-| [09. Windows Share Creation and Permission Changes](#09-windows-share-creation-and-permission-changes) | T1021.002 | `Requires Validation` |
-| [10. Remote Shell and Session Events](#10-remote-shell-and-session-events) | T1021 | `Requires Validation` |
-| [11. Inbound SMB, RDP and WinRM Connections](#11-inbound-smb-rdp-and-winrm-connections) | T1021 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. High-Volume SMB Connections](#cs-ta0008-001) | `CS-TA0008-001` | T1021.002 | `Requires Validation` |
+| [02. SMB Server Audit Events](#cs-ta0008-002) | `CS-TA0008-002` | T1021.002 | `Requires Validation` |
+| [03. SMB Share Open Events](#cs-ta0008-003) | `CS-TA0008-003` | T1021.002 | `Requires Validation` |
+| [04. Remote Administration Process and Network Context](#cs-ta0008-004) | `CS-TA0008-004` | T1021 (contextual) | `Requires Validation` |
+| [05. PsExec WinRM and Remote Service Command Patterns](#cs-ta0008-005) | `CS-TA0008-005` | T1021 / T1569.002 | `Requires Validation` |
+| [06. SMB Client and Server Event Family Inventory](#cs-ta0008-006) | `CS-TA0008-006` | T1021.002 / T1135 | `Requires Validation` |
+| [07. SMB Client and Server Share Activity](#cs-ta0008-007) | `CS-TA0008-007` | T1021.002 | `Requires Validation` |
+| [08. SMB Logon Brute Force Events](#cs-ta0008-008) | `CS-TA0008-008` | T1110 / T1021.002 | `Requires Validation` |
+| [09. Windows Share Creation and Permission Changes](#cs-ta0008-009) | `CS-TA0008-009` | T1021.002 | `Requires Validation` |
+| [10. Remote Shell and Session Events](#cs-ta0008-010) | `CS-TA0008-010` | T1021 | `Requires Validation` |
+| [11. Inbound SMB, RDP and WinRM Connections](#cs-ta0008-011) | `CS-TA0008-011` | T1021 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0008-001"></a>
 
 ### 01. High-Volume SMB Connections
 
 Identifies endpoints establishing at least 50 observed connections to the same remote address over TCP/445. This is a volume-based hunting lead, not proof of lateral movement.
 
-**MITRE:** T1021.002
+**Query ID:** `CS-TA0008-001` · **Platform:** `Not scoped` · **Tags:** `Network`
+
+**MITRE:** T1021.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName="NetworkConnectIP4"
@@ -49,14 +53,18 @@ RemotePort=445
 
 </details>
 
+<a name="cs-ta0008-002"></a>
+
 ### 02. SMB Server Audit Events
 
 Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
 
-**MITRE:** T1021.002
+**Query ID:** `CS-TA0008-002` · **Platform:** `Not scoped` · **Tags:** `SMB`
+
+**MITRE:** T1021.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=SmbServerV1AuditEtw
@@ -74,14 +82,18 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 
 </details>
 
+<a name="cs-ta0008-003"></a>
+
 ### 03. SMB Share Open Events
 
 Filters SMB server telemetry for investigation-scoped host, user, and local IP indicators.
 
-**MITRE:** T1021.002
+**Query ID:** `CS-TA0008-003` · **Platform:** `Not scoped` · **Tags:** `SMB`
+
+**MITRE:** T1021.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=SmbServerShareOpenedEtw
@@ -99,14 +111,18 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 
 </details>
 
+<a name="cs-ta0008-004"></a>
+
 ### 04. Remote Administration Process and Network Context
 
 Links selected remote administration processes to network activity and provides pivot links.
 
-**MITRE:** T1021 (contextual)
+**Query ID:** `CS-TA0008-004` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1021 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressIP4], name="Network")
@@ -126,14 +142,18 @@ defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressI
 
 </details>
 
+<a name="cs-ta0008-005"></a>
+
 ### 05. PsExec WinRM and Remote Service Command Patterns
 
 Searches process command lines for remote execution and remote management patterns.
 
-**MITRE:** T1021 / T1569.002  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0008-005` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1021 / T1569.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -146,18 +166,20 @@ Searches process command lines for remote execution and remote management patter
 
 **Analyst pivot:** Use authenticated session evidence, source/destination hosts and admin approvals.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0008-006"></a>
 
 ### 06. SMB Client and Server Event Family Inventory
 
 Inventories SMB client/server share opening and closing activity before adding narrower filters.
 
-**MITRE:** T1021.002 / T1135  ·  **Telemetry:** SMB ETW events
+**Query ID:** `CS-TA0008-006` · **Platform:** `Not scoped` · **Tags:** `SMB`
+
+**MITRE:** T1021.002 / T1135 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SmbClientShareOpenedEtw|SmbServerShareOpenedEtw|SmbClientShareClosedEtw|SmbServerV1AuditEtw)$/
@@ -169,18 +191,20 @@ Inventories SMB client/server share opening and closing activity before adding n
 
 **Analyst pivot:** Use fieldset() per event; add share/path/user fields only after confirming schema.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0008-007"></a>
 
 ### 07. SMB Client and Server Share Activity
 
 Collects SMB client/server share opened or closed events.
 
-**MITRE:** T1021.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0008-007` · **Platform:** `Not scoped` · **Tags:** `SMB`
+
+**MITRE:** T1021.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SmbClientShareOpenedEtw|SmbServerShareOpenedEtw|SmbClientShareClosedEtw|SmbServerV1AuditEtw)$/
@@ -194,14 +218,18 @@ Collects SMB client/server share opened or closed events.
 
 </details>
 
+<a name="cs-ta0008-008"></a>
+
 ### 08. SMB Logon Brute Force Events
 
 Surfaces SMB share authentication brute-force detections.
 
-**MITRE:** T1110 / T1021.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0008-008` · **Platform:** `Not scoped` · **Tags:** `Identity`, `SMB`
+
+**MITRE:** T1110 / T1021.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SmbClientShareLogonBruteForceLowThreshold|SmbClientShareLogonBruteForceSuspected)$/
@@ -215,14 +243,18 @@ Surfaces SMB share authentication brute-force detections.
 
 </details>
 
+<a name="cs-ta0008-009"></a>
+
 ### 09. Windows Share Creation and Permission Changes
 
 Investigates new network shares and changed share permissions.
 
-**MITRE:** T1021.002  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0008-009` · **Platform:** `Not scoped` · **Tags:** `SMB`
+
+**MITRE:** T1021.002 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(NetShareInfo|NetShareSecurityModify|NetShareDelete)$/
@@ -236,14 +268,18 @@ Investigates new network shares and changed share permissions.
 
 </details>
 
+<a name="cs-ta0008-010"></a>
+
 ### 10. Remote Shell and Session Events
 
 Collects remote command, interactive session and shell command activity.
 
-**MITRE:** T1021  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0008-010` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1021 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(RemoteCommandResponse|IoSessionLoggedOn|ShellCommandLineInfo)$/
@@ -257,14 +293,18 @@ Collects remote command, interactive session and shell command activity.
 
 </details>
 
+<a name="cs-ta0008-011"></a>
+
 ### 11. Inbound SMB, RDP and WinRM Connections
 
 Identifies accepts on common Windows remote access service ports.
 
-**MITRE:** T1021  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0008-011` · **Platform:** `Not scoped` · **Tags:** `Network`
+
+**MITRE:** T1021 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=NetworkReceiveAcceptIP4
@@ -282,6 +322,6 @@ Identifies accepts on common Windows remote access service ports.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

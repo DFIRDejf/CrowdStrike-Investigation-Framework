@@ -10,22 +10,26 @@ Reconstruct file-system and execution evidence from Falcon telemetry.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Executable File Written After User Logon](#01-executable-file-written-after-user-logon) | Investigation utility | `Migration recheck` |
-| [02. File-System Artifact Event Inventory](#02-file-system-artifact-event-inventory) | DFIR utility | `Candidate` |
-| [03. Potential Archive Artifacts in File Metadata](#03-potential-archive-artifacts-in-file-metadata) | DFIR / T1560 (contextual) | `Candidate` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Executable File Written After User Logon](#cs-fa-001) | `CS-FA-001` | Investigation utility | `Requires Validation` |
+| [02. File-System Artifact Event Inventory](#cs-fa-002) | `CS-FA-002` | DFIR utility | `Requires Validation` |
+| [03. Potential Archive Artifacts in File Metadata](#cs-fa-003) | `CS-FA-003` | DFIR / T1560 (contextual) | `Requires Validation` |
 
 ---
+
+<a name="cs-fa-001"></a>
 
 ### 01. Executable File Written After User Logon
 
 Joins executable file writes with user logon events to investigate executable creation after authentication.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-FA-001` · **Platform:** `Not scoped` · **Tags:** `File`, `Identity`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=PeFileWritten FileName=/.exe/i
@@ -46,14 +50,18 @@ Joins executable file writes with user logon events to investigate executable cr
 
 </details>
 
+<a name="cs-fa-002"></a>
+
 ### 02. File-System Artifact Event Inventory
 
 Inventories file system artifact events to establish coverage before content-based hunting.
 
-**MITRE:** DFIR utility  ·  **Telemetry:** FileInfo, USNRecord, PrefetchFile
+**Query ID:** `CS-FA-002` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** DFIR utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(FileInfo|USNRecord|PrefetchFile)$/
@@ -65,18 +73,20 @@ Inventories file system artifact events to establish coverage before content-bas
 
 **Analyst pivot:** Use per-event fieldset validation and compare event time to ingest time.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-fa-003"></a>
 
 ### 03. Potential Archive Artifacts in File Metadata
 
 Searches for common archive/file-exfil extensions in file-system evidence.
 
-**MITRE:** DFIR / T1560 (contextual)  ·  **Telemetry:** FileInfo, USNRecord
+**Query ID:** `CS-FA-003` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** DFIR / T1560 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(FileInfo|USNRecord)$/
@@ -89,12 +99,10 @@ Searches for common archive/file-exfil extensions in file-system evidence.
 
 **Analyst pivot:** Compare metadata, file path, process and related archive-write telemetry.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

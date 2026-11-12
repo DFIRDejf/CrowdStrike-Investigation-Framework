@@ -10,27 +10,31 @@ Correlate process, DNS, and network activity linked to potential C2.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. DNS and Network Connections by Process](#01-dns-and-network-connections-by-process) | T1071.001 (contextual) | `Migration recheck` |
-| [02. Process Execution and DNS Correlation](#02-process-execution-and-dns-correlation) | Investigation utility | `Migration recheck` |
-| [03. DNS Queries from Investigated Endpoints](#03-dns-queries-from-investigated-endpoints) | T1071.004 (contextual) | `Candidate` |
-| [04. Remote Access and Tunneling Utility Commands](#04-remote-access-and-tunneling-utility-commands) | T1572 / T1219 / T1105 | `Candidate` |
-| [05. DNS Request and Suspicious DNS Detection Events](#05-dns-request-and-suspicious-dns-detection-events) | T1071.004 | `Requires Validation` |
-| [06. DNS Requests by Endpoint and Process](#06-dns-requests-by-endpoint-and-process) | T1071.004 (context) | `Requires Validation` |
-| [07. SSH Tunnel Creation Events](#07-ssh-tunnel-creation-events) | T1572 | `Requires Validation` |
-| [08. Tunneling and Remote Tool Execution](#08-tunneling-and-remote-tool-execution) | T1572 / T1219 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. DNS and Network Connections by Process](#cs-ta0011-001) | `CS-TA0011-001` | T1071.001 (contextual) | `Requires Validation` |
+| [02. Process Execution and DNS Correlation](#cs-ta0011-002) | `CS-TA0011-002` | Investigation utility | `Requires Validation` |
+| [03. DNS Queries from Investigated Endpoints](#cs-ta0011-003) | `CS-TA0011-003` | T1071.004 (contextual) | `Requires Validation` |
+| [04. Remote Access and Tunneling Utility Commands](#cs-ta0011-004) | `CS-TA0011-004` | T1572 / T1219 / T1105 | `Requires Validation` |
+| [05. DNS Request and Suspicious DNS Detection Events](#cs-ta0011-005) | `CS-TA0011-005` | T1071.004 | `Requires Validation` |
+| [06. DNS Requests by Endpoint and Process](#cs-ta0011-006) | `CS-TA0011-006` | T1071.004 (context) | `Requires Validation` |
+| [07. SSH Tunnel Creation Events](#cs-ta0011-007) | `CS-TA0011-007` | T1572 | `Requires Validation` |
+| [08. Tunneling and Remote Tool Execution](#cs-ta0011-008) | `CS-TA0011-008` | T1572 / T1219 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0011-001"></a>
 
 ### 01. DNS and Network Connections by Process
 
 Matches DNS requests to network connection events by ContextProcessId and exposes interactive search parameters.
 
-**MITRE:** T1071.001 (contextual)
+**Query ID:** `CS-TA0011-001` · **Platform:** `Not scoped` · **Tags:** `DNS`, `Network`
+
+**MITRE:** T1071.001 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pattern=?DomainName, ignoreCase=true)}, include=[ContextProcessId,DomainName], name=_DNSRequests)
@@ -46,14 +50,18 @@ defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pat
 
 </details>
 
+<a name="cs-ta0011-002"></a>
+
 ### 02. Process Execution and DNS Correlation
 
 Links DNS requests to process executions and creates a process-explorer hyperlink.
 
-**MITRE:** Investigation utility
+**Query ID:** `CS-TA0011-002` · **Platform:** `Not scoped` · **Tags:** `DNS`, `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 setTimeInterval(start="7d")
@@ -75,14 +83,18 @@ setTimeInterval(start="7d")
 
 </details>
 
+<a name="cs-ta0011-003"></a>
+
 ### 03. DNS Queries from Investigated Endpoints
 
 Provides a compact DNS telemetry starting point for domain, process and destination investigation.
 
-**MITRE:** T1071.004 (contextual)  ·  **Telemetry:** DnsRequest
+**Query ID:** `CS-TA0011-003` · **Platform:** `Windows` · **Tags:** `DNS`
+
+**MITRE:** T1071.004 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=DnsRequest event_platform=Win
@@ -95,18 +107,20 @@ Provides a compact DNS telemetry starting point for domain, process and destinat
 
 **Analyst pivot:** Filter targeted hosts and unusual processes before expanding scope.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0011-004"></a>
 
 ### 04. Remote Access and Tunneling Utility Commands
 
 Looks for potential tunneling flags and remote control tool names in process command lines.
 
-**MITRE:** T1572 / T1219 / T1105  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0011-004` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1572 / T1219 / T1105 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -119,18 +133,20 @@ Looks for potential tunneling flags and remote control tool names in process com
 
 **Analyst pivot:** Validate business approval and correlate outbound network events.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0011-005"></a>
 
 ### 05. DNS Request and Suspicious DNS Detection Events
 
 Surfaces suspicious DNS detections and DNS requests for investigation.
 
-**MITRE:** T1071.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0011-005` · **Platform:** `Not scoped` · **Tags:** `DNS`
+
+**MITRE:** T1071.004 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SuspiciousDnsRequest|DnsRequest)$/
@@ -145,14 +161,18 @@ Surfaces suspicious DNS detections and DNS requests for investigation.
 
 </details>
 
+<a name="cs-ta0011-006"></a>
+
 ### 06. DNS Requests by Endpoint and Process
 
 Shows DNS resolution and available process correlation fields.
 
-**MITRE:** T1071.004 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0011-006` · **Platform:** `Not scoped` · **Tags:** `DNS`
+
+**MITRE:** T1071.004 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=DnsRequest
@@ -166,14 +186,18 @@ Shows DNS resolution and available process correlation fields.
 
 </details>
 
+<a name="cs-ta0011-007"></a>
+
 ### 07. SSH Tunnel Creation Events
 
 Lists SSH tunnel creation telemetry for follow-up.
 
-**MITRE:** T1572  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0011-007` · **Platform:** `Not scoped` · **Tags:** `Network`
+
+**MITRE:** T1572 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SSHTunnelCreated)$/
@@ -187,14 +211,18 @@ Lists SSH tunnel creation telemetry for follow-up.
 
 </details>
 
+<a name="cs-ta0011-008"></a>
+
 ### 08. Tunneling and Remote Tool Execution
 
 Hunts for command lines involving SSH port forwarding and tunneling utilities.
 
-**MITRE:** T1572 / T1219  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0011-008` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1572 / T1219 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -212,6 +240,6 @@ Hunts for command lines involving SSH port forwarding and tunneling utilities.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

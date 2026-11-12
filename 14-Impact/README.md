@@ -10,24 +10,28 @@ Spot disruptive activity and attempts to inhibit system recovery.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Backup and Recovery Inhibition Commands](#01-backup-and-recovery-inhibition-commands) | T1490 | `Candidate` |
-| [02. Ransomware File Rename and Entropy Events](#02-ransomware-file-rename-and-entropy-events) | T1486 | `Requires Validation` |
-| [03. Host Prevention and Containment Event Inventory](#03-host-prevention-and-containment-event-inventory) | T1489 (context) | `Requires Validation` |
-| [04. Service and Account Disruption Events](#04-service-and-account-disruption-events) | T1489 / T1531 | `Requires Validation` |
-| [05. Recovery Inhibition Command Indicators](#05-recovery-inhibition-command-indicators) | T1490 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Backup and Recovery Inhibition Commands](#cs-ta0040-001) | `CS-TA0040-001` | T1490 | `Requires Validation` |
+| [02. Ransomware File Rename and Entropy Events](#cs-ta0040-002) | `CS-TA0040-002` | T1486 | `Requires Validation` |
+| [03. Host Prevention and Containment Event Inventory](#cs-ta0040-003) | `CS-TA0040-003` | T1489 (context) | `Requires Validation` |
+| [04. Service and Account Disruption Events](#cs-ta0040-004) | `CS-TA0040-004` | T1489 / T1531 | `Requires Validation` |
+| [05. Recovery Inhibition Command Indicators](#cs-ta0040-005) | `CS-TA0040-005` | T1490 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0040-001"></a>
 
 ### 01. Backup and Recovery Inhibition Commands
 
 Searches for common commands used to remove backups or interfere with recovery.
 
-**MITRE:** T1490  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0040-001` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1490 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -40,18 +44,20 @@ Searches for common commands used to remove backups or interfere with recovery.
 
 **Analyst pivot:** Verify intent, resulting backup state and associated destructive actions.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0040-002"></a>
 
 ### 02. Ransomware File Rename and Entropy Events
 
 Collects file events associated with encryption, renaming and boot record tampering.
 
-**MITRE:** T1486  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0040-002` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** T1486 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(RansomwareRenameFile|FileWrittenWithEntropyHigh|MbrOverwriteRawDetectInfo)$/
@@ -65,14 +71,18 @@ Collects file events associated with encryption, renaming and boot record tamper
 
 </details>
 
+<a name="cs-ta0040-003"></a>
+
 ### 03. Host Prevention and Containment Event Inventory
 
 Displays endpoint controls blocking operations or processes; these do not themselves imply attacker impact.
 
-**MITRE:** T1489 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0040-003` · **Platform:** `Not scoped` · **Tags:** `File`, `Process`, `Security`
+
+**MITRE:** T1489 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(FirewallEnabled|FileSystemOperationBlocked|ProcessBlocked)$/
@@ -86,14 +96,18 @@ Displays endpoint controls blocking operations or processes; these do not themse
 
 </details>
 
+<a name="cs-ta0040-004"></a>
+
 ### 04. Service and Account Disruption Events
 
 Surfaces group/user disruption and service creation telemetry.
 
-**MITRE:** T1489 / T1531  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0040-004` · **Platform:** `Not scoped` · **Tags:** `Identity`
+
+**MITRE:** T1489 / T1531 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(UserAccountRemovedFromGroup|UserGroupDeleted|ActiveDirectoryAccountDisabled|SystemdServiceCreated|KernelServiceStarted)$/
@@ -107,14 +121,18 @@ Surfaces group/user disruption and service creation telemetry.
 
 </details>
 
+<a name="cs-ta0040-005"></a>
+
 ### 05. Recovery Inhibition Command Indicators
 
 Searches for commands targeting shadow copies and Windows recovery settings.
 
-**MITRE:** T1490  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0040-005` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1490 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -132,6 +150,6 @@ Searches for commands targeting shadow copies and Windows recovery settings.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
