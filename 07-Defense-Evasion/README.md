@@ -12,27 +12,31 @@ Investigate tampering, security control changes, and evasion-related activity.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Security Control Modification Commands](#01-security-control-modification-commands) | T1562.001 / T1070 (contextual) | `Candidate` |
-| [02. Sensor and Prevention Diagnostics](#02-sensor-and-prevention-diagnostics) | T1562.001 (contextual) | `Candidate` |
-| [03. Security Log and Trace File Deletion](#03-security-log-and-trace-file-deletion) | T1070.004 | `Requires Validation` |
-| [04. Firewall and WFP Modification Events](#04-firewall-and-wfp-modification-events) | T1562.004 | `Requires Validation` |
-| [05. Unsigned Modules and Suspicious File Signatures](#05-unsigned-modules-and-suspicious-file-signatures) | T1027 / T1036 | `Requires Validation` |
-| [06. Sensor Anti-Tamper and Bypass Telemetry](#06-sensor-anti-tamper-and-bypass-telemetry) | T1562.001 | `Requires Validation` |
-| [07. Suspicious Macro and Invalid Script Events](#07-suspicious-macro-and-invalid-script-events) | T1027 | `Requires Validation` |
-| [08. Potential Log Clearing Commands](#08-potential-log-clearing-commands) | T1070 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Security Control Modification Commands](#cs-ta0005-001) | `CS-TA0005-001` | T1562.001 / T1070 (contextual) | `Requires Validation` |
+| [02. Sensor and Prevention Diagnostics](#cs-ta0005-002) | `CS-TA0005-002` | T1562.001 (contextual) | `Requires Validation` |
+| [03. Security Log and Trace File Deletion](#cs-ta0005-003) | `CS-TA0005-003` | T1070.004 | `Requires Validation` |
+| [04. Firewall and WFP Modification Events](#cs-ta0005-004) | `CS-TA0005-004` | T1562.004 | `Requires Validation` |
+| [05. Unsigned Modules and Suspicious File Signatures](#cs-ta0005-005) | `CS-TA0005-005` | T1027 / T1036 | `Requires Validation` |
+| [06. Sensor Anti-Tamper and Bypass Telemetry](#cs-ta0005-006) | `CS-TA0005-006` | T1562.001 | `Requires Validation` |
+| [07. Suspicious Macro and Invalid Script Events](#cs-ta0005-007) | `CS-TA0005-007` | T1027 | `Requires Validation` |
+| [08. Potential Log Clearing Commands](#cs-ta0005-008) | `CS-TA0005-008` | T1070 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0005-001"></a>
 
 ### 01. Security Control Modification Commands
 
 Looks for command-line attempts to alter Defender settings, relevant services or event logging.
 
-**MITRE:** T1562.001 / T1070 (contextual)  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0005-001` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1562.001 / T1070 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -45,18 +49,20 @@ Looks for command-line attempts to alter Defender settings, relevant services or
 
 **Analyst pivot:** Correlate command execution with sensor tamper/prevention events; no inference of successful bypass.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0005-002"></a>
 
 ### 02. Sensor and Prevention Diagnostics
 
 Inventories selected protective control state and diagnostic event types for review.
 
-**MITRE:** T1562.001 (contextual)  ·  **Telemetry:** SensorAntiTamperState and related events
+**Query ID:** `CS-TA0005-002` · **Platform:** `Not scoped` · **Tags:** `Security`
+
+**MITRE:** T1562.001 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(EAMBypassEvent|SensorAntiTamperState|DriverPreventionStatus|DetectionExcluded|SensorSelfDiagnosticTelemetry)$/
@@ -68,18 +74,20 @@ Inventories selected protective control state and diagnostic event types for rev
 
 **Analyst pivot:** Use fieldset() for schema inspection before alerting on outcomes.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0005-003"></a>
 
 ### 03. Security Log and Trace File Deletion
 
 Examines deletion and USN records involving logs and script files.
 
-**MITRE:** T1070.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0005-003` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** T1070.004 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(FileDeleted|USNRecord)$/
@@ -94,14 +102,18 @@ Examines deletion and USN records involving logs and script files.
 
 </details>
 
+<a name="cs-ta0005-004"></a>
+
 ### 04. Firewall and WFP Modification Events
 
 Surfaces firewall rule manipulation and Windows Filtering Platform activity.
 
-**MITRE:** T1562.004  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0005-004` · **Platform:** `Not scoped` · **Tags:** `Security`
+
+**MITRE:** T1562.004 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(WfpFilterTamperingFilterAdded|FirewallDeleteRuleIP4|FirewallSetRuleIP4)$/
@@ -115,14 +127,18 @@ Surfaces firewall rule manipulation and Windows Filtering Platform activity.
 
 </details>
 
+<a name="cs-ta0005-005"></a>
+
 ### 05. Unsigned Modules and Suspicious File Signatures
 
 Inspects file signature discrepancies and unsigned module events.
 
-**MITRE:** T1027 / T1036  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0005-005` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** T1027 / T1036 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(FileSignatureMismatch|PackedExecutableWritten|UnsignedModuleLoad)$/
@@ -136,14 +152,18 @@ Inspects file signature discrepancies and unsigned module events.
 
 </details>
 
+<a name="cs-ta0005-006"></a>
+
 ### 06. Sensor Anti-Tamper and Bypass Telemetry
 
 Reviews sensor bypass, exclusions and anti-tamper status event families.
 
-**MITRE:** T1562.001  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0005-006` · **Platform:** `Not scoped` · **Tags:** `Security`
+
+**MITRE:** T1562.001 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(EAMBypassEvent|SensorAntiTamperState|DriverPreventionStatus|DetectionExcluded|SensorSelfDiagnosticTelemetry)$/
@@ -157,14 +177,18 @@ Reviews sensor bypass, exclusions and anti-tamper status event families.
 
 </details>
 
+<a name="cs-ta0005-007"></a>
+
 ### 07. Suspicious Macro and Invalid Script Events
 
 Surfaces macros, malformed scripts and packed process detection events.
 
-**MITRE:** T1027  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0005-007` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1027 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(MacroDetectInfo|MacroContentInfo|ScriptControlDetectInvalidInfo|ProcessExecOnPackedExecutable)$/
@@ -178,14 +202,18 @@ Surfaces macros, malformed scripts and packed process detection events.
 
 </details>
 
+<a name="cs-ta0005-008"></a>
+
 ### 08. Potential Log Clearing Commands
 
 Searches for process commands that may clear Windows event logs or command history.
 
-**MITRE:** T1070  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0005-008` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1070 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -203,6 +231,6 @@ Searches for process commands that may clear Windows event logs or command histo
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

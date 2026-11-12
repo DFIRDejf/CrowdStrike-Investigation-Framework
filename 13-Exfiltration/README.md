@@ -10,26 +10,30 @@ Investigate sensitive file access and suspicious outbound transfer patterns.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Sensitive File Access Followed by External Connection](#01-sensitive-file-access-followed-by-external-connection) | T1041 (potential) | `Migration recheck` |
-| [02. Command-Line Upload and Transfer Indicators](#02-command-line-upload-and-transfer-indicators) | T1048 / T1567 (contextual) | `Candidate` |
-| [03. Upload-Related Falcon Event Inventory](#03-upload-related-falcon-event-inventory) | T1041 (context) | `Requires Validation` |
-| [04. FTP Command Event Telemetry](#04-ftp-command-event-telemetry) | T1048 | `Requires Validation` |
-| [05. SRU Network and Application Usage](#05-sru-network-and-application-usage) | T1041 (coverage context) | `Requires Validation` |
-| [06. Outbound Network Destination Event Counts](#06-outbound-network-destination-event-counts) | T1041 (lead) | `Requires Validation` |
-| [07. Transfer and Cloud Upload Command Indicators](#07-transfer-and-cloud-upload-command-indicators) | T1041 / T1567 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Sensitive File Access Followed by External Connection](#cs-ta0010-001) | `CS-TA0010-001` | T1041 (potential) | `Requires Validation` |
+| [02. Command-Line Upload and Transfer Indicators](#cs-ta0010-002) | `CS-TA0010-002` | T1048 / T1567 (contextual) | `Requires Validation` |
+| [03. Upload-Related Falcon Event Inventory](#cs-ta0010-003) | `CS-TA0010-003` | T1041 (context) | `Requires Validation` |
+| [04. FTP Command Event Telemetry](#cs-ta0010-004) | `CS-TA0010-004` | T1048 | `Requires Validation` |
+| [05. SRU Network and Application Usage](#cs-ta0010-005) | `CS-TA0010-005` | T1041 (coverage context) | `Requires Validation` |
+| [06. Outbound Network Destination Event Counts](#cs-ta0010-006) | `CS-TA0010-006` | T1041 (lead) | `Requires Validation` |
+| [07. Transfer and Cloud Upload Command Indicators](#cs-ta0010-007) | `CS-TA0010-007` | T1041 / T1567 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0010-001"></a>
 
 ### 01. Sensitive File Access Followed by External Connection
 
 Correlates sensitive file access with network connections sharing aid and ContextProcessId within 30 minutes.
 
-**MITRE:** T1041 (potential)
+**Query ID:** `CS-TA0010-001` · **Platform:** `Not scoped` · **Tags:** `File`, `Network`
+
+**MITRE:** T1041 (potential) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 correlate(
@@ -53,14 +57,18 @@ globalConstraints=[aid, ContextProcessId],sequence=true,within=30m,maxPerRoot=20
 
 </details>
 
+<a name="cs-ta0010-002"></a>
+
 ### 02. Command-Line Upload and Transfer Indicators
 
 Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 
-**MITRE:** T1048 / T1567 (contextual)  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0010-002` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1048 / T1567 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -73,18 +81,20 @@ Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 
 **Analyst pivot:** Correlate process access to sensitive files and approved external destinations.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0010-003"></a>
 
 ### 03. Upload-Related Falcon Event Inventory
 
 Surfaces events with upload-related names for semantic verification, not attribution of data theft.
 
-**MITRE:** T1041 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0010-003` · **Platform:** `Not scoped` · **Tags:** `Browser`
+
+**MITRE:** T1041 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(LfoUploadDataComplete|LfoUploadDataUnneeded|BrowserDownloadStarted|BrowserDownloadEnded)$/
@@ -99,14 +109,18 @@ Surfaces events with upload-related names for semantic verification, not attribu
 
 </details>
 
+<a name="cs-ta0010-004"></a>
+
 ### 04. FTP Command Event Telemetry
 
 Inspects FTP command telemetry that may support transfer investigations.
 
-**MITRE:** T1048  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0010-004` · **Platform:** `Not scoped` · **Tags:** `Network`, `Process`
+
+**MITRE:** T1048 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(FtpCommand)$/
@@ -120,14 +134,18 @@ Inspects FTP command telemetry that may support transfer investigations.
 
 </details>
 
+<a name="cs-ta0010-005"></a>
+
 ### 05. SRU Network and Application Usage
 
 Lists System Resource Usage event families for later byte-volume field mapping.
 
-**MITRE:** T1041 (coverage context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0010-005` · **Platform:** `Not scoped` · **Tags:** `Network`, `SRU`
+
+**MITRE:** T1041 (coverage context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(SruNetworkDataUsage|SruApplicationResourceUsage)$/
@@ -141,14 +159,18 @@ Lists System Resource Usage event families for later byte-volume field mapping.
 
 </details>
 
+<a name="cs-ta0010-006"></a>
+
 ### 06. Outbound Network Destination Event Counts
 
 Aggregates connection events by remote destination and associated process.
 
-**MITRE:** T1041 (lead)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0010-006` · **Platform:** `Not scoped` · **Tags:** `Network`
+
+**MITRE:** T1041 (lead) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=NetworkConnectIP4
@@ -163,14 +185,18 @@ Aggregates connection events by remote destination and associated process.
 
 </details>
 
+<a name="cs-ta0010-007"></a>
+
 ### 07. Transfer and Cloud Upload Command Indicators
 
 Searches for common upload, synchronization and file-transfer commands.
 
-**MITRE:** T1041 / T1567  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0010-007` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1041 / T1567 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -188,6 +214,6 @@ Searches for common upload, synchronization and file-transfer commands.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

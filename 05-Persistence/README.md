@@ -10,25 +10,29 @@ Investigate accounts, scheduled tasks, autoruns, and registry-based persistence.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Local Account Creation via Net](#01-local-account-creation-via-net) | T1136 | `Migration recheck` |
-| [02. Scheduled Task Registration and Autorun Telemetry](#02-scheduled-task-registration-and-autorun-telemetry) | T1053.005 / T1547.001 | `Candidate` |
-| [03. Run Keys and Startup Artifact Telemetry](#03-run-keys-and-startup-artifact-telemetry) | T1547.001 | `Candidate` |
-| [04. Account Creation and Modification Events](#04-account-creation-and-modification-events) | T1136 / T1098 | `Requires Validation` |
-| [05. Windows Service Creation and Reconfiguration](#05-windows-service-creation-and-reconfiguration) | T1543.003 | `Requires Validation` |
-| [06. WMI Provider Registration and Autorun Artifacts](#06-wmi-provider-registration-and-autorun-artifacts) | T1546.003 / T1547.001 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Local Account Creation via Net](#cs-ta0003-001) | `CS-TA0003-001` | T1136 | `Requires Validation` |
+| [02. Scheduled Task Registration and Autorun Telemetry](#cs-ta0003-002) | `CS-TA0003-002` | T1053.005 / T1547.001 | `Requires Validation` |
+| [03. Run Keys and Startup Artifact Telemetry](#cs-ta0003-003) | `CS-TA0003-003` | T1547.001 | `Requires Validation` |
+| [04. Account Creation and Modification Events](#cs-ta0003-004) | `CS-TA0003-004` | T1136 / T1098 | `Requires Validation` |
+| [05. Windows Service Creation and Reconfiguration](#cs-ta0003-005) | `CS-TA0003-005` | T1543.003 | `Requires Validation` |
+| [06. WMI Provider Registration and Autorun Artifacts](#cs-ta0003-006) | `CS-TA0003-006` | T1546.003 / T1547.001 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0003-001"></a>
 
 ### 01. Local Account Creation via Net
 
 Detects net.exe or net1.exe commands that create local or domain accounts using the /add switch.
 
-**MITRE:** T1136
+**Query ID:** `CS-TA0003-001` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1136 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -43,14 +47,18 @@ Detects net.exe or net1.exe commands that create local or domain accounts using 
 
 </details>
 
+<a name="cs-ta0003-002"></a>
+
 ### 02. Scheduled Task Registration and Autorun Telemetry
 
 Reviews task and autorun event families to identify persistence candidates.
 
-**MITRE:** T1053.005 / T1547.001  ·  **Telemetry:** ScheduledTaskInfo, AutoRunProcessInfo
+**Query ID:** `CS-TA0003-002` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1053.005 / T1547.001 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ScheduledTaskInfo|AutoRunProcessInfo)$/
@@ -62,18 +70,20 @@ Reviews task and autorun event families to identify persistence candidates.
 
 **Analyst pivot:** Inspect raw event fields before building a production filter.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0003-003"></a>
 
 ### 03. Run Keys and Startup Artifact Telemetry
 
 Retrieves registry/autorun event families that may capture persistence-related modifications.
 
-**MITRE:** T1547.001  ·  **Telemetry:** RegGenericInfo, RegistryOperationDetectInfo, AsepFileChangeDetectInfo
+**Query ID:** `CS-TA0003-003` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** T1547.001 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(RegGenericInfo|RegistryOperationDetectInfo|AsepFileChangeDetectInfo)$/
@@ -85,18 +95,20 @@ Retrieves registry/autorun event families that may capture persistence-related m
 
 **Analyst pivot:** Validate path, hive, value and writing process from environment-specific fieldsets.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0003-004"></a>
 
 ### 04. Account Creation and Modification Events
 
 Inspects local and Active Directory account updates.
 
-**MITRE:** T1136 / T1098  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0003-004` · **Platform:** `Not scoped` · **Tags:** `Identity`
+
+**MITRE:** T1136 / T1098 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(UserAccountCreated|ActiveDirectoryAccountCreated|LocalWindowsUserUpdate|ActiveDirectoryAuditUserModified)$/
@@ -110,14 +122,18 @@ Inspects local and Active Directory account updates.
 
 </details>
 
+<a name="cs-ta0003-005"></a>
+
 ### 05. Windows Service Creation and Reconfiguration
 
 Hunts for command patterns used to create or reconfigure Windows services.
 
-**MITRE:** T1543.003  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0003-005` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1543.003 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -132,14 +148,18 @@ Hunts for command patterns used to create or reconfigure Windows services.
 
 </details>
 
+<a name="cs-ta0003-006"></a>
+
 ### 06. WMI Provider Registration and Autorun Artifacts
 
 Inspects WMI provider and autostart changes.
 
-**MITRE:** T1546.003 / T1547.001  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0003-006` · **Platform:** `Not scoped` · **Tags:** `File`, `WMI`
+
+**MITRE:** T1546.003 / T1547.001 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(WmiProviderRegistrationEtw|AsepFileChangeDetectInfo)$/
@@ -157,6 +177,6 @@ Inspects WMI provider and autostart changes.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

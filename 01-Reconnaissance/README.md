@@ -10,22 +10,26 @@ Investigate pre-compromise information gathering when relevant telemetry is avai
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Reconnaissance Footprints in Browser History](#01-reconnaissance-footprints-in-browser-history) | T1592 (context) | `Requires Validation` |
-| [02. Potential Inbound Scan Touchpoints](#02-potential-inbound-scan-touchpoints) | T1595 (context) | `Requires Validation` |
-| [03. Host and Domain Reconnaissance Commands](#03-host-and-domain-reconnaissance-commands) | T1593 / T1046 (context) | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Reconnaissance Footprints in Browser History](#cs-ta0043-001) | `CS-TA0043-001` | T1592 (context) | `Requires Validation` |
+| [02. Potential Inbound Scan Touchpoints](#cs-ta0043-002) | `CS-TA0043-002` | T1595 (context) | `Requires Validation` |
+| [03. Host and Domain Reconnaissance Commands](#cs-ta0043-003) | `CS-TA0043-003` | T1593 / T1046 (context) | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0043-001"></a>
 
 ### 01. Reconnaissance Footprints in Browser History
 
 Surfaces browser activity involving public reconnaissance services.
 
-**MITRE:** T1592 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0043-001` · **Platform:** `Not scoped` · **Tags:** `Browser`
+
+**MITRE:** T1592 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(BrowserHistoryVisit)$/
@@ -40,14 +44,18 @@ Surfaces browser activity involving public reconnaissance services.
 
 </details>
 
+<a name="cs-ta0043-002"></a>
+
 ### 02. Potential Inbound Scan Touchpoints
 
 Provides inbound network telemetry for investigating scanning hypotheses.
 
-**MITRE:** T1595 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0043-002` · **Platform:** `Not scoped` · **Tags:** `Network`
+
+**MITRE:** T1595 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=NetworkReceiveAcceptIP4
@@ -62,14 +70,18 @@ Provides inbound network telemetry for investigating scanning hypotheses.
 
 </details>
 
+<a name="cs-ta0043-003"></a>
+
 ### 03. Host and Domain Reconnaissance Commands
 
 Locates endpoint execution of network and domain research utilities.
 
-**MITRE:** T1593 / T1046 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0043-003` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1593 / T1046 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2

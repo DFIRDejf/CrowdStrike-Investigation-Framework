@@ -10,22 +10,26 @@ Track adversary preparation and infrastructure signals where enterprise data pro
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Browser Downloads of Executables and Archives](#01-browser-downloads-of-executables-and-archives) | T1588 (context) | `Requires Validation` |
-| [02. Penetration Testing Utility Execution](#02-penetration-testing-utility-execution) | T1588 (context) | `Requires Validation` |
-| [03. Suspicious Browser Download URL Extensions](#03-suspicious-browser-download-url-extensions) | T1588 (context) | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Browser Downloads of Executables and Archives](#cs-ta0042-001) | `CS-TA0042-001` | T1588 (context) | `Requires Validation` |
+| [02. Penetration Testing Utility Execution](#cs-ta0042-002) | `CS-TA0042-002` | T1588 (context) | `Requires Validation` |
+| [03. Suspicious Browser Download URL Extensions](#cs-ta0042-003) | `CS-TA0042-003` | T1588 (context) | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0042-001"></a>
 
 ### 01. Browser Downloads of Executables and Archives
 
 Searches browser telemetry for potentially downloaded scripts, archives and executables.
 
-**MITRE:** T1588 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0042-001` · **Platform:** `Not scoped` · **Tags:** `Browser`
+
+**MITRE:** T1588 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(BrowserDownloadStarted|BrowserDownloadEnded)$/
@@ -40,14 +44,18 @@ Searches browser telemetry for potentially downloaded scripts, archives and exec
 
 </details>
 
+<a name="cs-ta0042-002"></a>
+
 ### 02. Penetration Testing Utility Execution
 
 Identifies execution command lines referencing known offensive tooling.
 
-**MITRE:** T1588 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0042-002` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1588 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -62,14 +70,18 @@ Identifies execution command lines referencing known offensive tooling.
 
 </details>
 
+<a name="cs-ta0042-003"></a>
+
 ### 03. Suspicious Browser Download URL Extensions
 
 Reviews download URL extensions frequently associated with deployable tools.
 
-**MITRE:** T1588 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0042-003` · **Platform:** `Not scoped` · **Tags:** `Browser`
+
+**MITRE:** T1588 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(BrowserDownloadStarted|BrowserDownloadEnded)$/

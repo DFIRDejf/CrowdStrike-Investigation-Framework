@@ -10,25 +10,29 @@ Identify host, network, and Active Directory enumeration.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Account and Domain Enumeration Commands](#01-account-and-domain-enumeration-commands) | T1087 / T1069 / T1018 | `Candidate` |
-| [02. High Port Diversity by Destination](#02-high-port-diversity-by-destination) | T1046 | `Candidate` |
-| [03. WMI Query Telemetry](#03-wmi-query-telemetry) | T1047 / T1082 | `Requires Validation` |
-| [04. Active Directory RPC Enumeration Events](#04-active-directory-rpc-enumeration-events) | T1087 / T1482 | `Requires Validation` |
-| [05. Shares and Network Enumeration Commands](#05-shares-and-network-enumeration-commands) | T1135 / T1046 | `Requires Validation` |
-| [06. Domain Controller and Trust Discovery Commands](#06-domain-controller-and-trust-discovery-commands) | T1018 / T1482 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Account and Domain Enumeration Commands](#cs-ta0007-001) | `CS-TA0007-001` | T1087 / T1069 / T1018 | `Requires Validation` |
+| [02. High Port Diversity by Destination](#cs-ta0007-002) | `CS-TA0007-002` | T1046 | `Requires Validation` |
+| [03. WMI Query Telemetry](#cs-ta0007-003) | `CS-TA0007-003` | T1047 / T1082 | `Requires Validation` |
+| [04. Active Directory RPC Enumeration Events](#cs-ta0007-004) | `CS-TA0007-004` | T1087 / T1482 | `Requires Validation` |
+| [05. Shares and Network Enumeration Commands](#cs-ta0007-005) | `CS-TA0007-005` | T1135 / T1046 | `Requires Validation` |
+| [06. Domain Controller and Trust Discovery Commands](#cs-ta0007-006) | `CS-TA0007-006` | T1018 / T1482 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0007-001"></a>
 
 ### 01. Account and Domain Enumeration Commands
 
 Finds common Windows identity and domain enumeration commands.
 
-**MITRE:** T1087 / T1069 / T1018  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0007-001` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1087 / T1069 / T1018 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -41,18 +45,20 @@ Finds common Windows identity and domain enumeration commands.
 
 **Analyst pivot:** Correlate a burst of commands under one process chain and identity.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0007-002"></a>
 
 ### 02. High Port Diversity by Destination
 
 Identifies hosts that connect to many distinct remote ports on a destination; may indicate scanning or administration.
 
-**MITRE:** T1046  ·  **Telemetry:** NetworkConnectIP4
+**Query ID:** `CS-TA0007-002` · **Platform:** `Windows` · **Tags:** `Network`
+
+**MITRE:** T1046 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=NetworkConnectIP4 event_platform=Win
@@ -66,18 +72,20 @@ Identifies hosts that connect to many distinct remote ports on a destination; ma
 
 **Analyst pivot:** Tune port threshold against approved scanners and time window.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0007-003"></a>
 
 ### 03. WMI Query Telemetry
 
 Surfaces WMI queries used to inspect endpoint or system details.
 
-**MITRE:** T1047 / T1082  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0007-003` · **Platform:** `Not scoped` · **Tags:** `WMI`
+
+**MITRE:** T1047 / T1082 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(WmiQuery)$/
@@ -91,14 +99,18 @@ Surfaces WMI queries used to inspect endpoint or system details.
 
 </details>
 
+<a name="cs-ta0007-004"></a>
+
 ### 04. Active Directory RPC Enumeration Events
 
 Collects AD RPC request types that may assist domain discovery.
 
-**MITRE:** T1087 / T1482  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0007-004` · **Platform:** `Not scoped` · **Tags:** `Identity`
+
+**MITRE:** T1087 / T1482 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ActiveDirectoryIncomingDceRpcRequest|ActiveDirectoryIncomingDceRpcEpmRequest)$/
@@ -112,14 +124,18 @@ Collects AD RPC request types that may assist domain discovery.
 
 </details>
 
+<a name="cs-ta0007-005"></a>
+
 ### 05. Shares and Network Enumeration Commands
 
 Searches for commands enumerating network resources and SMB shares.
 
-**MITRE:** T1135 / T1046  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0007-005` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1135 / T1046 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -134,14 +150,18 @@ Searches for commands enumerating network resources and SMB shares.
 
 </details>
 
+<a name="cs-ta0007-006"></a>
+
 ### 06. Domain Controller and Trust Discovery Commands
 
 Finds command-line discovery of DCs and domain trust relationships.
 
-**MITRE:** T1018 / T1482  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0007-006` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1018 / T1482 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -159,6 +179,6 @@ Finds command-line discovery of DCs and domain trust relationships.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

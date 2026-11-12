@@ -10,23 +10,27 @@ Review privilege changes and indicators of unauthorized elevation.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Account Added to Privileged Group Event Family](#01-account-added-to-privileged-group-event-family) | T1098 | `Candidate` |
-| [02. Windows Token Privilege Modification Events](#02-windows-token-privilege-modification-events) | T1134 | `Requires Validation` |
-| [03. Elevation and Token Abuse Command Indicators](#03-elevation-and-token-abuse-command-indicators) | T1548 / T1134 | `Requires Validation` |
-| [04. Local Group and Directory Account Changes](#04-local-group-and-directory-account-changes) | T1098 | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Account Added to Privileged Group Event Family](#cs-ta0004-001) | `CS-TA0004-001` | T1098 | `Requires Validation` |
+| [02. Windows Token Privilege Modification Events](#cs-ta0004-002) | `CS-TA0004-002` | T1134 | `Requires Validation` |
+| [03. Elevation and Token Abuse Command Indicators](#cs-ta0004-003) | `CS-TA0004-003` | T1548 / T1134 | `Requires Validation` |
+| [04. Local Group and Directory Account Changes](#cs-ta0004-004) | `CS-TA0004-004` | T1098 | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0004-001"></a>
 
 ### 01. Account Added to Privileged Group Event Family
 
 Exposes group membership change telemetry for investigation and follow-up filtering.
 
-**MITRE:** T1098  ·  **Telemetry:** UserAccountAddedToGroup and AD group entity events
+**Query ID:** `CS-TA0004-001` · **Platform:** `Not scoped` · **Tags:** `Identity`
+
+**MITRE:** T1098 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(UserAccountAddedToGroup|ActiveDirectoryAccountDirectContainingGroupEntitiesUpdate|ActiveDirectoryAccountFlattenedContainingGroupEntitiesUpdate)$/
@@ -38,18 +42,20 @@ Exposes group membership change telemetry for investigation and follow-up filter
 
 **Analyst pivot:** Inspect actor, target account, target group and approval record.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0004-002"></a>
 
 ### 02. Windows Token Privilege Modification Events
 
 Lists telemetry associated with token privilege changes and privileged process handles.
 
-**MITRE:** T1134  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0004-002` · **Platform:** `Not scoped` · **Tags:** `Network`, `Process`
+
+**MITRE:** T1134 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ProcessTokenPrivilegesEdited|PrivilegedProcessHandleFromUnsignedModule)$/
@@ -63,14 +69,18 @@ Lists telemetry associated with token privilege changes and privileged process h
 
 </details>
 
+<a name="cs-ta0004-003"></a>
+
 ### 03. Elevation and Token Abuse Command Indicators
 
 Finds command-line patterns for elevation, impersonation and token abuse.
 
-**MITRE:** T1548 / T1134  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0004-003` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1548 / T1134 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -85,14 +95,18 @@ Finds command-line patterns for elevation, impersonation and token abuse.
 
 </details>
 
+<a name="cs-ta0004-004"></a>
+
 ### 04. Local Group and Directory Account Changes
 
 Surfaces group creation and directory account modification event families.
 
-**MITRE:** T1098  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0004-004` · **Platform:** `Not scoped` · **Tags:** `Identity`
+
+**MITRE:** T1098 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ActiveDirectoryAuditUserModified|UserGroupCreated|LocalWindowsUserUpdate)$/
@@ -109,6 +123,6 @@ Surfaces group creation and directory account modification event families.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

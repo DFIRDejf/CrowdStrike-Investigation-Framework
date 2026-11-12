@@ -10,24 +10,28 @@ Curated community-inspired query patterns with source attribution.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. New PowerShell DNS Domains Versus Previous Six Days](#01-new-powershell-dns-domains-versus-previous-six-days) | T1059.001 / T1071.004 (contextual) | `Community candidate` |
-| [02. Process and DNS Events Paired by Falcon PID](#02-process-and-dns-events-paired-by-falcon-pid) | C2 pivot / investigation utility | `Community candidate` |
-| [03. Discovery Command Sequence within Five Minutes](#03-discovery-command-sequence-within-five-minutes) | T1082 / T1087 (contextual) | `Community candidate` |
-| [04. Encoded PowerShell Query Profiling](#04-encoded-powershell-query-profiling) | Performance diagnostic | `Community candidate` |
-| [05. Browser Extension Inventory by Host](#05-browser-extension-inventory-by-host) | Software inventory / attack-surface context | `Community candidate` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. New PowerShell DNS Domains Versus Previous Six Days](#cs-cqf-001) | `CS-CQF-001` | T1059.001 / T1071.004 (contextual) | `Requires Validation` |
+| [02. Process and DNS Events Paired by Falcon PID](#cs-cqf-002) | `CS-CQF-002` | C2 pivot / investigation utility | `Requires Validation` |
+| [03. Discovery Command Sequence within Five Minutes](#cs-cqf-003) | `CS-CQF-003` | T1082 / T1087 (contextual) | `Requires Validation` |
+| [04. Encoded PowerShell Query Profiling](#cs-cqf-004) | `CS-CQF-004` | Performance diagnostic | `Requires Validation` |
+| [05. Browser Extension Inventory by Host](#cs-cqf-005) | `CS-CQF-005` | Software inventory / attack-surface context | `Requires Validation` |
 
 ---
+
+<a name="cs-cqf-001"></a>
 
 ### 01. New PowerShell DNS Domains Versus Previous Six Days
 
 Compares current PowerShell DNS resolutions against a historical baseline using a small lookup table.
 
-**MITRE:** T1059.001 / T1071.004 (contextual)  ·  **Telemetry:** DnsRequest
+**Query ID:** `CS-CQF-001` · **Platform:** `Windows` · **Tags:** `DNS`
+
+**MITRE:** T1059.001 / T1071.004 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 setTimeInterval(start="1d")
@@ -47,18 +51,20 @@ setTimeInterval(start="1d")
 
 **Analyst pivot:** Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF.
 
-*Origin: CQF 2024-09-27 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1fqokic/)*
-
 </details>
+
+<a name="cs-cqf-002"></a>
 
 ### 02. Process and DNS Events Paired by Falcon PID
 
 Uses a two-pass filter to retain process and DNS records sharing aid and Falcon process identity.
 
-**MITRE:** C2 pivot / investigation utility  ·  **Telemetry:** ProcessRollup2, DnsRequest
+**Query ID:** `CS-CQF-002` · **Platform:** `Not scoped` · **Tags:** `DNS`, `Process`
+
+**MITRE:** C2 pivot / investigation utility · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ProcessRollup2|DnsRequest)$/
@@ -75,18 +81,20 @@ Uses a two-pass filter to retain process and DNS records sharing aid and Falcon 
 
 **Analyst pivot:** Correlate process ID with aid and inspect raw events. Inspired by 2023-09-20 CQF.
 
-*Origin: CQF 2023-09-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/16soii4/)*
-
 </details>
+
+<a name="cs-cqf-003"></a>
 
 ### 03. Discovery Command Sequence within Five Minutes
 
 Correlates discovery process executions on the same Falcon agent within a five-minute interval.
 
-**MITRE:** T1082 / T1087 (contextual)  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-CQF-003` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1082 / T1087 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 correlate(
@@ -103,18 +111,20 @@ correlate(
 
 **Analyst pivot:** Change `sequence` to true when the event order itself matters; monitor correlate costs.
 
-*Origin: CQF 2026-03-11 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1rquf4q/)*
-
 </details>
+
+<a name="cs-cqf-004"></a>
 
 ### 04. Encoded PowerShell Query Profiling
 
 Profiles a constrained search in order to find expensive operations and prefilter inefficiencies.
 
-**MITRE:** Performance diagnostic  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-CQF-004` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** Performance diagnostic · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -128,18 +138,20 @@ Profiles a constrained search in order to find expensive operations and prefilte
 
 **Analyst pivot:** Run on a fixed short time range and compare Work/performance statistics.
 
-*Origin: CQF 2026-03-20 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1ryw8kr/)*
-
 </details>
+
+<a name="cs-cqf-005"></a>
 
 ### 05. Browser Extension Inventory by Host
 
 Provides a basic browser extension activity count where the InstalledBrowserExtension event is available.
 
-**MITRE:** Software inventory / attack-surface context  ·  **Telemetry:** InstalledBrowserExtension (license/sensor dependent)
+**Query ID:** `CS-CQF-005` · **Platform:** `Not scoped` · **Tags:** `Browser`
+
+**MITRE:** Software inventory / attack-surface context · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=InstalledBrowserExtension
@@ -151,12 +163,10 @@ Provides a basic browser extension activity count where the InstalledBrowserExte
 
 **Analyst pivot:** Use fieldset() to identify extension IDs, names and browsers before building a real inventory.
 
-*Origin: CQF 2024-06-21 — adapted concept (https://www.reddit.com/r/crowdstrike/comments/1dl3bo5/)*
-
 </details>
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)

@@ -26,7 +26,7 @@
 | **Find a query** by name, category or technique | [Global CQL Query Catalog](QUERY-CATALOG.md) |
 | **Pivot from a MITRE technique** to hunts | [MITRE Technique Index](MITRE-TECHNIQUE-INDEX.md) |
 | **Build or optimize a query** | [Query Builder](17-Query-Builder-Helper/README.md) · [CQL Functions](18-CQL-Functions/README.md) · [Optimization & QA](20-Query-Optimization-and-QA/README.md) |
-| **Review telemetry coverage** | [Event & Field Reference](19-Event-and-Field-Reference/README.md) |
+| **Review telemetry coverage** | [Telemetry Index](TELEMETRY-INDEX.md) · [Event & Field Reference](19-Event-and-Field-Reference/README.md) |
 | **Propose or test a hunt** | [Query Template](templates/QUERY_TEMPLATE.md) · [Detection Engineering](22-Detection-Engineering/README.md) |
 
 ## ATT&CK hunting library
@@ -66,16 +66,13 @@
 
 | State | Entries | Meaning |
 |:--|--:|:--|
-| `Migration recheck` | 18 | Previously tested source; publication copy needs revalidation |
-| `Candidate` | 30 | New example awaiting tenant validation |
-| `Community candidate` | 5 | Adapted community example awaiting validation |
-| `Requires Validation` | 58 | OneNote or contributed query awaiting validation |
-| **Total** | **111** | Documented query entries; no production-readiness claim |
+| `Requires Validation` | 111 | Not tested or publication copy awaiting validation in Falcon |
+| **Total** | **111** | Documentation entries, not production-ready detections |
 
 ## How to use
 
 1. Open the [Query Catalog](QUERY-CATALOG.md) and use **Ctrl+F** to find a technique, event, keyword or tool.
-2. Follow the link to the exact hunt. Expand **If you want to see more details** to view its CQL and analyst notes.
+2. Follow the link to the exact hunt. Expand **Show CrowdStrike query** to view its CQL and analyst notes.
 3. Set the correct time range and scope, verify fields with your tenant telemetry, and test the query in CrowdStrike Falcon.
 4. Review false positives, evidence quality, and performance before promoting the validation status.
 
@@ -83,6 +80,6 @@
 
 ---
 
-[**Contributing**](CONTRIBUTING.md) · [**Documentation**](docs/README.md) · [**Query template**](templates/QUERY_TEMPLATE.md) · [**Official CQL reference**](https://library.humio.com/crowdstrike-query-language/cql.html)
+[**Contributing**](CONTRIBUTING.md) · [**Documentation**](docs/README.md) · [**Query template**](templates/QUERY_TEMPLATE.md) · [**Duplicate review**](docs/QUERY-DUPLICATES.md) · [**Official CQL reference**](https://library.humio.com/crowdstrike-query-language/cql.html)
 
 <sub>This independent research library is not an official CrowdStrike or MITRE product. Names and logos belong to their respective owners. Query counts are maintained by the repository catalog generator.</sub>

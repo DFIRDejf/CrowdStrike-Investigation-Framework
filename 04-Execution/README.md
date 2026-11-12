@@ -10,29 +10,33 @@ Find suspicious commands, scripts, and process execution patterns.
 
 ## Query library
 
-| Hunt | MITRE | Status |
-|:--|:--|:--|
-| [01. Script Control Detection Events](#01-script-control-detection-events) | T1059 (contextual) | `Migration recheck` |
-| [02. Remote Command Response Events](#02-remote-command-response-events) | T1059 (contextual) | `Migration recheck` |
-| [03. PowerShell Child Process Within One Minute](#03-powershell-child-process-within-one-minute) | T1059.001 | `Migration recheck` |
-| [04. Suspicious PowerShell Interpreter Arguments](#04-suspicious-powershell-interpreter-arguments) | T1059.001 | `Candidate` |
-| [05. WMI Remote Process Creation Commands](#05-wmi-remote-process-creation-commands) | T1047 | `Candidate` |
-| [06. Windows Shell and Command Interpreter Activity](#06-windows-shell-and-command-interpreter-activity) | T1059.003 | `Candidate` |
-| [07. Selected Offensive Tool Names in Command Lines](#07-selected-offensive-tool-names-in-command-lines) | T1059 / T1204 (contextual) | `Candidate` |
-| [08. Shell and Packed Executable Event Inventory](#08-shell-and-packed-executable-event-inventory) | T1059 / T1027 | `Requires Validation` |
-| [09. Command History and New Script Telemetry](#09-command-history-and-new-script-telemetry) | T1059 | `Requires Validation` |
-| [10. Baseline Process and Ancestry Context](#10-baseline-process-and-ancestry-context) | T1059 (context) | `Requires Validation` |
+| Hunt | ID | MITRE | Status |
+|:--|:--|:--|:--|
+| [01. Script Control Detection Events](#cs-ta0002-001) | `CS-TA0002-001` | T1059 (contextual) | `Requires Validation` |
+| [02. Remote Command Response Events](#cs-ta0002-002) | `CS-TA0002-002` | T1059 (contextual) | `Requires Validation` |
+| [03. PowerShell Child Process Within One Minute](#cs-ta0002-003) | `CS-TA0002-003` | T1059.001 | `Requires Validation` |
+| [04. Suspicious PowerShell Interpreter Arguments](#cs-ta0002-004) | `CS-TA0002-004` | T1059.001 | `Requires Validation` |
+| [05. WMI Remote Process Creation Commands](#cs-ta0002-005) | `CS-TA0002-005` | T1047 | `Requires Validation` |
+| [06. Windows Shell and Command Interpreter Activity](#cs-ta0002-006) | `CS-TA0002-006` | T1059.003 | `Requires Validation` |
+| [07. Selected Offensive Tool Names in Command Lines](#cs-ta0002-007) | `CS-TA0002-007` | T1059 / T1204 (contextual) | `Requires Validation` |
+| [08. Shell and Packed Executable Event Inventory](#cs-ta0002-008) | `CS-TA0002-008` | T1059 / T1027 | `Requires Validation` |
+| [09. Command History and New Script Telemetry](#cs-ta0002-009) | `CS-TA0002-009` | T1059 | `Requires Validation` |
+| [10. Baseline Process and Ancestry Context](#cs-ta0002-010) | `CS-TA0002-010` | T1059 (context) | `Requires Validation` |
 
 ---
+
+<a name="cs-ta0002-001"></a>
 
 ### 01. Script Control Detection Events
 
 Retrieves investigation-scoped scripting or remote command telemetry.
 
-**MITRE:** T1059 (contextual)
+**Query ID:** `CS-TA0002-001` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1059 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ScriptControlDetectInfo
@@ -50,14 +54,18 @@ Retrieves investigation-scoped scripting or remote command telemetry.
 
 </details>
 
+<a name="cs-ta0002-002"></a>
+
 ### 02. Remote Command Response Events
 
 Retrieves investigation-scoped scripting or remote command telemetry.
 
-**MITRE:** T1059 (contextual)
+**Query ID:** `CS-TA0002-002` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1059 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=RemoteCommandResponse
@@ -75,14 +83,18 @@ Retrieves investigation-scoped scripting or remote command telemetry.
 
 </details>
 
+<a name="cs-ta0002-003"></a>
+
 ### 03. PowerShell Child Process Within One Minute
 
 Correlates PowerShell execution with subsequent child process creation within a one-minute window.
 
-**MITRE:** T1059.001
+**Query ID:** `CS-TA0002-003` · **Platform:** `Not scoped` · **Tags:** `See query`
+
+**MITRE:** T1059.001 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 correlate(
@@ -109,14 +121,18 @@ globalConstraints=[ComputerName]
 
 </details>
 
+<a name="cs-ta0002-004"></a>
+
 ### 04. Suspicious PowerShell Interpreter Arguments
 
 Finds PowerShell executions involving encoded commands and common remote content execution strings.
 
-**MITRE:** T1059.001  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0002-004` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1059.001 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -130,18 +146,20 @@ Finds PowerShell executions involving encoded commands and common remote content
 
 **Analyst pivot:** Examine parent processes and subsequent network or file activity.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0002-005"></a>
 
 ### 05. WMI Remote Process Creation Commands
 
 Searches command-line arguments often associated with WMI or CIM remote process execution.
 
-**MITRE:** T1047  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0002-005` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1047 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -154,18 +172,20 @@ Searches command-line arguments often associated with WMI or CIM remote process 
 
 **Analyst pivot:** Inspect remote targets, authenticated users and related WMI events.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0002-006"></a>
 
 ### 06. Windows Shell and Command Interpreter Activity
 
 Examines command-shell execution with potentially interesting shell switches.
 
-**MITRE:** T1059.003  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0002-006` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1059.003 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -179,18 +199,20 @@ Examines command-shell execution with potentially interesting shell switches.
 
 **Analyst pivot:** Use contextual baselining; command interpreter use alone is not suspicious.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0002-007"></a>
 
 ### 07. Selected Offensive Tool Names in Command Lines
 
 Provides a targeted keyword hunt for commonly abused tool names; keyword matching does not establish malicious intent.
 
-**MITRE:** T1059 / T1204 (contextual)  ·  **Telemetry:** ProcessRollup2
+**Query ID:** `CS-TA0002-007` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1059 / T1204 (contextual) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2 event_platform=Win
@@ -203,18 +225,20 @@ Provides a targeted keyword hunt for commonly abused tool names; keyword matchin
 
 **Analyst pivot:** Add path and signer filters, review approved tools and validate the actual binary.
 
-*Origin: OneNote-derived adaptation*
-
 </details>
+
+<a name="cs-ta0002-008"></a>
 
 ### 08. Shell and Packed Executable Event Inventory
 
 Queries endpoint shell tracing and packed executable events.
 
-**MITRE:** T1059 / T1027  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0002-008` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1059 / T1027 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(ShellCommandLineInfo|ProcessTrace|ProcessExecOnPackedExecutable)$/
@@ -228,14 +252,18 @@ Queries endpoint shell tracing and packed executable events.
 
 </details>
 
+<a name="cs-ta0002-009"></a>
+
 ### 09. Command History and New Script Telemetry
 
 Surfaces command history and script-writing events for shell investigations.
 
-**MITRE:** T1059  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0002-009` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1059 · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=/^(CommandHistory|NewScriptWritten|ScriptControlDetectInfo)$/
@@ -250,14 +278,18 @@ Surfaces command history and script-writing events for shell investigations.
 
 </details>
 
+<a name="cs-ta0002-010"></a>
+
 ### 10. Baseline Process and Ancestry Context
 
 Lists process execution fields to pivot on parent, grandparent and command line.
 
-**MITRE:** T1059 (context)  ·  **Source:** `CS Queries.one`  ·  **Status:** `Requires Validation`
+**Query ID:** `CS-TA0002-010` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** T1059 (context) · **Status:** `Requires Validation`
 
 <details>
-<summary><strong>If you want to see more details</strong></summary>
+<summary><strong>Show CrowdStrike query</strong></summary>
 
 ```cql
 #event_simpleName=ProcessRollup2
@@ -274,6 +306,6 @@ Lists process execution fields to pivot on parent, grandparent and command line.
 
 ---
 
-`Migration recheck` = original supplied query was previously tested, but this publication copy needs validation. `Candidate` / `Community candidate` = not validated in the target Falcon environment.
+`Requires Validation` = not yet tenant-validated · `Tested` = exact-version tested · `Production reviewed` = peer-reviewed with evidence.
 
 [← Home](../README.md) · [All queries](../QUERY-CATALOG.md)
