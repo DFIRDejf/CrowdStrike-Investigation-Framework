@@ -62,13 +62,6 @@
 | [Cool Query Friday](21-Cool-Query-Friday/README.md) | 5 queries |
 | [Detection Engineering](22-Detection-Engineering/README.md) | Guidelines |
 
-## Validation at a glance
-
-| State | Entries | Meaning |
-|:--|--:|:--|
-| `Requires Validation` | 111 | Not tested or publication copy awaiting validation in Falcon |
-| **Total** | **111** | Documentation entries, not production-ready detections |
-
 ## How to use
 
 1. Open the [Query Catalog](QUERY-CATALOG.md) and use **Ctrl+F** to find a technique, event, keyword or tool.
