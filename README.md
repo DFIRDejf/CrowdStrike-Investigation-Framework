@@ -19,7 +19,7 @@
 
 ---
 
-## Start here
+## Before you start - useful resources
 
 | Goal | Where to go |
 |:--|:--|
