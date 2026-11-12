@@ -12,9 +12,9 @@ Track adversary preparation and infrastructure signals where enterprise data pro
 
 | Hunt | ID | MITRE | Status |
 |:--|:--|:--|:--|
-| [01. Browser Downloads of Executables and Archives](#cs-ta0042-001) | `CS-TA0042-001` | T1588 (context) | `Requires Validation` |
-| [02. Penetration Testing Utility Execution](#cs-ta0042-002) | `CS-TA0042-002` | T1588 (context) | `Requires Validation` |
-| [03. Suspicious Browser Download URL Extensions](#cs-ta0042-003) | `CS-TA0042-003` | T1588 (context) | `Requires Validation` |
+| [01. Browser Downloads of Executables and Archives](#cs-ta0042-001) | `CS-TA0042-001` | T1588 (context) | `Ready for production testing phase` |
+| [02. Penetration Testing Utility Execution](#cs-ta0042-002) | `CS-TA0042-002` | T1588 (context) | `Ready for production testing phase` |
+| [03. Suspicious Browser Download URL Extensions](#cs-ta0042-003) | `CS-TA0042-003` | T1588 (context) | `Ready for production testing phase` |
 
 ---
 
