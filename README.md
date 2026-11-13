@@ -2,8 +2,8 @@
 
 <table>
 <tr>
-<td align="center" width="50%"><img src="assets/crowdstrike-logo.png" alt="CrowdStrike logo" width="250"></td>
-<td align="center" width="50%"><img src="assets/mitre-attack-logo.png" alt="MITRE ATT&CK logo" width="250"></td>
+<td align="center" width="50%"><img src="assets/crowdstrike-white-panel.svg" alt="CrowdStrike logo" width="250"></td>
+<td align="center" width="50%"><img src="assets/mitre-white-panel.svg" alt="MITRE ATT&CK logo" width="250"></td>
 </tr>
 </table>
 
