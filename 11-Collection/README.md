@@ -21,7 +21,6 @@ Find access to sensitive files, staging paths, and data packaging activity.
 | [07. File and USN Metadata for Archives](#cs-ta0009-007) | `CS-TA0009-007` | T1005 / T1560 | `Requires Validation` |
 | [08. Archive Output and High-Entropy Write Events](#cs-ta0009-008) | `CS-TA0009-008` | T1560 | `Requires Validation` |
 | [09. Specific Archive Format Writes](#cs-ta0009-009) | `CS-TA0009-009` | T1560 | `Requires Validation` |
-
 | [10. Potential Archive Artifacts in File Metadata](#cs-fa-003) | `CS-FA-003` | DFIR / T1560 (contextual) | `Requires Validation` |
 ---
 
