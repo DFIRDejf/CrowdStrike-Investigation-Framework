@@ -1,20 +1,21 @@
-# Documentation
+# Framework Documentation
 
 [← Framework home](../README.md)
 
-Reference material for maintaining and validating the CQL hunting library.
+The repository is a **static GitHub Markdown knowledge base** containing CrowdStrike CQL hunting queries, investigation notes and telemetry references. It does not run queries or contact a Falcon tenant.
 
 | Resource | Purpose |
 |:--|:--|
-| [All queries](../QUERY-CATALOG.md) | Search by hunt, ID, category and MITRE technique |
-| [Telemetry index](../TELEMETRY-INDEX.md) | Find queries by explicit Falcon event |
-| [MITRE Technique Index](../MITRE-TECHNIQUE-INDEX.md) | Navigate ATT&CK associations |
-| [Duplicate review](QUERY-DUPLICATES.md) | Informational exact/similar query pairs |
-| [Automation & QA](CQL-CATALOG-AUTOMATION.md) | Generator, tests and workflow |
-| [Source & Provenance](SOURCE-AND-PROVENANCE.md) | Original references and credit |
-| [OneNote migration](ONENOTE-MIGRATION-2026-11.md) | Migration scope and caveats |
-| [ATT&CK mapping](MITRE-ATTACK-2026-MAPPING.md) | Legacy category context |
-| [Deployment](DEPLOYMENT.md) | GitHub workflow guidance |
-| [Query Optimization & QA](../20-Query-Optimization-and-QA/README.md) | Tuning and validation |
+| [Browse all queries](../QUERY-CATALOG.md) | Full catalog with permanent IDs, category links and validation status |
+| [MITRE ATT&CK Technique Index](../MITRE-TECHNIQUE-INDEX.md) | Locate hunts by technique ID |
+| [Telemetry Index](../TELEMETRY-INDEX.md) | Find queries referencing explicit Falcon events |
+| [CQL Functions](../18-CQL-Functions/README.md) | Function and syntax quick reference |
+| [Event & Field Reference](../19-Event-and-Field-Reference/README.md) | Field and event mapping context |
+| [Query Optimization & QA](../20-Query-Optimization-and-QA/README.md) | Query performance and review guidance |
+| [Detection Engineering](../22-Detection-Engineering/README.md) | Validation and promotion criteria |
+| [Contributing](../CONTRIBUTING.md) | Manual contribution format and index-maintenance checklist |
+| [Source and Provenance](SOURCE-AND-PROVENANCE.md) | Source attribution and limitations |
 
-Use the [query template](../templates/QUERY_TEMPLATE.md) when contributing new hunts.
+**Publication note:** No query is assumed to be production validated solely because it is present in this library. All code, metadata, and references should be reviewed in the intended environment before use.
+
+[← Framework home](../README.md)

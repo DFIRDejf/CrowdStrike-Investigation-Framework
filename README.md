@@ -27,7 +27,7 @@
 | **Pivot from a MITRE technique** to hunts | [MITRE Technique Index](MITRE-TECHNIQUE-INDEX.md) |
 | **Build or optimize a query** | [Query Builder](17-Query-Builder-Helper/README.md) · [CQL Functions](18-CQL-Functions/README.md) · [Optimization & QA](20-Query-Optimization-and-QA/README.md) |
 | **Review telemetry coverage** | [Telemetry Index](TELEMETRY-INDEX.md) · [Event & Field Reference](19-Event-and-Field-Reference/README.md) |
-| **Propose or test a hunt** | [Query Template](templates/QUERY_TEMPLATE.md) · [Detection Engineering](22-Detection-Engineering/README.md) |
+| **Contribute a hunt** | [Contribution guide](CONTRIBUTING.md) · [Detection Engineering](22-Detection-Engineering/README.md) |
 
 ## ATT&CK hunting library
 
@@ -48,7 +48,7 @@
 | 13 | [Exfiltration](13-Exfiltration/README.md) | 7 | External transfer indicators |
 | 14 | [Impact](14-Impact/README.md) | 5 | Disruption and ransomware |
 
-> The `07-Defense-Evasion` folder is retained for compatibility. See the [ATT&CK taxonomy notes](docs/MITRE-ATTACK-2026-MAPPING.md).
+> The `07-Defense-Evasion` folder name is retained for compatibility with existing links. ATT&CK technique mappings are informational and need analyst validation.
 
 ## Operational modules
 
@@ -73,6 +73,6 @@
 
 ---
 
-[**Contributing**](CONTRIBUTING.md) · [**Documentation**](docs/README.md) · [**Query template**](templates/QUERY_TEMPLATE.md) · [**Duplicate review**](docs/QUERY-DUPLICATES.md) · [**Official CQL reference**](https://library.humio.com/crowdstrike-query-language/cql.html)
+[**Contributing**](CONTRIBUTING.md) · [**Documentation**](docs/README.md) · [**Source & provenance**](docs/SOURCE-AND-PROVENANCE.md) · [**Official CQL reference**](https://library.humio.com/crowdstrike-query-language/cql.html)
 
-<sub>This independent research library is not an official CrowdStrike or MITRE product. Names and logos belong to their respective owners. Query counts are maintained by the repository catalog generator.</sub>
+<sub>This independent research library is not an official CrowdStrike or MITRE product. Names and logos belong to their respective owners. Catalog totals are a static snapshot and must be updated manually when queries change.</sub>

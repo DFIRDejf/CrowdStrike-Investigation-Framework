@@ -8,7 +8,7 @@ Investigate tampering, security control changes, and evasion-related activity.
 
 ---
 
-> **Compatibility:** Retained as a legacy folder name; see [MITRE mapping](../docs/MITRE-ATTACK-2026-MAPPING.md).
+> **Compatibility:** This legacy category name is retained to preserve existing links. Validate ATT&CK mappings against the current official framework.
 
 ## Query library
 
