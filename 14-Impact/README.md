@@ -40,10 +40,6 @@ Searches for common commands used to remove backups or interfere with recovery.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Authorized backup maintenance and disaster recovery testing.
-
-**Analyst pivot:** Verify intent, resulting backup state and associated destructive actions.
-
 </details>
 
 <a name="cs-ta0040-002"></a>
@@ -64,10 +60,6 @@ Collects file events associated with encryption, renaming and boot record tamper
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Backup encryption and compressed outputs; high entropy is not definitive ransomware.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -90,10 +82,6 @@ Displays endpoint controls blocking operations or processes; these do not themse
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Expected endpoint protection actions and false-positive blocks.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0040-004"></a>
@@ -114,10 +102,6 @@ Surfaces group/user disruption and service creation telemetry.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Routine identity cleanup and system service maintenance.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -141,12 +125,7 @@ Searches for commands targeting shadow copies and Windows recovery settings.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized backup rotation or recovery configuration changes.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

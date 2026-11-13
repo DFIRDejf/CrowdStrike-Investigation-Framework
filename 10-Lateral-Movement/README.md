@@ -47,10 +47,6 @@ RemotePort=445
 | sort(connections, order=desc)
 ```
 
-**False positives:** Backups, management agents, and file servers can generate high SMB volumes. Tune the threshold to the search interval.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0008-002"></a>
@@ -76,10 +72,6 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 )
 ```
 
-**False positives:** Replace illustrative indicators before execution. Raw-string fallback is broad and should be used only if parsed fields are unavailable.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0008-003"></a>
@@ -104,10 +96,6 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
  OR @rawstring=/(USER_ID|analyst@example\.com|HOST_A|HOST_B)/i
 )
 ```
-
-**False positives:** Replace illustrative indicators before execution. Raw-string fallback is broad and should be used only if parsed fields are unavailable.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
@@ -136,10 +124,6 @@ defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressI
 | groupBy([aid,TargetProcessId, ComputerName, UserName, ExecutionChain, RemoteAddressIP4, "Graph Explorer", "Indicator Graph", "Remote Access Graph", VT], function=[])
 ```
 
-**False positives:** External pivot links may require tenant URL adjustments. The UserName argument is quoted as a literal in the submitted query.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0008-005"></a>
@@ -162,10 +146,6 @@ Searches process command lines for remote execution and remote management patter
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Authorized remote maintenance, automation and incident response.
-
-**Analyst pivot:** Use authenticated session evidence, source/destination hosts and admin approvals.
-
 </details>
 
 <a name="cs-ta0008-006"></a>
@@ -186,10 +166,6 @@ Inventories SMB client/server share opening and closing activity before adding n
 | groupBy([#event_simpleName, ComputerName], function=[count(as=SMBEvents)], limit=1000)
 | sort(SMBEvents, order=desc, limit=1000)
 ```
-
-**False positives:** File servers, normal share access, backup jobs.
-
-**Analyst pivot:** Use fieldset() per event; add share/path/user fields only after confirming schema.
 
 </details>
 
@@ -212,10 +188,6 @@ Collects SMB client/server share opened or closed events.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** File servers, backups and software deployment.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0008-008"></a>
@@ -236,10 +208,6 @@ Surfaces SMB share authentication brute-force detections.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Misconfigured services or outdated service-account credentials.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -262,10 +230,6 @@ Investigates new network shares and changed share permissions.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized share maintenance.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0008-010"></a>
@@ -286,10 +250,6 @@ Collects remote command, interactive session and shell command activity.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Legitimate remote support and management.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -313,12 +273,7 @@ Identifies accepts on common Windows remote access service ports.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized management, RDP and file-serving activity; validate which event fields represent listening ports.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

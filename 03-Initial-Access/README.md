@@ -40,10 +40,6 @@ Surfaces browser download events involving executable, script or archive extensi
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Software installation, IT support downloads and development activity. Validate `Url` and `FileName` against your fieldsets.
-
-**Analyst pivot:** Correlate download telemetry with ProcessRollup2, file writes and user context.
-
 </details>
 
 <a name="cs-ta0001-002"></a>
@@ -130,7 +126,6 @@ Looks for use of remote access and VPN clients.
 ```
 
 </details>
-
 
 ---
 

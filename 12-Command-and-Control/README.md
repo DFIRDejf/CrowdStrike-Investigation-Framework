@@ -49,10 +49,6 @@ defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pat
 | groupBy([aid], function=collect([ComputerName, LocalAddressIP4, DomainName, RemoteAddressIP4, RemotePort]))
 ```
 
-**False positives:** Supply the search parameters. The lookup keys on process ID alone. Include the agent ID in the match before using results across hosts. A shared process does not prove that a DNS request led to a connection.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0011-002"></a>
@@ -82,10 +78,6 @@ setTimeInterval(start="7d")
 | format("[Graph Explorer](https://falcon.crowdstrike.com/graphs/process-explorer/graph?id=pid:%s:%s)", field=[aid, TargetProcessId], as="Graph Explorer")
 ```
 
-**False positives:** Validate tenant-specific Graph Explorer URLs. The lookup keys on process ID alone. Include the agent ID in the match before using results across hosts.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0011-003"></a>
@@ -107,10 +99,6 @@ Provides a compact DNS telemetry starting point for domain, process and destinat
 | select([@timestamp, ComputerName, DomainName, ContextBaseFileName, ContextProcessId, aid])
 | sort(@timestamp, order=desc, limit=1000)
 ```
-
-**False positives:** Browsers and operating system services produce high DNS volume.
-
-**Analyst pivot:** Filter targeted hosts and unusual processes before expanding scope.
 
 </details>
 
@@ -134,10 +122,6 @@ Looks for potential tunneling flags and remote control tool names in process com
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Approved remote administration, developer tunnels and support software.
-
-**Analyst pivot:** Validate business approval and correlate outbound network events.
-
 </details>
 
 <a name="cs-ta0011-005"></a>
@@ -160,10 +144,6 @@ Surfaces suspicious DNS detections and DNS requests for investigation.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Legitimate DNS activity and benign use of the listed TLDs.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0011-006"></a>
@@ -185,10 +165,6 @@ Shows DNS resolution and available process correlation fields.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Any normal DNS lookup; pair with process and network observations.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0011-007"></a>
@@ -209,10 +185,6 @@ Lists SSH tunnel creation telemetry for follow-up.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Approved port forwarding and development tunnels.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -236,10 +208,6 @@ Hunts for command lines involving SSH port forwarding and tunneling utilities.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized support, development tunnels and package retrieval.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-qb-001"></a>
@@ -259,10 +227,6 @@ Finds events whose RemoteIP field falls within a selected subnet.
 #event_simpleName=*
 | cidr("RemoteIP", subnet="203.0.113.0/24")
 ```
-
-**False positives:** The subnet is an RFC 5737 documentation example; replace it before use. `RemoteIP` may not exist in every event family. Broad wildcard searches are costly.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
@@ -294,10 +258,6 @@ GrandParentBaseFileName!=* | GrandParentBaseFileName:="Unknown";
 | format(format="%s -> %s -> %s", field=[GrandParentBaseFileName, ParentBaseFileName, FileName], as=ExecutionChain)
 | groupBy([NetConnectTime, ComputerName, UserName, RemoteAddressIP4, RemotePort, ProcStartTime, ExecutionChain, CommandLine])
 ```
-
-**False positives:** Match keys are process identifiers; review host scoping to avoid collisions and verify timestamp units.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
 
 </details>
 
@@ -337,10 +297,6 @@ ExecutionChain:=format(format="%s\n\t└ %s (%s)\n\t\t└%s", field=[ParentBaseF
 | sort(ProcessStartTime, order=asc, limit=max)
 ```
 
-**False positives:** The final sort references ProcessStartTime after groupBy without retaining it in grouping fields; validate expected output.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-cqf-001"></a>
@@ -370,10 +326,6 @@ setTimeInterval(start="1d")
 | groupBy([ComputerName, DomainName], function=[count(as=Observations)], limit=1000)
 ```
 
-**False positives:** New domains may be legitimate. Use allowlists and domain age/reputation.
-
-**Analyst pivot:** Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF.
-
 </details>
 
 <a name="cs-cqf-002"></a>
@@ -400,12 +352,7 @@ Uses a two-pass filter to retain process and DNS records sharing aid and Falcon 
 | groupBy([aid, FalconPID], function=[collect([ComputerName, FileName, DomainName, CommandLine])], limit=1000)
 ```
 
-**False positives:** Two-pass search can be expensive. selfJoinFilter is probabilistic: confirm candidate matches.
-
-**Analyst pivot:** Correlate process ID with aid and inspect raw events. Inspired by 2023-09-20 CQF.
-
 </details>
-
 
 ---
 

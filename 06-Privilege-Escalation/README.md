@@ -38,10 +38,6 @@ Exposes group membership change telemetry for investigation and follow-up filter
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Provisioning automation and authorized admin changes. Validate emitted event/field family.
-
-**Analyst pivot:** Inspect actor, target account, target group and approval record.
-
 </details>
 
 <a name="cs-ta0004-002"></a>
@@ -62,10 +58,6 @@ Lists telemetry associated with token privilege changes and privileged process h
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -89,10 +81,6 @@ Finds command-line patterns for elevation, impersonation and token abuse.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0004-004"></a>
@@ -114,12 +102,7 @@ Surfaces group creation and directory account modification event families.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

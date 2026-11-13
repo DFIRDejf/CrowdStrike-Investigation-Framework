@@ -46,10 +46,6 @@ FileName, CommandLine, TargetProcessId])
 | sort(@timestamp, order=desc)
 ```
 
-**False positives:** The regex detects tool names, not actual compression or exfiltration. Legitimate backup and copy activity is common.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0009-002"></a>
@@ -71,10 +67,6 @@ Discovers file access events classified as sensitive or critical.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Backup jobs, search indexing, EDR and business-critical applications.
-
-**Analyst pivot:** Validate classification, paths and process fields before use in correlation.
-
 </details>
 
 <a name="cs-ta0009-003"></a>
@@ -95,10 +87,6 @@ Reviews archive-format write events as potential staging evidence.
 | groupBy([#event_simpleName, ComputerName], function=[count(as=ArchiveEvents)], limit=1000)
 | sort(ArchiveEvents, order=desc, limit=1000)
 ```
-
-**False positives:** Development, software packaging and backups.
-
-**Analyst pivot:** Pivot into the writing process and destination file path.
 
 </details>
 
@@ -122,10 +110,6 @@ Finds command-line activity involving common staging folders and compression com
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Legitimate backup, deployment and archiving tasks.
-
-**Analyst pivot:** Require multiple indicators and review file names and paths.
-
 </details>
 
 <a name="cs-ta0009-005"></a>
@@ -147,10 +131,6 @@ Searches for process commands invoking file copying and collection operations.
 | select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Backup utilities, migration tooling and routine file copying.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -174,10 +154,6 @@ Highlights staging and compression command lines using common scratch locations.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Software installations, extraction and temporary application files.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0009-007"></a>
@@ -199,10 +175,6 @@ Examines created filesystem artifacts with common archive and database export ex
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Routine compressed backups and normal database maintenance.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -226,10 +198,6 @@ Lists archive-related file writing event families and entropy signals.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Compressed benign files and encrypted business documents.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0009-009"></a>
@@ -250,10 +218,6 @@ Reviews recognized archive file write events by compression type.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Approved packaging, application caches and software distribution.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -277,12 +241,7 @@ Searches for common archive/file-exfil extensions in file-system evidence.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Common business artifacts and backup packages. FileName must be verified for both event families.
-
-**Analyst pivot:** Compare metadata, file path, process and related archive-write telemetry.
-
 </details>
-
 
 ---
 

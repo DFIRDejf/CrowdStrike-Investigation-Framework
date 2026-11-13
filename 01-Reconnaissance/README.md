@@ -38,8 +38,6 @@ Surfaces browser activity involving public reconnaissance services.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Research and security-team browsing; browser history alone cannot prove pre-compromise reconnaissance.
-
 </details>
 
 <a name="cs-ta0043-002"></a>
