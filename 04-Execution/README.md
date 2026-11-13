@@ -22,7 +22,6 @@ Find suspicious commands, scripts, and process execution patterns.
 | [08. Shell and Packed Executable Event Inventory](#cs-ta0002-008) | `CS-TA0002-008` | T1059 / T1027 | `Requires Validation` |
 | [09. Command History and New Script Telemetry](#cs-ta0002-009) | `CS-TA0002-009` | T1059 | `Requires Validation` |
 | [10. Baseline Process and Ancestry Context](#cs-ta0002-010) | `CS-TA0002-010` | T1059 (context) | `Requires Validation` |
-
 | [11. Executable File Written After User Logon](#cs-fa-001) | `CS-FA-001` | Investigation utility | `Requires Validation` |
 | [12. Command History Scoped Search](#cs-qb-002) | `CS-QB-002` | Investigation utility | `Requires Validation` |
 | [13. Command History and Process Rollup](#cs-qb-004) | `CS-QB-004` | Investigation utility | `Requires Validation` |
