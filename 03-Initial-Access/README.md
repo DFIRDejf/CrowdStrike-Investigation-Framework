@@ -128,7 +128,7 @@ Looks for use of remote access and VPN clients.
 
 ```cql
 #event_simpleName=ProcessRollup2
-| CommandLine=/mstsc|openvpn|globalprotect|anyconnect|forticlient|pulse\ssecure|zscaler|rasdial|ssh\s/i
+| CommandLine=/mstsc|openvpn|globalprotect|anyconnect|forticlient|pulse\ssecure|rasdial|ssh\s/i
 | select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
