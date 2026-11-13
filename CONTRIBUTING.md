@@ -9,7 +9,7 @@ This is a **Markdown-only CQL hunting library**. No Python, build step, GitHub A
 1. Check the [Query Catalog](QUERY-CATALOG.md), [MITRE Technique Index](MITRE-TECHNIQUE-INDEX.md), and [Telemetry Index](TELEMETRY-INDEX.md) for overlapping hunts.
 2. Choose the appropriate ATT&CK tactic README. Add a numbered section using `### NN. Query title`, preserving the numbering format.
 3. Give the new query a **unique permanent ID** such as `CS-TA0008-012` (use the next unused ID for that category). Include `<a name="cs-ta0008-012"></a>` immediately above the heading and `**Query ID:** `CS-TA0008-012`` in its metadata. **Never recycle an existing ID**, even when renaming a query.
-4. Include a concise hypothesis, an evidence-backed MITRE technique mapping, platform/telemetry information where known, and the status `Requires Validation`. Add exactly one expandable `<details>` section with summary **Show CrowdStrike query**, a fenced `cql` code block, false-positive considerations, and investigation guidance.
+4. Include a concise hypothesis, an evidence-backed MITRE technique mapping, platform/telemetry information where known, and the status `Requires Validation`. Add exactly one expandable `<details>` section with summary **Show CrowdStrike query** and a fenced `cql` code block. Keep each query entry concise; do not add `False positives`, `Validation`, or `Analyst pivot` note sections.
 5. Manually update the category index, [Query Catalog](QUERY-CATALOG.md), [MITRE Technique Index](MITRE-TECHNIQUE-INDEX.md), [Telemetry Index](TELEMETRY-INDEX.md), and the query counts in the root `README.md`. Remove outdated entries when renaming or moving a hunt, without changing its permanent ID.
 6. Review all relative Markdown links and stable anchors on GitHub. Confirm that the existing CQL blocks have not been modified unintentionally.
 7. Submit a Pull Request with a short description of the hypothesis, affected categories, and validation status.
@@ -34,10 +34,6 @@ One-sentence hunting hypothesis and limitations.
 #event_simpleName=SmbServerShareOpenedEtw
 | select([@timestamp, ComputerName, aid])
 ```
-
-**False positives:** Review approved file sharing.
-
-**Investigation guidance:** Correlate the host and session context.
 
 </details>
 ````

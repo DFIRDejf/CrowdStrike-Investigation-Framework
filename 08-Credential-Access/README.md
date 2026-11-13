@@ -44,10 +44,6 @@ Surfaces processes whose command-line arguments mention common credential dumpin
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Authorized troubleshooting, memory dumps and security assessments.
-
-**Analyst pivot:** Cross-check protected process access telemetry and file creation evidence.
-
 </details>
 
 <a name="cs-ta0006-002"></a>
@@ -69,10 +65,6 @@ Provides a starting point for validating auth failures and password spraying tel
 | sort(EventCount, order=desc, limit=1000)
 ```
 
-**False positives:** Password mistypes, misconfigured services, password rotations.
-
-**Analyst pivot:** Review actual failure counts, source hosts, success follow-up and per-event fieldsets.
-
 </details>
 
 <a name="cs-ta0006-003"></a>
@@ -93,10 +85,6 @@ Retrieves dedicated credential access detection telemetry for further analyst fi
 | select([@timestamp, #event_simpleName, ComputerName, UserName, aid])
 | sort(@timestamp, order=desc, limit=1000)
 ```
-
-**False positives:** IR tooling and endpoint scanning may trigger some events.
-
-**Analyst pivot:** Inspect decision/action and target process fields with fieldset().
 
 </details>
 
@@ -120,10 +108,6 @@ Identifies process command lines referencing credential dumping and hive extract
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0006-005"></a>
@@ -144,10 +128,6 @@ Collects endpoint events associated with sensitive process access and SAM dump i
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -171,10 +151,6 @@ Reviews command and script telemetry for Kerberos credential attack utilities.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized identity auditing; tool strings do not establish actual ticket exploitation.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0006-007"></a>
@@ -196,10 +172,6 @@ Surfaces process history and AD RPC records with potential replication abuse ind
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Legitimate domain replication; confirm RPC interfaces, source identities and permissions.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -223,10 +195,6 @@ Investigates directory changes and RPC events referencing KRBTGT.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Planned password rotations; KRBTGT references are not proof of a Golden Ticket.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0006-009"></a>
@@ -249,12 +217,7 @@ Examines file and browser credential artifact accesses.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Legitimate browser and security software activity.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

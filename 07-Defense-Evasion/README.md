@@ -45,10 +45,6 @@ Looks for command-line attempts to alter Defender settings, relevant services or
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Authorized security operations and troubleshooting.
-
-**Analyst pivot:** Correlate command execution with sensor tamper/prevention events; no inference of successful bypass.
-
 </details>
 
 <a name="cs-ta0005-002"></a>
@@ -69,10 +65,6 @@ Inventories selected protective control state and diagnostic event types for rev
 | select([@timestamp, #event_simpleName, ComputerName, aid])
 | sort(@timestamp, order=desc, limit=1000)
 ```
-
-**False positives:** Routine control state changes; event fields and licensing vary.
-
-**Analyst pivot:** Use fieldset() for schema inspection before alerting on outcomes.
 
 </details>
 
@@ -96,10 +88,6 @@ Examines deletion and USN records involving logs and script files.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Ordinary log rollover and cleanup; deletion alone does not prove an attack.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0005-004"></a>
@@ -120,10 +108,6 @@ Surfaces firewall rule manipulation and Windows Filtering Platform activity.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -146,10 +130,6 @@ Inspects file signature discrepancies and unsigned module events.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0005-006"></a>
@@ -171,10 +151,6 @@ Reviews sensor bypass, exclusions and anti-tamper status event families.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Diagnostics, policy deployment and sensor upgrades.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0005-007"></a>
@@ -195,10 +171,6 @@ Surfaces macros, malformed scripts and packed process detection events.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Review approved administrative operations and expected security tooling.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -222,12 +194,7 @@ Searches for process commands that may clear Windows event logs or command histo
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Approved log maintenance; inspect process ancestry and change control.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

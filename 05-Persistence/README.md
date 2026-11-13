@@ -41,10 +41,6 @@ Detects net.exe or net1.exe commands that create local or domain accounts using 
 | groupBy(CommandLine, limit=max)
 ```
 
-**False positives:** Confirm account creation in authentication and account-management telemetry; command execution alone does not prove success.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0003-002"></a>
@@ -65,10 +61,6 @@ Reviews task and autorun event families to identify persistence candidates.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, aid])
 | sort(@timestamp, order=desc, limit=1000)
 ```
-
-**False positives:** Enterprise task schedulers, application updates. Field enrichment requires fieldset validation.
-
-**Analyst pivot:** Inspect raw event fields before building a production filter.
 
 </details>
 
@@ -91,10 +83,6 @@ Retrieves registry/autorun event families that may capture persistence-related m
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Legitimate OS configuration changes and product installations.
-
-**Analyst pivot:** Validate path, hive, value and writing process from environment-specific fieldsets.
-
 </details>
 
 <a name="cs-ta0003-004"></a>
@@ -115,10 +103,6 @@ Inspects local and Active Directory account updates.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Identity lifecycle management and authorized account changes.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -142,10 +126,6 @@ Hunts for command patterns used to create or reconfigure Windows services.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Normal service deployment and software maintenance.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0003-006"></a>
@@ -168,12 +148,7 @@ Inspects WMI provider and autostart changes.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Expected system management and autorun changes.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

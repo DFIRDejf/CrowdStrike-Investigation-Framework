@@ -51,10 +51,6 @@ globalConstraints=[aid, ContextProcessId],sequence=true,within=30m,maxPerRoot=20
 | sort(Network.@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Organizational CIDRs were removed; restore approved internal/excluded ranges in your private deployment. Temporal correlation is not proof of file transfer.
-
-**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
-
 </details>
 
 <a name="cs-ta0010-002"></a>
@@ -76,10 +72,6 @@ Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 | select([@timestamp, aid, ComputerName, UserName, FileName, ParentBaseFileName, CommandLine])
 | sort(@timestamp, order=desc, limit=1000)
 ```
-
-**False positives:** Enterprise data transfers, DevOps pipelines and legitimate file synchronization.
-
-**Analyst pivot:** Correlate process access to sensitive files and approved external destinations.
 
 </details>
 
@@ -103,10 +95,6 @@ Surfaces events with upload-related names for semantic verification, not attribu
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Some LFO events relate to Falcon product ingestion, not adversary exfiltration.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0010-004"></a>
@@ -128,10 +116,6 @@ Inspects FTP command telemetry that may support transfer investigations.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Approved legacy FTP operations; validate server/client and direction.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0010-005"></a>
@@ -152,10 +136,6 @@ Lists System Resource Usage event families for later byte-volume field mapping.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Normal application/network usage; do not infer transferred bytes without verified fields.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -179,10 +159,6 @@ Aggregates connection events by remote destination and associated process.
 | sort(NetworkEvents, order=desc, limit=10000)
 ```
 
-**False positives:** Counts are connection telemetry events, not byte totals or completed sessions.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0010-007"></a>
@@ -205,12 +181,7 @@ Searches for common upload, synchronization and file-transfer commands.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Expected cloud backups and enterprise file transfers.
-
-**Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
-
 
 ---
 

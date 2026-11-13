@@ -48,10 +48,6 @@ Finds common Windows identity and domain enumeration commands.
 | sort(@timestamp, order=desc, limit=1000)
 ```
 
-**False positives:** Helpdesk, inventory, domain administrators and diagnostic scripts.
-
-**Analyst pivot:** Correlate a burst of commands under one process chain and identity.
-
 </details>
 
 <a name="cs-ta0007-002"></a>
@@ -75,10 +71,6 @@ Identifies hosts that connect to many distinct remote ports on a destination; ma
 | sort(DistinctPorts, order=desc, limit=1000)
 ```
 
-**False positives:** Vulnerability scanning, service discovery and monitoring.
-
-**Analyst pivot:** Tune port threshold against approved scanners and time window.
-
 </details>
 
 <a name="cs-ta0007-003"></a>
@@ -100,10 +92,6 @@ Surfaces WMI queries used to inspect endpoint or system details.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Enterprise inventory and device management.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0007-004"></a>
@@ -124,10 +112,6 @@ Collects AD RPC request types that may assist domain discovery.
 | select([@timestamp, #event_simpleName, ComputerName, UserName, @rawstring, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Normal directory lookups; request method must be validated.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
@@ -151,10 +135,6 @@ Searches for commands enumerating network resources and SMB shares.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized infrastructure troubleshooting.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0007-006"></a>
@@ -177,10 +157,6 @@ Finds command-line discovery of DCs and domain trust relationships.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Routine Active Directory administration.
-
-**Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-fa-002"></a>
@@ -202,10 +178,6 @@ Inventories file system artifact events to establish coverage before content-bas
 | sort(Events, order=desc, limit=1000)
 ```
 
-**False positives:** Presence depends on sensor/forensics collection; timing may reflect artifact import.
-
-**Analyst pivot:** Use per-event fieldset validation and compare event time to ingest time.
-
 </details>
 
 <a name="cs-qb-006"></a>
@@ -225,10 +197,6 @@ Lists fields seen in the query result; ideal for fieldset exploration before wri
 #event_simpleName=ProcessRollup2
 | fieldset()
 ```
-
-**False positives:** No false-positive concept: this is a schema-inspection query.
-
-**Analyst pivot:** Replace ProcessRollup2 with your selected event and inspect returned fields.
 
 </details>
 
@@ -250,10 +218,6 @@ Counts available event types in a narrow time window to guide query design.
 | groupBy([#event_simpleName], function=[count(as=EventCount)], limit=1000)
 | sort(EventCount, order=desc, limit=1000)
 ```
-
-**False positives:** Wide search can be expensive.
-
-**Analyst pivot:** Use the time picker to constrain to a short range and a specific repository where possible.
 
 </details>
 
@@ -277,10 +241,6 @@ Demonstrates field coalescing for datasets that use different identity keys.
 | select([@timestamp, InvestigationHost, InvestigationUser, FileName, CommandLine, aid])
 ```
 
-**False positives:** Coalescing missing fields returns no substitute; verify schema before use.
-
-**Analyst pivot:** Remove alternate fields not present in your environment if necessary.
-
 </details>
 
 <a name="cs-qb-009"></a>
@@ -301,10 +261,6 @@ Provides raw correlation keys for constructing process-to-network, process-to-DN
 | select([@timestamp, #event_simpleName, aid, ComputerName, TargetProcessId, ContextProcessId, FileName, ContextBaseFileName])
 | sort(@timestamp, order=asc, limit=1000)
 ```
-
-**False positives:** No detection verdict: key exploration only.
-
-**Analyst pivot:** Join ContextProcessId to TargetProcessId AND scope by aid to avoid cross-host collisions.
 
 </details>
 
@@ -332,10 +288,6 @@ correlate(
 )
 ```
 
-**False positives:** Admin scripts and security checks often use these commands.
-
-**Analyst pivot:** Change `sequence` to true when the event order itself matters; monitor correlate costs.
-
 </details>
 
 <a name="cs-cqf-005"></a>
@@ -357,12 +309,7 @@ Provides a basic browser extension activity count where the InstalledBrowserExte
 | sort(ExtensionEvents, order=desc, limit=1000)
 ```
 
-**False positives:** Event coverage varies by sensor version and license; inventory counts are not extension counts.
-
-**Analyst pivot:** Use fieldset() to identify extension IDs, names and browsers before building a real inventory.
-
 </details>
-
 
 ---
 
