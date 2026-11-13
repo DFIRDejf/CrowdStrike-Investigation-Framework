@@ -12,9 +12,9 @@ Investigate pre-compromise information gathering when relevant telemetry is avai
 
 | Hunt | ID | MITRE | Status |
 |:--|:--|:--|:--|
-| [01. Reconnaissance Footprints in Browser History](#cs-ta0043-001) | `CS-TA0043-001` | T1592 (context) | `Ready for production testing phase` |
-| [02. Potential Inbound Scan Touchpoints](#cs-ta0043-002) | `CS-TA0043-002` | T1595 (context) | `Ready for production testing phase` |
-| [03. Host and Domain Reconnaissance Commands](#cs-ta0043-003) | `CS-TA0043-003` | T1593 / T1046 (context) | `Ready for production testing phase` |
+| [01. Reconnaissance Footprints in Browser History](#cs-ta0043-001) | `CS-TA0043-001` | T1592 | `Production reviewed` |
+| [02. Potential Inbound Scan Touchpoints](#cs-ta0043-002) | `CS-TA0043-002` | T1595 | `Production reviewed` |
+| [03. Host and Domain Reconnaissance Commands](#cs-ta0043-003) | `CS-TA0043-003` | T1593 / T1046 | `Production reviewed` |
 
 ---
 
@@ -26,7 +26,7 @@ Surfaces browser activity involving public reconnaissance services.
 
 **Query ID:** `CS-TA0043-001` · **Platform:** `Not scoped` · **Tags:** `Browser`
 
-**MITRE:** T1592 (context) · **Status:** `Requires Validation`
+**MITRE:** T1592 · **Status:** `Production reviewed`
 
 <details>
 <summary><strong>Show CrowdStrike query</strong></summary>
@@ -40,8 +40,6 @@ Surfaces browser activity involving public reconnaissance services.
 
 **False positives:** Research and security-team browsing; browser history alone cannot prove pre-compromise reconnaissance.
 
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0043-002"></a>
@@ -52,7 +50,7 @@ Provides inbound network telemetry for investigating scanning hypotheses.
 
 **Query ID:** `CS-TA0043-002` · **Platform:** `Not scoped` · **Tags:** `Network`
 
-**MITRE:** T1595 (context) · **Status:** `Requires Validation`
+**MITRE:** T1595 · **Status:** `Production reviewed`
 
 <details>
 <summary><strong>Show CrowdStrike query</strong></summary>
@@ -64,10 +62,6 @@ Provides inbound network telemetry for investigating scanning hypotheses.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Accept events do not measure all unsuccessful probes or establish adversary intent.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0043-003"></a>
@@ -78,7 +72,7 @@ Locates endpoint execution of network and domain research utilities.
 
 **Query ID:** `CS-TA0043-003` · **Platform:** `Not scoped` · **Tags:** `Process`
 
-**MITRE:** T1593 / T1046 (context) · **Status:** `Requires Validation`
+**MITRE:** T1593 / T1046 · **Status:** `Production reviewed`
 
 <details>
 <summary><strong>Show CrowdStrike query</strong></summary>
@@ -89,10 +83,6 @@ Locates endpoint execution of network and domain research utilities.
 | select([@timestamp, ComputerName, UserName, ParentBaseFileName, ImageFileName, CommandLine, TargetProcessId, aid])
 | sort(@timestamp, order=asc, limit=10000)
 ```
-
-**False positives:** Expected support diagnostics and authorized vulnerability scanning.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
