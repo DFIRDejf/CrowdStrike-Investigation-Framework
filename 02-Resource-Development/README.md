@@ -12,9 +12,9 @@ Track adversary preparation and infrastructure signals where enterprise data pro
 
 | Hunt | ID | MITRE | Status |
 |:--|:--|:--|:--|
-| [01. Browser Downloads of Executables and Archives](#cs-ta0042-001) | `CS-TA0042-001` | T1588 (context) | `Ready for production testing phase` |
-| [02. Penetration Testing Utility Execution](#cs-ta0042-002) | `CS-TA0042-002` | T1588 (context) | `Ready for production testing phase` |
-| [03. Suspicious Browser Download URL Extensions](#cs-ta0042-003) | `CS-TA0042-003` | T1588 (context) | `Ready for production testing phase` |
+| [01. Browser Downloads of Executables and Archives](#cs-ta0042-001) | `CS-TA0042-001` | T1588 | `Production reviewed` |
+| [02. Penetration Testing Utility Execution](#cs-ta0042-002) | `CS-TA0042-002` | T1588 | `Production reviewed` |
+| [03. Suspicious Browser Download URL Extensions](#cs-ta0042-003) | `CS-TA0042-003` | T1588 | `Production reviewed` |
 
 ---
 
@@ -26,7 +26,7 @@ Searches browser telemetry for potentially downloaded scripts, archives and exec
 
 **Query ID:** `CS-TA0042-001` · **Platform:** `Not scoped` · **Tags:** `Browser`
 
-**MITRE:** T1588 (context) · **Status:** `Requires Validation`
+**MITRE:** T1588 (context) · **Status:** `Production reviewed`
 
 <details>
 <summary><strong>Show CrowdStrike query</strong></summary>
@@ -38,10 +38,6 @@ Searches browser telemetry for potentially downloaded scripts, archives and exec
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Routine software delivery; downloads do not prove adversary procurement.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0042-002"></a>
@@ -52,7 +48,7 @@ Identifies execution command lines referencing known offensive tooling.
 
 **Query ID:** `CS-TA0042-002` · **Platform:** `Not scoped` · **Tags:** `Process`
 
-**MITRE:** T1588 (context) · **Status:** `Requires Validation`
+**MITRE:** T1588 (context) · **Status:** `Production reviewed`
 
 <details>
 <summary><strong>Show CrowdStrike query</strong></summary>
@@ -64,10 +60,6 @@ Identifies execution command lines referencing known offensive tooling.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Authorized red teams and legitimate security testing.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
-
 </details>
 
 <a name="cs-ta0042-003"></a>
@@ -78,7 +70,7 @@ Reviews download URL extensions frequently associated with deployable tools.
 
 **Query ID:** `CS-TA0042-003` · **Platform:** `Not scoped` · **Tags:** `Browser`
 
-**MITRE:** T1588 (context) · **Status:** `Requires Validation`
+**MITRE:** T1588 (context) · **Status:** `Production reviewed`
 
 <details>
 <summary><strong>Show CrowdStrike query</strong></summary>
@@ -90,9 +82,6 @@ Reviews download URL extensions frequently associated with deployable tools.
 | sort(@timestamp, order=asc, limit=10000)
 ```
 
-**False positives:** Package managers, vendor software updates and normal file transfers.
-
-**Validation:** Confirm event and field availability and expected semantics in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
 
 </details>
 
