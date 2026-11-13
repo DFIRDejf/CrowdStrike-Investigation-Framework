@@ -11,7 +11,7 @@
 
 **A curated CQL library for threat hunting, incident response, and digital forensics.**
 
-![Language](https://img.shields.io/badge/Language-CQL-ef4444?style=flat-square) ![Platform](https://img.shields.io/badge/Platform-Falcon%20NG--SIEM-202938?style=flat-square) ![Queries](https://img.shields.io/badge/Documented%20queries-111-475569?style=flat-square)
+![Language: CQL](assets/badge-language.svg) ![Platform: Falcon NG-SIEM](assets/badge-platform.svg)
 
 **[Browse all 111 queries](QUERY-CATALOG.md)** · **[Search by MITRE technique](MITRE-TECHNIQUE-INDEX.md)** · **[Query Builder](17-Query-Builder-Helper/README.md)**
 
