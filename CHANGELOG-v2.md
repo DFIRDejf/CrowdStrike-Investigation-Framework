@@ -1,5 +1,7 @@
 # CHANGELOG — v2 GitHub Integration Pack
 
+> **Historical snapshot:** The v2 folder paths and counts below document the repository as it existed on 2026-11-10. The queries formerly located in `16-Forensic-Artifacts`, `17-Query-Builder-Helper`, and `21-Cool-Query-Friday` have since been relocated into tactic folders `04-Execution`, `09-Discovery`, `11-Collection`, and `12-Command-and-Control` without changing their original CQL or permanent IDs. Use the [current query catalog](QUERY-CATALOG.md) for valid links.
+
 **Date:** 2026-11-10\
 **Scope:** category query libraries, helper modules, and updates to the existing repository navigation.
 

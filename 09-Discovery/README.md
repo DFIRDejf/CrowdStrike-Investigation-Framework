@@ -2,7 +2,7 @@
 
 # Discovery
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0007`  ·  **6 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0007`  ·  **13 queries**
 
 Identify host, network, and Active Directory enumeration.
 
@@ -19,6 +19,13 @@ Identify host, network, and Active Directory enumeration.
 | [05. Shares and Network Enumeration Commands](#cs-ta0007-005) | `CS-TA0007-005` | T1135 / T1046 | `Requires Validation` |
 | [06. Domain Controller and Trust Discovery Commands](#cs-ta0007-006) | `CS-TA0007-006` | T1018 / T1482 | `Requires Validation` |
 
+| [07. File-System Artifact Event Inventory](#cs-fa-002) | `CS-FA-002` | DFIR utility | `Requires Validation` |
+| [08. Available Fields by Event Type](#cs-qb-006) | `CS-QB-006` | Operational utility | `Requires Validation` |
+| [09. Observed Events by Name](#cs-qb-007) | `CS-QB-007` | Operational utility | `Requires Validation` |
+| [10. Normalize Host and User Identity Across Schemas](#cs-qb-008) | `CS-QB-008` | Operational utility | `Requires Validation` |
+| [11. Process Correlation Key Reference](#cs-qb-009) | `CS-QB-009` | Operational utility | `Requires Validation` |
+| [12. Discovery Command Sequence within Five Minutes](#cs-cqf-003) | `CS-CQF-003` | T1082 / T1087 (contextual) | `Requires Validation` |
+| [13. Browser Extension Inventory by Host](#cs-cqf-005) | `CS-CQF-005` | Software inventory / attack-surface context | `Requires Validation` |
 ---
 
 <a name="cs-ta0007-001"></a>
@@ -173,6 +180,186 @@ Finds command-line discovery of DCs and domain trust relationships.
 **False positives:** Routine Active Directory administration.
 
 **Validation:** Confirm fieldsets and event semantics in the target tenant. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+<a name="cs-fa-002"></a>
+
+### 07. File-System Artifact Event Inventory
+
+Inventories file system artifact events to establish coverage before content-based hunting.
+
+**Query ID:** `CS-FA-002` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** DFIR utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=/^(FileInfo|USNRecord|PrefetchFile)$/
+| groupBy([#event_simpleName, ComputerName], function=[count(as=Events)], limit=1000)
+| sort(Events, order=desc, limit=1000)
+```
+
+**False positives:** Presence depends on sensor/forensics collection; timing may reflect artifact import.
+
+**Analyst pivot:** Use per-event fieldset validation and compare event time to ingest time.
+
+</details>
+
+<a name="cs-qb-006"></a>
+
+### 08. Available Fields by Event Type
+
+Lists fields seen in the query result; ideal for fieldset exploration before writing a high-complexity hunt.
+
+**Query ID:** `CS-QB-006` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| fieldset()
+```
+
+**False positives:** No false-positive concept: this is a schema-inspection query.
+
+**Analyst pivot:** Replace ProcessRollup2 with your selected event and inspect returned fields.
+
+</details>
+
+<a name="cs-qb-007"></a>
+
+### 09. Observed Events by Name
+
+Counts available event types in a narrow time window to guide query design.
+
+**Query ID:** `CS-QB-007` · **Platform:** `Not scoped` · **Tags:** `See query`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=*
+| groupBy([#event_simpleName], function=[count(as=EventCount)], limit=1000)
+| sort(EventCount, order=desc, limit=1000)
+```
+
+**False positives:** Wide search can be expensive.
+
+**Analyst pivot:** Use the time picker to constrain to a short range and a specific repository where possible.
+
+</details>
+
+<a name="cs-qb-008"></a>
+
+### 10. Normalize Host and User Identity Across Schemas
+
+Demonstrates field coalescing for datasets that use different identity keys.
+
+**Query ID:** `CS-QB-008` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=ProcessRollup2
+| coalesce([ComputerName, host.hostname], as=InvestigationHost)
+| coalesce([UserName, user.name], as=InvestigationUser)
+| select([@timestamp, InvestigationHost, InvestigationUser, FileName, CommandLine, aid])
+```
+
+**False positives:** Coalescing missing fields returns no substitute; verify schema before use.
+
+**Analyst pivot:** Remove alternate fields not present in your environment if necessary.
+
+</details>
+
+<a name="cs-qb-009"></a>
+
+### 11. Process Correlation Key Reference
+
+Provides raw correlation keys for constructing process-to-network, process-to-DNS and process-to-file pivots.
+
+**Query ID:** `CS-QB-009` · **Platform:** `Not scoped` · **Tags:** `DNS`, `Network`, `Process`
+
+**MITRE:** Operational utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=/^(ProcessRollup2|NetworkConnectIP4|DnsRequest)$/
+| select([@timestamp, #event_simpleName, aid, ComputerName, TargetProcessId, ContextProcessId, FileName, ContextBaseFileName])
+| sort(@timestamp, order=asc, limit=1000)
+```
+
+**False positives:** No detection verdict: key exploration only.
+
+**Analyst pivot:** Join ContextProcessId to TargetProcessId AND scope by aid to avoid cross-host collisions.
+
+</details>
+
+<a name="cs-cqf-003"></a>
+
+### 12. Discovery Command Sequence within Five Minutes
+
+Correlates discovery process executions on the same Falcon agent within a five-minute interval.
+
+**Query ID:** `CS-CQF-003` · **Platform:** `Windows` · **Tags:** `Process`
+
+**MITRE:** T1082 / T1087 (contextual) · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+correlate(
+  whoami: {#event_simpleName=ProcessRollup2 event_platform=Win FileName="whoami.exe"} include:[aid, ComputerName, FileName],
+  net: {#event_simpleName=ProcessRollup2 event_platform=Win FileName="net.exe"} include:[aid, ComputerName, FileName],
+  systeminfo: {#event_simpleName=ProcessRollup2 event_platform=Win FileName="systeminfo.exe"} include:[aid, ComputerName, FileName],
+  globalConstraints=[aid],
+  sequence=false,
+  within=5m
+)
+```
+
+**False positives:** Admin scripts and security checks often use these commands.
+
+**Analyst pivot:** Change `sequence` to true when the event order itself matters; monitor correlate costs.
+
+</details>
+
+<a name="cs-cqf-005"></a>
+
+### 13. Browser Extension Inventory by Host
+
+Provides a basic browser extension activity count where the InstalledBrowserExtension event is available.
+
+**Query ID:** `CS-CQF-005` · **Platform:** `Not scoped` · **Tags:** `Browser`
+
+**MITRE:** Software inventory / attack-surface context · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=InstalledBrowserExtension
+| groupBy([ComputerName], function=[count(as=ExtensionEvents)], limit=1000)
+| sort(ExtensionEvents, order=desc, limit=1000)
+```
+
+**False positives:** Event coverage varies by sensor version and license; inventory counts are not extension counts.
+
+**Analyst pivot:** Use fieldset() to identify extension IDs, names and browsers before building a real inventory.
 
 </details>
 
