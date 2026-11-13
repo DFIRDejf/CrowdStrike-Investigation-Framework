@@ -18,7 +18,6 @@ Identify host, network, and Active Directory enumeration.
 | [04. Active Directory RPC Enumeration Events](#cs-ta0007-004) | `CS-TA0007-004` | T1087 / T1482 | `Requires Validation` |
 | [05. Shares and Network Enumeration Commands](#cs-ta0007-005) | `CS-TA0007-005` | T1135 / T1046 | `Requires Validation` |
 | [06. Domain Controller and Trust Discovery Commands](#cs-ta0007-006) | `CS-TA0007-006` | T1018 / T1482 | `Requires Validation` |
-
 | [07. File-System Artifact Event Inventory](#cs-fa-002) | `CS-FA-002` | DFIR utility | `Requires Validation` |
 | [08. Available Fields by Event Type](#cs-qb-006) | `CS-QB-006` | Operational utility | `Requires Validation` |
 | [09. Observed Events by Name](#cs-qb-007) | `CS-QB-007` | Operational utility | `Requires Validation` |
