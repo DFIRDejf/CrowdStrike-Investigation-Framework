@@ -20,7 +20,6 @@ Correlate process, DNS, and network activity linked to potential C2.
 | [06. DNS Requests by Endpoint and Process](#cs-ta0011-006) | `CS-TA0011-006` | T1071.004 (context) | `Requires Validation` |
 | [07. SSH Tunnel Creation Events](#cs-ta0011-007) | `CS-TA0011-007` | T1572 | `Requires Validation` |
 | [08. Tunneling and Remote Tool Execution](#cs-ta0011-008) | `CS-TA0011-008` | T1572 / T1219 | `Requires Validation` |
-
 | [09. CIDR-Based Remote IP Search](#cs-qb-001) | `CS-QB-001` | Investigation utility | `Requires Validation` |
 | [10. Process and Network Connection Correlation](#cs-qb-003) | `CS-QB-003` | Investigation utility | `Requires Validation` |
 | [11. Parameterized Process Network Pivot](#cs-qb-005) | `CS-QB-005` | Investigation utility | `Requires Validation` |
