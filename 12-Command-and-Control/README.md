@@ -2,7 +2,7 @@
 
 # Command and Control
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0011`  ·  **8 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0011`  ·  **13 queries**
 
 Correlate process, DNS, and network activity linked to potential C2.
 
@@ -21,6 +21,11 @@ Correlate process, DNS, and network activity linked to potential C2.
 | [07. SSH Tunnel Creation Events](#cs-ta0011-007) | `CS-TA0011-007` | T1572 | `Requires Validation` |
 | [08. Tunneling and Remote Tool Execution](#cs-ta0011-008) | `CS-TA0011-008` | T1572 / T1219 | `Requires Validation` |
 
+| [09. CIDR-Based Remote IP Search](#cs-qb-001) | `CS-QB-001` | Investigation utility | `Requires Validation` |
+| [10. Process and Network Connection Correlation](#cs-qb-003) | `CS-QB-003` | Investigation utility | `Requires Validation` |
+| [11. Parameterized Process Network Pivot](#cs-qb-005) | `CS-QB-005` | Investigation utility | `Requires Validation` |
+| [12. New PowerShell DNS Domains Versus Previous Six Days](#cs-cqf-001) | `CS-CQF-001` | T1059.001 / T1071.004 (contextual) | `Requires Validation` |
+| [13. Process and DNS Events Paired by Falcon PID](#cs-cqf-002) | `CS-CQF-002` | C2 pivot / investigation utility | `Requires Validation` |
 ---
 
 <a name="cs-ta0011-001"></a>
@@ -234,6 +239,170 @@ Hunts for command lines involving SSH port forwarding and tunneling utilities.
 **False positives:** Authorized support, development tunnels and package retrieval.
 
 **Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+<a name="cs-qb-001"></a>
+
+### 09. CIDR-Based Remote IP Search
+
+Finds events whose RemoteIP field falls within a selected subnet.
+
+**Query ID:** `CS-QB-001` · **Platform:** `Not scoped` · **Tags:** `See query`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=*
+| cidr("RemoteIP", subnet="203.0.113.0/24")
+```
+
+**False positives:** The subnet is an RFC 5737 documentation example; replace it before use. `RemoteIP` may not exist in every event family. Broad wildcard searches are costly.
+
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+
+</details>
+
+<a name="cs-qb-003"></a>
+
+### 10. Process and Network Connection Correlation
+
+Associates process execution and network connection events using process identifiers and formats an execution chain.
+
+**Query ID:** `CS-QB-003` · **Platform:** `Not scoped` · **Tags:** `Network`, `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+defineTable(query={#event_simpleName=NetworkConnectIP4 RemoteAddressIP4=*}, include=[ContextTimeStamp, ContextProcessId, RemoteAddressIP4, RemotePort], name="NetConnIP4")
+| #event_simpleName=ProcessRollup2
+| match(file=NetConnIP4, field=[TargetProcessId], column=ContextProcessId)
+| ContextTimeStamp := ContextTimeStamp*1000
+| ProcessStartTime := ProcessStartTime*1000
+| formatTime(format="%Y/%m/%d %H:%M:%S %Z", field=ContextTimeStamp, as="NetConnectTime")
+| formatTime(format="%Y/%m/%d %H:%M:%S %Z", field=ProcessStartTime, as="ProcStartTime")
+| case{
+GrandParentBaseFileName!=* | GrandParentBaseFileName:="Unknown";
+*;
+}
+| format(format="%s -> %s -> %s", field=[GrandParentBaseFileName, ParentBaseFileName, FileName], as=ExecutionChain)
+| groupBy([NetConnectTime, ComputerName, UserName, RemoteAddressIP4, RemotePort, ProcStartTime, ExecutionChain, CommandLine])
+```
+
+**False positives:** Match keys are process identifiers; review host scoping to avoid collisions and verify timestamp units.
+
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+
+</details>
+
+<a name="cs-qb-005"></a>
+
+### 11. Parameterized Process Network Pivot
+
+Provides process/network correlation with analyst parameters and external reputation links.
+
+**Query ID:** `CS-QB-005` · **Platform:** `Not scoped` · **Tags:** `Process`
+
+**MITRE:** Investigation utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressIP4], name="Network")
+| #event_simpleName="ProcessRollup2"
+| match(file="Network", field=[TargetProcessId], column=ContextProcessId)
+| ParentProcessId=?Parent_Process_ID
+ParentBaseFileName=?File
+UserName=?User
+ComputerName=?Computer
+TargetProcessId=?Child_Process_ID
+| ProcessStartTime:=ProcessStartTime*1000 | ProcessStartTime:=formatTime("%Y-%m-%dT%H:%M:%S.%L",field=ProcessStartTime, timezone="UTC")
+| case{
+ExecutionChain:=format(format="%s\n\t└ %s (%s)\n\t\t└%s", field=[ParentBaseFileName, FileName, RawProcessId, CommandLine]);
+}
+| format("[VT Hash reputation](https://www.virustotal.com/gui/file/%s)", field=[SHA256HashData], as="VTHashInfo")
+| format("[VT IP reputation](https://www.virustotal.com/gui/ip-address/%s)", field=[RemoteAddressIP4], as="VTIPInfo")
+| format("[Abuse IPDB IP reputation](https://www.abuseipdb.com/check/%s)", field=[RemoteAddressIP4], as="IPDBInfo")
+| format("[Graph Explorer](https://falcon.crowdstrike.com/graphs/process-explorer/graph?id=pid:%s:%s)", field=[aid, TargetProcessId], as="Graph Explorer")
+| format("[Indicator Graph](https://falcon.crowdstrike.com/intelligence/graph?indicators=ip%%3A%%27%s%%27%%2Chash%%3A%%27%s%%27)",field=[RemoteAddressIP4, SHA256HashData],as="Indicator Graph")
+| format("[Remote Access Graph](https://falcon.crowdstrike.com//investigate/remote-access-graph?timeRange=last30Days&userName=%s)", field=["UserName"], as="Remote Access Graph")
+| groupBy([aid,ParentProcessId,TargetProcessId, ComputerName, UserName, ExecutionChain, RemoteAddressIP4, "Graph Explorer", "Indicator Graph", "Remote Access Graph","VTHashInfo","VTIPInfo","IPDBInfo"], function=[])
+| sort(ProcessStartTime, order=asc, limit=max)
+```
+
+**False positives:** The final sort references ProcessStartTime after groupBy without retaining it in grouping fields; validate expected output.
+
+**Analyst pivot:** Scope by host, user and narrow time window; pivot to process tree and nearby evidence before concluding malicious activity.
+
+</details>
+
+<a name="cs-cqf-001"></a>
+
+### 12. New PowerShell DNS Domains Versus Previous Six Days
+
+Compares current PowerShell DNS resolutions against a historical baseline using a small lookup table.
+
+**Query ID:** `CS-CQF-001` · **Platform:** `Windows` · **Tags:** `DNS`
+
+**MITRE:** T1059.001 / T1071.004 (contextual) · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+setTimeInterval(start="1d")
+| defineTable(
+    start=7d,
+    end=1d,
+    query={#event_simpleName=DnsRequest event_platform=Win ContextBaseFileName=powershell.exe | DomainName=*},
+    include=[DomainName],
+    name="PreviousPowerShellDomains")
+| #event_simpleName=DnsRequest event_platform=Win ContextBaseFileName=powershell.exe
+| DomainName=*
+| !match(file="PreviousPowerShellDomains", field=[DomainName], strict=true)
+| groupBy([ComputerName, DomainName], function=[count(as=Observations)], limit=1000)
+```
+
+**False positives:** New domains may be legitimate. Use allowlists and domain age/reputation.
+
+**Analyst pivot:** Compare full-domain and registrable-domain baselines. Inspired by 2024-09-27 CQF.
+
+</details>
+
+<a name="cs-cqf-002"></a>
+
+### 13. Process and DNS Events Paired by Falcon PID
+
+Uses a two-pass filter to retain process and DNS records sharing aid and Falcon process identity.
+
+**Query ID:** `CS-CQF-002` · **Platform:** `Not scoped` · **Tags:** `DNS`, `Process`
+
+**MITRE:** C2 pivot / investigation utility · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=/^(ProcessRollup2|DnsRequest)$/
+| case {
+    #event_simpleName=ProcessRollup2 | FalconPID:=TargetProcessId;
+    #event_simpleName=DnsRequest | FalconPID:=ContextProcessId;
+  }
+| FalconPID=*
+| selfJoinFilter(field=[aid, FalconPID], where=[{#event_simpleName=ProcessRollup2}, {#event_simpleName=DnsRequest}], prefilter=true)
+| groupBy([aid, FalconPID], function=[collect([ComputerName, FileName, DomainName, CommandLine])], limit=1000)
+```
+
+**False positives:** Two-pass search can be expensive. selfJoinFilter is probabilistic: confirm candidate matches.
+
+**Analyst pivot:** Correlate process ID with aid and inspect raw events. Inspired by 2023-09-20 CQF.
 
 </details>
 

@@ -2,7 +2,7 @@
 
 # Collection
 
-**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0009`  ·  **9 queries**
+**CrowdStrike Falcon / NG-SIEM**  ·  **CQL**  ·  `TA0009`  ·  **10 queries**
 
 Find access to sensitive files, staging paths, and data packaging activity.
 
@@ -22,6 +22,7 @@ Find access to sensitive files, staging paths, and data packaging activity.
 | [08. Archive Output and High-Entropy Write Events](#cs-ta0009-008) | `CS-TA0009-008` | T1560 | `Requires Validation` |
 | [09. Specific Archive Format Writes](#cs-ta0009-009) | `CS-TA0009-009` | T1560 | `Requires Validation` |
 
+| [10. Potential Archive Artifacts in File Metadata](#cs-fa-003) | `CS-FA-003` | DFIR / T1560 (contextual) | `Requires Validation` |
 ---
 
 <a name="cs-ta0009-001"></a>
@@ -253,6 +254,32 @@ Reviews recognized archive file write events by compression type.
 **False positives:** Approved packaging, application caches and software distribution.
 
 **Validation:** Confirm event fields and semantic coverage in Falcon. [DO WERYFIKACJI W ŚRODOWISKU]
+
+</details>
+
+<a name="cs-fa-003"></a>
+
+### 10. Potential Archive Artifacts in File Metadata
+
+Searches for common archive/file-exfil extensions in file-system evidence.
+
+**Query ID:** `CS-FA-003` · **Platform:** `Not scoped` · **Tags:** `File`
+
+**MITRE:** DFIR / T1560 (contextual) · **Status:** `Requires Validation`
+
+<details>
+<summary><strong>Show CrowdStrike query</strong></summary>
+
+```cql
+#event_simpleName=/^(FileInfo|USNRecord)$/
+| FileName=/\.(zip|7z|rar|tar|gz|pst|bak|sql)$/i
+| select([@timestamp, #event_simpleName, ComputerName, FileName, aid])
+| sort(@timestamp, order=desc, limit=1000)
+```
+
+**False positives:** Common business artifacts and backup packages. FileName must be verified for both event families.
+
+**Analyst pivot:** Compare metadata, file path, process and related archive-write telemetry.
 
 </details>
 

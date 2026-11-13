@@ -2,7 +2,7 @@
 
 [← Home](README.md) · [MITRE techniques](MITRE-TECHNIQUE-INDEX.md) · [Telemetry index](TELEMETRY-INDEX.md)
 
-**111 queries** · **14 ATT&CK tactics** · **3 modules**
+**111 queries** · **14 ATT&CK tactic categories**
 
 Find a query with **Ctrl+F**. IDs and direct links remain stable when a query title changes.
 
@@ -31,6 +31,10 @@ Find a query with **Ctrl+F**. IDs and direct links remain stable when a query ti
 | [Shell and Packed Executable Event Inventory](04-Execution/README.md#cs-ta0002-008) | `CS-TA0002-008` | [Execution](04-Execution/README.md) | T1059 / T1027 | `Requires Validation` |
 | [Command History and New Script Telemetry](04-Execution/README.md#cs-ta0002-009) | `CS-TA0002-009` | [Execution](04-Execution/README.md) | T1059 | `Requires Validation` |
 | [Baseline Process and Ancestry Context](04-Execution/README.md#cs-ta0002-010) | `CS-TA0002-010` | [Execution](04-Execution/README.md) | T1059 (context) | `Requires Validation` |
+| [Executable File Written After User Logon](04-Execution/README.md#cs-fa-001) | `CS-FA-001` | [Execution](04-Execution/README.md) | Investigation utility | `Requires Validation` |
+| [Command History Scoped Search](04-Execution/README.md#cs-qb-002) | `CS-QB-002` | [Execution](04-Execution/README.md) | Investigation utility | `Requires Validation` |
+| [Command History and Process Rollup](04-Execution/README.md#cs-qb-004) | `CS-QB-004` | [Execution](04-Execution/README.md) | Investigation utility | `Requires Validation` |
+| [Encoded PowerShell Query Profiling](04-Execution/README.md#cs-cqf-004) | `CS-CQF-004` | [Execution](04-Execution/README.md) | Performance diagnostic | `Requires Validation` |
 | [Local Account Creation via Net](05-Persistence/README.md#cs-ta0003-001) | `CS-TA0003-001` | [Persistence](05-Persistence/README.md) | T1136 | `Requires Validation` |
 | [Scheduled Task Registration and Autorun Telemetry](05-Persistence/README.md#cs-ta0003-002) | `CS-TA0003-002` | [Persistence](05-Persistence/README.md) | T1053.005 / T1547.001 | `Requires Validation` |
 | [Run Keys and Startup Artifact Telemetry](05-Persistence/README.md#cs-ta0003-003) | `CS-TA0003-003` | [Persistence](05-Persistence/README.md) | T1547.001 | `Requires Validation` |
@@ -64,6 +68,13 @@ Find a query with **Ctrl+F**. IDs and direct links remain stable when a query ti
 | [Active Directory RPC Enumeration Events](09-Discovery/README.md#cs-ta0007-004) | `CS-TA0007-004` | [Discovery](09-Discovery/README.md) | T1087 / T1482 | `Requires Validation` |
 | [Shares and Network Enumeration Commands](09-Discovery/README.md#cs-ta0007-005) | `CS-TA0007-005` | [Discovery](09-Discovery/README.md) | T1135 / T1046 | `Requires Validation` |
 | [Domain Controller and Trust Discovery Commands](09-Discovery/README.md#cs-ta0007-006) | `CS-TA0007-006` | [Discovery](09-Discovery/README.md) | T1018 / T1482 | `Requires Validation` |
+| [File-System Artifact Event Inventory](09-Discovery/README.md#cs-fa-002) | `CS-FA-002` | [Discovery](09-Discovery/README.md) | DFIR utility | `Requires Validation` |
+| [Available Fields by Event Type](09-Discovery/README.md#cs-qb-006) | `CS-QB-006` | [Discovery](09-Discovery/README.md) | Operational utility | `Requires Validation` |
+| [Observed Events by Name](09-Discovery/README.md#cs-qb-007) | `CS-QB-007` | [Discovery](09-Discovery/README.md) | Operational utility | `Requires Validation` |
+| [Normalize Host and User Identity Across Schemas](09-Discovery/README.md#cs-qb-008) | `CS-QB-008` | [Discovery](09-Discovery/README.md) | Operational utility | `Requires Validation` |
+| [Process Correlation Key Reference](09-Discovery/README.md#cs-qb-009) | `CS-QB-009` | [Discovery](09-Discovery/README.md) | Operational utility | `Requires Validation` |
+| [Discovery Command Sequence within Five Minutes](09-Discovery/README.md#cs-cqf-003) | `CS-CQF-003` | [Discovery](09-Discovery/README.md) | T1082 / T1087 (contextual) | `Requires Validation` |
+| [Browser Extension Inventory by Host](09-Discovery/README.md#cs-cqf-005) | `CS-CQF-005` | [Discovery](09-Discovery/README.md) | Software inventory / attack-surface context | `Requires Validation` |
 | [High-Volume SMB Connections](10-Lateral-Movement/README.md#cs-ta0008-001) | `CS-TA0008-001` | [Lateral Movement](10-Lateral-Movement/README.md) | T1021.002 | `Requires Validation` |
 | [SMB Server Audit Events](10-Lateral-Movement/README.md#cs-ta0008-002) | `CS-TA0008-002` | [Lateral Movement](10-Lateral-Movement/README.md) | T1021.002 | `Requires Validation` |
 | [SMB Share Open Events](10-Lateral-Movement/README.md#cs-ta0008-003) | `CS-TA0008-003` | [Lateral Movement](10-Lateral-Movement/README.md) | T1021.002 | `Requires Validation` |
@@ -84,6 +95,7 @@ Find a query with **Ctrl+F**. IDs and direct links remain stable when a query ti
 | [File and USN Metadata for Archives](11-Collection/README.md#cs-ta0009-007) | `CS-TA0009-007` | [Collection](11-Collection/README.md) | T1005 / T1560 | `Requires Validation` |
 | [Archive Output and High-Entropy Write Events](11-Collection/README.md#cs-ta0009-008) | `CS-TA0009-008` | [Collection](11-Collection/README.md) | T1560 | `Requires Validation` |
 | [Specific Archive Format Writes](11-Collection/README.md#cs-ta0009-009) | `CS-TA0009-009` | [Collection](11-Collection/README.md) | T1560 | `Requires Validation` |
+| [Potential Archive Artifacts in File Metadata](11-Collection/README.md#cs-fa-003) | `CS-FA-003` | [Collection](11-Collection/README.md) | DFIR / T1560 (contextual) | `Requires Validation` |
 | [DNS and Network Connections by Process](12-Command-and-Control/README.md#cs-ta0011-001) | `CS-TA0011-001` | [Command and Control](12-Command-and-Control/README.md) | T1071.001 (contextual) | `Requires Validation` |
 | [Process Execution and DNS Correlation](12-Command-and-Control/README.md#cs-ta0011-002) | `CS-TA0011-002` | [Command and Control](12-Command-and-Control/README.md) | Investigation utility | `Requires Validation` |
 | [DNS Queries from Investigated Endpoints](12-Command-and-Control/README.md#cs-ta0011-003) | `CS-TA0011-003` | [Command and Control](12-Command-and-Control/README.md) | T1071.004 (contextual) | `Requires Validation` |
@@ -92,6 +104,11 @@ Find a query with **Ctrl+F**. IDs and direct links remain stable when a query ti
 | [DNS Requests by Endpoint and Process](12-Command-and-Control/README.md#cs-ta0011-006) | `CS-TA0011-006` | [Command and Control](12-Command-and-Control/README.md) | T1071.004 (context) | `Requires Validation` |
 | [SSH Tunnel Creation Events](12-Command-and-Control/README.md#cs-ta0011-007) | `CS-TA0011-007` | [Command and Control](12-Command-and-Control/README.md) | T1572 | `Requires Validation` |
 | [Tunneling and Remote Tool Execution](12-Command-and-Control/README.md#cs-ta0011-008) | `CS-TA0011-008` | [Command and Control](12-Command-and-Control/README.md) | T1572 / T1219 | `Requires Validation` |
+| [CIDR-Based Remote IP Search](12-Command-and-Control/README.md#cs-qb-001) | `CS-QB-001` | [Command and Control](12-Command-and-Control/README.md) | Investigation utility | `Requires Validation` |
+| [Process and Network Connection Correlation](12-Command-and-Control/README.md#cs-qb-003) | `CS-QB-003` | [Command and Control](12-Command-and-Control/README.md) | Investigation utility | `Requires Validation` |
+| [Parameterized Process Network Pivot](12-Command-and-Control/README.md#cs-qb-005) | `CS-QB-005` | [Command and Control](12-Command-and-Control/README.md) | Investigation utility | `Requires Validation` |
+| [New PowerShell DNS Domains Versus Previous Six Days](12-Command-and-Control/README.md#cs-cqf-001) | `CS-CQF-001` | [Command and Control](12-Command-and-Control/README.md) | T1059.001 / T1071.004 (contextual) | `Requires Validation` |
+| [Process and DNS Events Paired by Falcon PID](12-Command-and-Control/README.md#cs-cqf-002) | `CS-CQF-002` | [Command and Control](12-Command-and-Control/README.md) | C2 pivot / investigation utility | `Requires Validation` |
 | [Sensitive File Access Followed by External Connection](13-Exfiltration/README.md#cs-ta0010-001) | `CS-TA0010-001` | [Exfiltration](13-Exfiltration/README.md) | T1041 (potential) | `Requires Validation` |
 | [Command-Line Upload and Transfer Indicators](13-Exfiltration/README.md#cs-ta0010-002) | `CS-TA0010-002` | [Exfiltration](13-Exfiltration/README.md) | T1048 / T1567 (contextual) | `Requires Validation` |
 | [Upload-Related Falcon Event Inventory](13-Exfiltration/README.md#cs-ta0010-003) | `CS-TA0010-003` | [Exfiltration](13-Exfiltration/README.md) | T1041 (context) | `Requires Validation` |
@@ -104,24 +121,6 @@ Find a query with **Ctrl+F**. IDs and direct links remain stable when a query ti
 | [Host Prevention and Containment Event Inventory](14-Impact/README.md#cs-ta0040-003) | `CS-TA0040-003` | [Impact](14-Impact/README.md) | T1489 (context) | `Requires Validation` |
 | [Service and Account Disruption Events](14-Impact/README.md#cs-ta0040-004) | `CS-TA0040-004` | [Impact](14-Impact/README.md) | T1489 / T1531 | `Requires Validation` |
 | [Recovery Inhibition Command Indicators](14-Impact/README.md#cs-ta0040-005) | `CS-TA0040-005` | [Impact](14-Impact/README.md) | T1490 | `Requires Validation` |
-| [Executable File Written After User Logon](16-Forensic-Artifacts/README.md#cs-fa-001) | `CS-FA-001` | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | Investigation utility | `Requires Validation` |
-| [File-System Artifact Event Inventory](16-Forensic-Artifacts/README.md#cs-fa-002) | `CS-FA-002` | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | DFIR utility | `Requires Validation` |
-| [Potential Archive Artifacts in File Metadata](16-Forensic-Artifacts/README.md#cs-fa-003) | `CS-FA-003` | [Forensic Artifacts](16-Forensic-Artifacts/README.md) | DFIR / T1560 (contextual) | `Requires Validation` |
-| [CIDR-Based Remote IP Search](17-Query-Builder-Helper/README.md#cs-qb-001) | `CS-QB-001` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | `Requires Validation` |
-| [Command History Scoped Search](17-Query-Builder-Helper/README.md#cs-qb-002) | `CS-QB-002` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | `Requires Validation` |
-| [Process and Network Connection Correlation](17-Query-Builder-Helper/README.md#cs-qb-003) | `CS-QB-003` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | `Requires Validation` |
-| [Command History and Process Rollup](17-Query-Builder-Helper/README.md#cs-qb-004) | `CS-QB-004` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | `Requires Validation` |
-| [Parameterized Process Network Pivot](17-Query-Builder-Helper/README.md#cs-qb-005) | `CS-QB-005` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Investigation utility | `Requires Validation` |
-| [Available Fields by Event Type](17-Query-Builder-Helper/README.md#cs-qb-006) | `CS-QB-006` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Operational utility | `Requires Validation` |
-| [Observed Events by Name](17-Query-Builder-Helper/README.md#cs-qb-007) | `CS-QB-007` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Operational utility | `Requires Validation` |
-| [Normalize Host and User Identity Across Schemas](17-Query-Builder-Helper/README.md#cs-qb-008) | `CS-QB-008` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Operational utility | `Requires Validation` |
-| [Process Correlation Key Reference](17-Query-Builder-Helper/README.md#cs-qb-009) | `CS-QB-009` | [Query Builder Helper](17-Query-Builder-Helper/README.md) | Operational utility | `Requires Validation` |
-| [New PowerShell DNS Domains Versus Previous Six Days](21-Cool-Query-Friday/README.md#cs-cqf-001) | `CS-CQF-001` | [Cool Query Friday](21-Cool-Query-Friday/README.md) | T1059.001 / T1071.004 (contextual) | `Requires Validation` |
-| [Process and DNS Events Paired by Falcon PID](21-Cool-Query-Friday/README.md#cs-cqf-002) | `CS-CQF-002` | [Cool Query Friday](21-Cool-Query-Friday/README.md) | C2 pivot / investigation utility | `Requires Validation` |
-| [Discovery Command Sequence within Five Minutes](21-Cool-Query-Friday/README.md#cs-cqf-003) | `CS-CQF-003` | [Cool Query Friday](21-Cool-Query-Friday/README.md) | T1082 / T1087 (contextual) | `Requires Validation` |
-| [Encoded PowerShell Query Profiling](21-Cool-Query-Friday/README.md#cs-cqf-004) | `CS-CQF-004` | [Cool Query Friday](21-Cool-Query-Friday/README.md) | Performance diagnostic | `Requires Validation` |
-| [Browser Extension Inventory by Host](21-Cool-Query-Friday/README.md#cs-cqf-005) | `CS-CQF-005` | [Cool Query Friday](21-Cool-Query-Friday/README.md) | Software inventory / attack-surface context | `Requires Validation` |
-
 **Status:** Requires Validation = not yet tested in the target Falcon environment. Tested and Production reviewed require recorded evidence.
 
 [← Home](README.md)
