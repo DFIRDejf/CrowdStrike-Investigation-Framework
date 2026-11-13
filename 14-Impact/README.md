@@ -42,6 +42,8 @@ Searches for common commands used to remove backups or interfere with recovery.
 
 </details>
 
+---
+
 <a name="cs-ta0040-002"></a>
 
 ### 02. Ransomware File Rename and Entropy Events
@@ -62,6 +64,8 @@ Collects file events associated with encryption, renaming and boot record tamper
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0040-003"></a>
 
@@ -84,6 +88,8 @@ Displays endpoint controls blocking operations or processes; these do not themse
 
 </details>
 
+---
+
 <a name="cs-ta0040-004"></a>
 
 ### 04. Service and Account Disruption Events
@@ -104,6 +110,8 @@ Surfaces group/user disruption and service creation telemetry.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0040-005"></a>
 

@@ -25,9 +25,9 @@
 |:--|:--|
 | **Find a query** by name, category or technique | [Global CQL Query Catalog](QUERY-CATALOG.md) |
 | **Pivot from a MITRE technique** to hunts | [MITRE Technique Index](MITRE-TECHNIQUE-INDEX.md) |
-| **Build or optimize a query** | [CQL Functions](18-CQL-Functions/README.md) · [Optimization & QA](20-Query-Optimization-and-QA/README.md) · [Contribution guide](CONTRIBUTING.md) |
-| **Review telemetry coverage** | [Telemetry Index](TELEMETRY-INDEX.md) · [Event & Field Reference](19-Event-and-Field-Reference/README.md) |
-| **Contribute a hunt** | [Contribution guide](CONTRIBUTING.md) · [Detection Engineering](22-Detection-Engineering/README.md) |
+| **Build or optimize a query** | [CQL Functions](15-CQL-Functions/README.md) · [Optimization & QA](17-Query-Optimization-and-QA/README.md) · [Contribution guide](CONTRIBUTING.md) |
+| **Review telemetry coverage** | [Telemetry Index](TELEMETRY-INDEX.md) · [Event & Field Reference](16-Event-and-Field-Reference/README.md) |
+| **Contribute a hunt** | [Contribution guide](CONTRIBUTING.md) · [Detection Engineering](18-Detection-Engineering/README.md) |
 
 ## ATT&CK hunting library
 
@@ -54,10 +54,10 @@
 
 | Module | Content |
 |:--|:--|
-| [CQL Functions](18-CQL-Functions/README.md) | Reference |
-| [Event & Field Reference](19-Event-and-Field-Reference/README.md) | Reference |
-| [Query Optimization & QA](20-Query-Optimization-and-QA/README.md) | Guidelines |
-| [Detection Engineering](22-Detection-Engineering/README.md) | Guidelines |
+| [CQL Functions](15-CQL-Functions/README.md) | Reference |
+| [Event & Field Reference](16-Event-and-Field-Reference/README.md) | Reference |
+| [Query Optimization & QA](17-Query-Optimization-and-QA/README.md) | Guidelines |
+| [Detection Engineering](18-Detection-Engineering/README.md) | Guidelines |
 
 ## How to use
 

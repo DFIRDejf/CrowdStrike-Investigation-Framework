@@ -50,6 +50,8 @@ defineTable(query={#event_simpleName=DnsRequest | wildcard(field=DomainName, pat
 
 </details>
 
+---
+
 <a name="cs-ta0011-002"></a>
 
 ### 02. Process Execution and DNS Correlation
@@ -79,6 +81,8 @@ setTimeInterval(start="7d")
 
 </details>
 
+---
+
 <a name="cs-ta0011-003"></a>
 
 ### 03. DNS Queries from Investigated Endpoints
@@ -100,6 +104,8 @@ Provides a compact DNS telemetry starting point for domain, process and destinat
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0011-004"></a>
 
@@ -123,6 +129,8 @@ Looks for potential tunneling flags and remote control tool names in process com
 
 </details>
 
+---
+
 <a name="cs-ta0011-005"></a>
 
 ### 05. DNS Request and Suspicious DNS Detection Events
@@ -145,6 +153,8 @@ Surfaces suspicious DNS detections and DNS requests for investigation.
 
 </details>
 
+---
+
 <a name="cs-ta0011-006"></a>
 
 ### 06. DNS Requests by Endpoint and Process
@@ -166,6 +176,8 @@ Shows DNS resolution and available process correlation fields.
 
 </details>
 
+---
+
 <a name="cs-ta0011-007"></a>
 
 ### 07. SSH Tunnel Creation Events
@@ -186,6 +198,8 @@ Lists SSH tunnel creation telemetry for follow-up.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0011-008"></a>
 
@@ -209,6 +223,8 @@ Hunts for command lines involving SSH port forwarding and tunneling utilities.
 
 </details>
 
+---
+
 <a name="cs-qb-001"></a>
 
 ### 09. CIDR-Based Remote IP Search
@@ -228,6 +244,8 @@ Finds events whose RemoteIP field falls within a selected subnet.
 ```
 
 </details>
+
+---
 
 <a name="cs-qb-003"></a>
 
@@ -259,6 +277,8 @@ GrandParentBaseFileName!=* | GrandParentBaseFileName:="Unknown";
 ```
 
 </details>
+
+---
 
 <a name="cs-qb-005"></a>
 
@@ -298,6 +318,8 @@ ExecutionChain:=format(format="%s\n\t└ %s (%s)\n\t\t└%s", field=[ParentBaseF
 
 </details>
 
+---
+
 <a name="cs-cqf-001"></a>
 
 ### 12. New PowerShell DNS Domains Versus Previous Six Days
@@ -326,6 +348,8 @@ setTimeInterval(start="1d")
 ```
 
 </details>
+
+---
 
 <a name="cs-cqf-002"></a>
 

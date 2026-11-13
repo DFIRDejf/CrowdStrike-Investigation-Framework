@@ -49,6 +49,8 @@ RemotePort=445
 
 </details>
 
+---
+
 <a name="cs-ta0008-002"></a>
 
 ### 02. SMB Server Audit Events
@@ -74,6 +76,8 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 
 </details>
 
+---
+
 <a name="cs-ta0008-003"></a>
 
 ### 03. SMB Share Open Events
@@ -98,6 +102,8 @@ Filters SMB server telemetry for investigation-scoped host, user, and local IP i
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0008-004"></a>
 
@@ -126,6 +132,8 @@ defineTable(query={NetworkConnectIP4}, include=[ContextProcessId, RemoteAddressI
 
 </details>
 
+---
+
 <a name="cs-ta0008-005"></a>
 
 ### 05. PsExec WinRM and Remote Service Command Patterns
@@ -148,6 +156,8 @@ Searches process command lines for remote execution and remote management patter
 
 </details>
 
+---
+
 <a name="cs-ta0008-006"></a>
 
 ### 06. SMB Client and Server Event Family Inventory
@@ -168,6 +178,8 @@ Inventories SMB client/server share opening and closing activity before adding n
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0008-007"></a>
 
@@ -190,6 +202,8 @@ Collects SMB client/server share opened or closed events.
 
 </details>
 
+---
+
 <a name="cs-ta0008-008"></a>
 
 ### 08. SMB Logon Brute Force Events
@@ -210,6 +224,8 @@ Surfaces SMB share authentication brute-force detections.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0008-009"></a>
 
@@ -232,6 +248,8 @@ Investigates new network shares and changed share permissions.
 
 </details>
 
+---
+
 <a name="cs-ta0008-010"></a>
 
 ### 10. Remote Shell and Session Events
@@ -252,6 +270,8 @@ Collects remote command, interactive session and shell command activity.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0008-011"></a>
 

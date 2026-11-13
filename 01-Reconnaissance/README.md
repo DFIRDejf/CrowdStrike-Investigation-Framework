@@ -40,6 +40,8 @@ Surfaces browser activity involving public reconnaissance services.
 
 </details>
 
+---
+
 <a name="cs-ta0043-002"></a>
 
 ### 02. Potential Inbound Scan Touchpoints
@@ -61,6 +63,8 @@ Provides inbound network telemetry for investigating scanning hypotheses.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0043-003"></a>
 

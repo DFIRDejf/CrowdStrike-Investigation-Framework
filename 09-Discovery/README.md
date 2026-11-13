@@ -49,6 +49,8 @@ Finds common Windows identity and domain enumeration commands.
 
 </details>
 
+---
+
 <a name="cs-ta0007-002"></a>
 
 ### 02. High Port Diversity by Destination
@@ -72,6 +74,8 @@ Identifies hosts that connect to many distinct remote ports on a destination; ma
 
 </details>
 
+---
+
 <a name="cs-ta0007-003"></a>
 
 ### 03. WMI Query Telemetry
@@ -93,6 +97,8 @@ Surfaces WMI queries used to inspect endpoint or system details.
 
 </details>
 
+---
+
 <a name="cs-ta0007-004"></a>
 
 ### 04. Active Directory RPC Enumeration Events
@@ -113,6 +119,8 @@ Collects AD RPC request types that may assist domain discovery.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0007-005"></a>
 
@@ -136,6 +144,8 @@ Searches for commands enumerating network resources and SMB shares.
 
 </details>
 
+---
+
 <a name="cs-ta0007-006"></a>
 
 ### 06. Domain Controller and Trust Discovery Commands
@@ -158,6 +168,8 @@ Finds command-line discovery of DCs and domain trust relationships.
 
 </details>
 
+---
+
 <a name="cs-fa-002"></a>
 
 ### 07. File-System Artifact Event Inventory
@@ -179,6 +191,8 @@ Inventories file system artifact events to establish coverage before content-bas
 
 </details>
 
+---
+
 <a name="cs-qb-006"></a>
 
 ### 08. Available Fields by Event Type
@@ -198,6 +212,8 @@ Lists fields seen in the query result; ideal for fieldset exploration before wri
 ```
 
 </details>
+
+---
 
 <a name="cs-qb-007"></a>
 
@@ -219,6 +235,8 @@ Counts available event types in a narrow time window to guide query design.
 ```
 
 </details>
+
+---
 
 <a name="cs-qb-008"></a>
 
@@ -242,6 +260,8 @@ Demonstrates field coalescing for datasets that use different identity keys.
 
 </details>
 
+---
+
 <a name="cs-qb-009"></a>
 
 ### 11. Process Correlation Key Reference
@@ -262,6 +282,8 @@ Provides raw correlation keys for constructing process-to-network, process-to-DN
 ```
 
 </details>
+
+---
 
 <a name="cs-cqf-003"></a>
 
@@ -288,6 +310,8 @@ correlate(
 ```
 
 </details>
+
+---
 
 <a name="cs-cqf-005"></a>
 

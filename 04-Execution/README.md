@@ -53,6 +53,8 @@ Retrieves investigation-scoped scripting or remote command telemetry.
 
 </details>
 
+---
+
 <a name="cs-ta0002-002"></a>
 
 ### 02. Remote Command Response Events
@@ -77,6 +79,8 @@ Retrieves investigation-scoped scripting or remote command telemetry.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0002-003"></a>
 
@@ -112,6 +116,8 @@ globalConstraints=[ComputerName]
 
 </details>
 
+---
+
 <a name="cs-ta0002-004"></a>
 
 ### 04. Suspicious PowerShell Interpreter Arguments
@@ -135,6 +141,8 @@ Finds PowerShell executions involving encoded commands and common remote content
 
 </details>
 
+---
+
 <a name="cs-ta0002-005"></a>
 
 ### 05. WMI Remote Process Creation Commands
@@ -156,6 +164,8 @@ Searches command-line arguments often associated with WMI or CIM remote process 
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0002-006"></a>
 
@@ -180,6 +190,8 @@ Examines command-shell execution with potentially interesting shell switches.
 
 </details>
 
+---
+
 <a name="cs-ta0002-007"></a>
 
 ### 07. Selected Offensive Tool Names in Command Lines
@@ -202,6 +214,8 @@ Provides a targeted keyword hunt for commonly abused tool names; keyword matchin
 
 </details>
 
+---
+
 <a name="cs-ta0002-008"></a>
 
 ### 08. Shell and Packed Executable Event Inventory
@@ -222,6 +236,8 @@ Queries endpoint shell tracing and packed executable events.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0002-009"></a>
 
@@ -245,6 +261,8 @@ Surfaces command history and script-writing events for shell investigations.
 
 </details>
 
+---
+
 <a name="cs-ta0002-010"></a>
 
 ### 10. Baseline Process and Ancestry Context
@@ -265,6 +283,8 @@ Lists process execution fields to pivot on parent, grandparent and command line.
 ```
 
 </details>
+
+---
 
 <a name="cs-fa-001"></a>
 
@@ -294,6 +314,8 @@ Joins executable file writes with user logon events to investigate executable cr
 
 </details>
 
+---
+
 <a name="cs-qb-002"></a>
 
 ### 12. Command History Scoped Search
@@ -320,6 +342,8 @@ Retrieves command history for investigation-scoped hosts and identities and sort
 ```
 
 </details>
+
+---
 
 <a name="cs-qb-004"></a>
 
@@ -349,6 +373,8 @@ setTimeInterval(start="7d")
 ```
 
 </details>
+
+---
 
 <a name="cs-cqf-004"></a>
 

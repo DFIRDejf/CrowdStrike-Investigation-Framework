@@ -53,6 +53,8 @@ globalConstraints=[aid, ContextProcessId],sequence=true,within=30m,maxPerRoot=20
 
 </details>
 
+---
+
 <a name="cs-ta0010-002"></a>
 
 ### 02. Command-Line Upload and Transfer Indicators
@@ -74,6 +76,8 @@ Surfaces usage of command-line transfer utilities and upload-oriented arguments.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0010-003"></a>
 
@@ -97,6 +101,8 @@ Surfaces events with upload-related names for semantic verification, not attribu
 
 </details>
 
+---
+
 <a name="cs-ta0010-004"></a>
 
 ### 04. FTP Command Event Telemetry
@@ -117,6 +123,8 @@ Inspects FTP command telemetry that may support transfer investigations.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0010-005"></a>
 
@@ -139,6 +147,8 @@ Lists System Resource Usage event families for later byte-volume field mapping.
 
 </details>
 
+---
+
 <a name="cs-ta0010-006"></a>
 
 ### 06. Outbound Network Destination Event Counts
@@ -160,6 +170,8 @@ Aggregates connection events by remote destination and associated process.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0010-007"></a>
 

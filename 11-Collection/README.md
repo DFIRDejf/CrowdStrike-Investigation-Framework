@@ -47,6 +47,8 @@ FileName, CommandLine, TargetProcessId])
 
 </details>
 
+---
+
 <a name="cs-ta0009-002"></a>
 
 ### 02. Sensitive File and Critical File Access Telemetry
@@ -68,6 +70,8 @@ Discovers file access events classified as sensitive or critical.
 
 </details>
 
+---
+
 <a name="cs-ta0009-003"></a>
 
 ### 03. Archive File Creation Event Families
@@ -88,6 +92,8 @@ Reviews archive-format write events as potential staging evidence.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0009-004"></a>
 
@@ -111,6 +117,8 @@ Finds command-line activity involving common staging folders and compression com
 
 </details>
 
+---
+
 <a name="cs-ta0009-005"></a>
 
 ### 05. File Collection with Copy Utilities
@@ -132,6 +140,8 @@ Searches for process commands invoking file copying and collection operations.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0009-006"></a>
 
@@ -155,6 +165,8 @@ Highlights staging and compression command lines using common scratch locations.
 
 </details>
 
+---
+
 <a name="cs-ta0009-007"></a>
 
 ### 07. File and USN Metadata for Archives
@@ -176,6 +188,8 @@ Examines created filesystem artifacts with common archive and database export ex
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0009-008"></a>
 
@@ -199,6 +213,8 @@ Lists archive-related file writing event families and entropy signals.
 
 </details>
 
+---
+
 <a name="cs-ta0009-009"></a>
 
 ### 09. Specific Archive Format Writes
@@ -219,6 +235,8 @@ Reviews recognized archive file write events by compression type.
 ```
 
 </details>
+
+---
 
 <a name="cs-fa-003"></a>
 
