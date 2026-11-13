@@ -46,6 +46,8 @@ Surfaces processes whose command-line arguments mention common credential dumpin
 
 </details>
 
+---
+
 <a name="cs-ta0006-002"></a>
 
 ### 02. Authentication Failure and Brute Force Event Families
@@ -67,6 +69,8 @@ Provides a starting point for validating auth failures and password spraying tel
 
 </details>
 
+---
+
 <a name="cs-ta0006-003"></a>
 
 ### 03. Credential Access Detection Event Families
@@ -87,6 +91,8 @@ Retrieves dedicated credential access detection telemetry for further analyst fi
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0006-004"></a>
 
@@ -110,6 +116,8 @@ Identifies process command lines referencing credential dumping and hive extract
 
 </details>
 
+---
+
 <a name="cs-ta0006-005"></a>
 
 ### 05. SAM Dump and Privileged Handle Detection Events
@@ -130,6 +138,8 @@ Collects endpoint events associated with sensitive process access and SAM dump i
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0006-006"></a>
 
@@ -153,6 +163,8 @@ Reviews command and script telemetry for Kerberos credential attack utilities.
 
 </details>
 
+---
+
 <a name="cs-ta0006-007"></a>
 
 ### 07. DCSync and Directory Replication Indicators
@@ -175,6 +187,8 @@ Surfaces process history and AD RPC records with potential replication abuse ind
 
 </details>
 
+---
+
 <a name="cs-ta0006-008"></a>
 
 ### 08. KRBTGT-Related Directory Events
@@ -196,6 +210,8 @@ Investigates directory changes and RPC events referencing KRBTGT.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0006-009"></a>
 

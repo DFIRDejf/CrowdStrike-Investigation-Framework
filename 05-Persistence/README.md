@@ -43,6 +43,8 @@ Detects net.exe or net1.exe commands that create local or domain accounts using 
 
 </details>
 
+---
+
 <a name="cs-ta0003-002"></a>
 
 ### 02. Scheduled Task Registration and Autorun Telemetry
@@ -63,6 +65,8 @@ Reviews task and autorun event families to identify persistence candidates.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0003-003"></a>
 
@@ -85,6 +89,8 @@ Retrieves registry/autorun event families that may capture persistence-related m
 
 </details>
 
+---
+
 <a name="cs-ta0003-004"></a>
 
 ### 04. Account Creation and Modification Events
@@ -105,6 +111,8 @@ Inspects local and Active Directory account updates.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0003-005"></a>
 
@@ -127,6 +135,8 @@ Hunts for command patterns used to create or reconfigure Windows services.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0003-006"></a>
 

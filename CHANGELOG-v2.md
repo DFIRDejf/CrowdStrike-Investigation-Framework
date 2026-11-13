@@ -36,11 +36,11 @@
 ## 2. Newly created helper sections
 
 - `17-Query-Builder-Helper/` — reusable investigation pivots, CIDR and command history searches, CQL fieldset and identity normalization patterns.
-- `18-CQL-Functions/` — function index, semantics, caveats, and expanded examples.
-- `19-Event-and-Field-Reference/` — event family catalog, field mapping and verification flow.
-- `20-Query-Optimization-and-QA/` — filter-first performance policy, profiling, FP controls and validation checklist.
+- `15-CQL-Functions/` — function index, semantics, caveats, and expanded examples.
+- `16-Event-and-Field-Reference/` — event family catalog, field mapping and verification flow.
+- `17-Query-Optimization-and-QA/` — filter-first performance policy, profiling, FP controls and validation checklist.
 - `21-Cool-Query-Friday/` — original adapted examples with attribution and validation notices.
-- `22-Detection-Engineering/` — hunt-to-production workflow and promotion gates.
+- `18-Detection-Engineering/` — hunt-to-production workflow and promotion gates.
 - `docs/` — provenance, deployment, and current MITRE ATT&CK mapping.
 - `templates/` — standardized Markdown query documentation skeleton.
 

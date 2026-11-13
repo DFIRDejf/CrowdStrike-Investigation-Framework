@@ -47,6 +47,8 @@ Looks for command-line attempts to alter Defender settings, relevant services or
 
 </details>
 
+---
+
 <a name="cs-ta0005-002"></a>
 
 ### 02. Sensor and Prevention Diagnostics
@@ -67,6 +69,8 @@ Inventories selected protective control state and diagnostic event types for rev
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0005-003"></a>
 
@@ -90,6 +94,8 @@ Examines deletion and USN records involving logs and script files.
 
 </details>
 
+---
+
 <a name="cs-ta0005-004"></a>
 
 ### 04. Firewall and WFP Modification Events
@@ -110,6 +116,8 @@ Surfaces firewall rule manipulation and Windows Filtering Platform activity.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0005-005"></a>
 
@@ -132,6 +140,8 @@ Inspects file signature discrepancies and unsigned module events.
 
 </details>
 
+---
+
 <a name="cs-ta0005-006"></a>
 
 ### 06. Sensor Anti-Tamper and Bypass Telemetry
@@ -153,6 +163,8 @@ Reviews sensor bypass, exclusions and anti-tamper status event families.
 
 </details>
 
+---
+
 <a name="cs-ta0005-007"></a>
 
 ### 07. Suspicious Macro and Invalid Script Events
@@ -173,6 +185,8 @@ Surfaces macros, malformed scripts and packed process detection events.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0005-008"></a>
 

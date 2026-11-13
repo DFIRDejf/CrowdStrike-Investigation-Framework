@@ -27,6 +27,6 @@ Move from a hunting hypothesis to a reviewed production detection.
 
 **Before promoting:** owner · last validation · MITRE mapping · known FPs · runbook · test evidence.
 
-[Contribution guide](../CONTRIBUTING.md) · [QA reference](../20-Query-Optimization-and-QA/README.md)
+[Contribution guide](../CONTRIBUTING.md) · [QA reference](../17-Query-Optimization-and-QA/README.md)
 
 [← Back to framework](../README.md)

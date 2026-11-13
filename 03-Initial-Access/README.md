@@ -42,6 +42,8 @@ Surfaces browser download events involving executable, script or archive extensi
 
 </details>
 
+---
+
 <a name="cs-ta0001-002"></a>
 
 ### 02. Failed SSO Authentication Event Inventory
@@ -62,6 +64,8 @@ Inspects identity provider authentication failures without hardcoded user identi
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0001-003"></a>
 
@@ -84,6 +88,8 @@ Surfaces SSO, IdP and domain logon event families for focused follow-up.
 
 </details>
 
+---
+
 <a name="cs-ta0001-004"></a>
 
 ### 04. Domain Interactive Logon Events
@@ -104,6 +110,8 @@ Collects interactive logon telemetry for identity-based investigations.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0001-005"></a>
 

@@ -40,6 +40,8 @@ Exposes group membership change telemetry for investigation and follow-up filter
 
 </details>
 
+---
+
 <a name="cs-ta0004-002"></a>
 
 ### 02. Windows Token Privilege Modification Events
@@ -60,6 +62,8 @@ Lists telemetry associated with token privilege changes and privileged process h
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0004-003"></a>
 
@@ -82,6 +86,8 @@ Finds command-line patterns for elevation, impersonation and token abuse.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0004-004"></a>
 

@@ -40,6 +40,8 @@ Searches browser telemetry for potentially downloaded scripts, archives and exec
 
 </details>
 
+---
+
 <a name="cs-ta0042-002"></a>
 
 ### 02. Penetration Testing Utility Execution
@@ -61,6 +63,8 @@ Identifies execution command lines referencing known offensive tooling.
 ```
 
 </details>
+
+---
 
 <a name="cs-ta0042-003"></a>
 
